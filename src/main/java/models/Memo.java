@@ -1,5 +1,6 @@
 package models;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -14,9 +15,9 @@ public class Memo {
 
     private SimpleStringProperty memoName = new SimpleStringProperty(this, "memoName");
     private SimpleStringProperty refNumber = new SimpleStringProperty(this, "refNumber");
-    private SimpleObjectProperty createMemoDate = new SimpleObjectProperty(this, "createMemoDate");
-    private SimpleObjectProperty startMemoDate = new SimpleObjectProperty(this, "startMemoDate");
-    private SimpleObjectProperty endMemoDate = new SimpleObjectProperty(this, "endMemoDate");
+    private SimpleObjectProperty<LocalDate> createMemoDate = new SimpleObjectProperty<>(this, "createMemoDate");
+    private SimpleObjectProperty<LocalDate> startMemoDate = new SimpleObjectProperty<>(this, "startMemoDate");
+    private SimpleObjectProperty<LocalDate> endMemoDate = new SimpleObjectProperty<>(this, "endMemoDate");
 
     public Memo(){
         setMemoName("");
@@ -50,39 +51,39 @@ public class Memo {
         this.refNumber.set(refNumber);
     }
 
-    public Object getCreateMemoDate() {
+    public LocalDate getCreateMemoDate() {
         return createMemoDate.get();
     }
 
-    public SimpleObjectProperty createMemoDateProperty() {
+    public ObjectProperty<LocalDate> createMemoDateProperty() {
         return createMemoDate;
     }
 
-    public void setCreateMemoDate(Object createMemoDate) {
+    public void setCreateMemoDate(LocalDate createMemoDate) {
         this.createMemoDate.set(createMemoDate);
     }
 
-    public Object getStartMemoDate() {
+    public LocalDate getStartMemoDate() {
         return startMemoDate.get();
     }
 
-    public SimpleObjectProperty startMemoDateProperty() {
+    public ObjectProperty<LocalDate> startMemoDateProperty() {
         return startMemoDate;
     }
 
-    public void setStartMemoDate(Object startMemoDate) {
+    public void setStartMemoDate(LocalDate startMemoDate) {
         this.startMemoDate.set(startMemoDate);
     }
 
-    public Object getEndMemoDate() {
+    public LocalDate getEndMemoDate() {
         return endMemoDate.get();
     }
 
-    public SimpleObjectProperty endMemoDateProperty() {
+    public ObjectProperty<LocalDate> endMemoDateProperty() {
         return endMemoDate;
     }
 
-    public void setEndMemoDate(Object endMemoDate) {
+    public void setEndMemoDate(LocalDate endMemoDate) {
         this.endMemoDate.set(endMemoDate);
     }
 }
