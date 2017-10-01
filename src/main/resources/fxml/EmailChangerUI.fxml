@@ -29,6 +29,6 @@
     </TextField>
     <FlowPane alignment="CENTER" hgap="50.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
         <Button mnemonicParsing="false" onAction="#onChange" text="Change" />
-        <Button mnemonicParsing="false" onAction="#onCancel" text="Cancel" />
+        <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancel" text="Cancel" />
     </FlowPane>
 </GridPane>

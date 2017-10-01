@@ -2,13 +2,19 @@ package controllers;
 
 import Utilities.DateTimeFormatSingleton;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import models.Memo;
 import models.MemoList;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 /**
@@ -27,9 +33,10 @@ public class MainController {
     private TableColumn<Memo, String> subjColumn, refNoColumn;
 
     private MemoList memoList;
+    private boolean memoMasterStatus = false;
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         memoList = new MemoList();
         setUpTableView();
     }
@@ -42,7 +49,6 @@ public class MainController {
             changeButtonsState();
         }
     }
-
 
     @FXML
     void onDelete() {
@@ -105,6 +111,7 @@ public class MainController {
                 else
                     setText(DateTimeFormatSingleton.getInstance().getDateTimeFormat().format(item));
             }
+
         });
     }
 
@@ -124,17 +131,43 @@ public class MainController {
     }
 
     private boolean popMemoWindow(Memo memo) {
-        return true;
+        try {
+            FXMLLoader memoUILoader = new FXMLLoader(getClass().getResource("/fxml/MemoUI.fxml"));
+            Parent root = memoUILoader.load();
+            MemoController memoController = memoUILoader.getController();
+            memoController.setCurrentMemo(memo);
+
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Memo");
+            stage.setResizable(false);
+            stage.showAndWait();
+
+            return memoController.isSaved();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
-//    void modifyEventInfo(DateEvent event) {
-//        if (event != null) {
-//            DateEvent currentEvent = eventTable.getSelectionModel().getSelectedItem();
-//            eventNameLbl.setText(currentEvent.getEventName());
-//            eventPriorityLbl.setText(convertPriorityToText(currentEvent.getEventPriority()));
-//            eventDateLbl.setText(dateTimeFormatter.format(currentEvent.getEventStartDate()));
-//            eventDescTxtA.setText(currentEvent.getEventDescription());
-//            recurrenceLbl.setText(convertRecurrenceBooleanToText(currentEvent));
-//        }
-//    }
+    private void popMemoMasterWindow(Memo memo) {
+        try {
+            FXMLLoader memoMasterUI = new FXMLLoader(getClass().getResource("/fxml/MemoMasterUI.fxml"));
+            Parent root = memoMasterUI.load();
+            MemoMasterController memoMasterController = memoMasterUI.getController();
+            memoMasterController.setCurrentMemo(memo);
+
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Memo Master");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

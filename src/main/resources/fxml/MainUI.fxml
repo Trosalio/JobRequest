@@ -20,11 +20,11 @@
             </BorderPane.margin>
             <TableView fx:id="memoTable">
                 <columns>
-                    <TableColumn fx:id="cDateColumn" maxWidth="-1.0" minWidth="90.0" prefWidth="-1.0" text="Created Date" />
-                    <TableColumn fx:id="subjColumn" maxWidth="-1.0" minWidth="280.0" prefWidth="-1.0" text="Subject" />
-                    <TableColumn fx:id="refNoColumn" maxWidth="106.0" minWidth="90.0" prefWidth="102.0" text="Ref No." />
-                    <TableColumn fx:id="sDateColumn" maxWidth="-1.0" minWidth="90.0" prefWidth="-1.0" text="Start Date" />
-                    <TableColumn fx:id="eDateColumn" maxWidth="-1.0" minWidth="90.0" prefWidth="-1.0" text="End Date" />
+                    <TableColumn fx:id="cDateColumn" maxWidth="-1.0" minWidth="90.0" prefWidth="-1.0" style="-fx-alignment: CENTER;" text="Created Date" />
+                    <TableColumn fx:id="subjColumn" maxWidth="1.7976931348623157E308" minWidth="280.0" prefWidth="-1.0" text="Subject" />
+                    <TableColumn fx:id="refNoColumn" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="-1.0" style="-fx-alignment: CENTER;" text="Ref No." />
+                    <TableColumn fx:id="sDateColumn" maxWidth="-1.0" minWidth="95.0" prefWidth="-1.0" style="-fx-alignment: CENTER;" text="Start Date" />
+                    <TableColumn fx:id="eDateColumn" maxWidth="-1.0" minWidth="95.0" prefWidth="-1.0" style="-fx-alignment: CENTER;" text="End Date" />
                 </columns>
             </TableView>
         </ScrollPane>

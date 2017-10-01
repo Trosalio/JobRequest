@@ -16,7 +16,7 @@ public class DateTimeFormatSingleton {
     }
 
     public DateTimeFormatter getDateTimeFormat(){
-        return DateTimeFormatter.ofPattern("dd MMMM yyyy");
+        return DateTimeFormatter.ofPattern("dd/MM/yyyy");
     }
     public DateTimeFormatter getDateTimeFormatOf(String dateFormat){
         return DateTimeFormatter.ofPattern(dateFormat);
