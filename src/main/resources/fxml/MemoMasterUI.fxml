@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<GridPane prefHeight="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MemoMasterController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="280.0" minHeight="10.0" prefHeight="250.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="135.0" minHeight="0.0" prefHeight="15.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="135.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="135.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+   <GridPane prefHeight="180.0" prefWidth="580.0">
+      <columnConstraints>
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="145.0" minWidth="10.0" prefWidth="100.0" />
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="266.0" minWidth="10.0" prefWidth="200.0" />
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="100.0" />
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="10.0" prefWidth="200.0" />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+      <padding>
+         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+      </padding>
+      <Label text="Subject:">
+         <GridPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="Ref No. :" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="Start Date:" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="End Date:" GridPane.columnIndex="2" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+      </Label>
+      <DatePicker disable="true" editable="false" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+      </DatePicker>
+      <DatePicker disable="true" editable="false" prefWidth="160.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+      </DatePicker>
+      <DatePicker disable="true" editable="false" prefWidth="160.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+      </DatePicker>
+      <Label text="Created Date:" GridPane.columnIndex="2" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="&lt;Reference Number&gt;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="&lt;Subject Issue&gt;" GridPane.columnIndex="1" GridPane.columnSpan="2147483647">
+         <GridPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+      </Label>
+   </GridPane>
+   <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="580.0" GridPane.rowIndex="1">
+      <TableView fx:id="formTable" prefHeight="278.0" prefWidth="565.0">
+         <columns>
+            <TableColumn prefWidth="100.0" text="Date Issued" />
+            <TableColumn prefWidth="100.0" text="Subject" />
+            <TableColumn prefWidth="75.0" text="Sent to" />
+            <TableColumn prefWidth="100.0" text="Type of Form" />
+         </columns>
+      </TableView>
+   </ScrollPane>
+   <Separator GridPane.rowIndex="3" />
+   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" GridPane.rowIndex="4">
+      <Pane>
+         <Button layoutX="100.0" mnemonicParsing="false" onAction="#onCreateForm" prefHeight="50.0" prefWidth="100.0" text="Create Form" />
+      </Pane>
+      <Pane>
+         <Button mnemonicParsing="false" onAction="#onSend" prefHeight="50.0" prefWidth="100.0" text="Send" />
+         <VBox layoutX="110.0" prefHeight="45.0" prefWidth="140.0">
+            <Label fx:id="receiverLabel" text="&lt;current receiver E-mail&gt;" />
+            <Button mnemonicParsing="false" onAction="#onChangeReceiver" text="Change receiver" />
+         </VBox>
+      </Pane>
+   </HBox>
+   <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+      <right>
+         <Button mnemonicParsing="false" onAction="#onEdit" prefHeight="30.0" text="Edit" BorderPane.alignment="CENTER" />
+      </right>
+      <left>
+         <Button mnemonicParsing="false" onAction="#onDelete" prefHeight="30.0" text="Delete" BorderPane.alignment="CENTER" />
+      </left>
+   </BorderPane>
+</GridPane>

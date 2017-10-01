@@ -1,4 +1,3 @@
-import controllers.MemoUIController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,15 +18,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        MemoUIController mainUIController = new MemoUIController();
-
-        FXMLLoader mainUILoader = new FXMLLoader(getClass().getResource("MainUI.fxml"));
-        mainUILoader.setController(mainUIController);
-
+        FXMLLoader mainUILoader = new FXMLLoader(getClass().getResource("fxml/MainUI.fxml"));
         Parent root = mainUILoader.load();
         stage.setScene(new Scene(root));
         stage.setTitle("Memorandum View");
-
         stage.setResizable(false);
         stage.show();
     }
