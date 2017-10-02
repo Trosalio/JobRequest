@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Memo;
@@ -33,7 +35,6 @@ public class MainController {
     private TableColumn<Memo, String> subjColumn, refNoColumn;
 
     private MemoList memoList;
-    private boolean memoMasterStatus = false;
 
     @FXML
     private void initialize() {
@@ -42,7 +43,7 @@ public class MainController {
     }
 
     @FXML
-    void onAdd() {
+    private void onAdd() {
         Memo memo = new Memo();
         if (popMemoWindow(memo)) {
             memoList.addMemo(memo);
@@ -51,20 +52,72 @@ public class MainController {
     }
 
     @FXML
-    void onDelete() {
+    private void onDelete() {
         int removeIndex = memoTable.getSelectionModel().getSelectedIndex();
         memoList.deleteMemo(removeIndex);
         changeButtonsState();
     }
 
     @FXML
-    void onEdit() {
+    private void onEdit() {
         Memo memo = memoList.getCurrentMemo();
         if (memo != null) {
             if (popMemoWindow(memo)) {
                 memoList.editMemo(memo);
-//                modifyEventInfo(memo);
             }
+        }
+    }
+
+    @FXML
+    private void onMouseClicked(MouseEvent mouseEvent){
+        if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+            if(mouseEvent.getClickCount() == 2){
+                if(memoTable.getSelectionModel().getSelectedItem() != null) {
+                    popMemoMasterWindow(memoTable.getSelectionModel().getSelectedItem());
+                } else {
+                    System.out.println("no item was found");
+                }
+            }
+        }
+    }
+
+    private boolean popMemoWindow(Memo memo) {
+        try {
+            FXMLLoader memoUILoader = new FXMLLoader(getClass().getResource("/fxml/MemoUI.fxml"));
+            Parent root = memoUILoader.load();
+            MemoController memoController = memoUILoader.getController();
+            memoController.setCurrentMemo(memo);
+
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Memo");
+            stage.setResizable(false);
+            stage.showAndWait();
+
+            return memoController.isSaved();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    private void popMemoMasterWindow(Memo memo) {
+        try {
+            FXMLLoader memoMasterUI = new FXMLLoader(getClass().getResource("/fxml/MemoMasterUI.fxml"));
+            Parent root = memoMasterUI.load();
+            MemoMasterController memoMasterController = memoMasterUI.getController();
+            memoMasterController.setCurrentMemo(memo);
+
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Memo Master");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -102,7 +155,7 @@ public class MainController {
     }
 
     private void setDateColumnFormat(TableColumn<Memo, LocalDate> column) {
-        column.setCellFactory(cell -> new TableCell<Memo, LocalDate>() {
+        column.setCellFactory(cell -> new TableCell<>() {
             @Override
             protected void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
@@ -116,10 +169,7 @@ public class MainController {
     }
 
     private void setUpItemListener() {
-        memoTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            memoList.setCurrentMemo(newSelection);
-//            modifyEventInfo(newSelection);
-        });
+        memoTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> memoList.setCurrentMemo(newSelection));
 
         memoList.currentMemoProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection == null) {
@@ -128,46 +178,5 @@ public class MainController {
                 memoTable.getSelectionModel().select(newSelection);
             }
         });
-    }
-
-    private boolean popMemoWindow(Memo memo) {
-        try {
-            FXMLLoader memoUILoader = new FXMLLoader(getClass().getResource("/fxml/MemoUI.fxml"));
-            Parent root = memoUILoader.load();
-            MemoController memoController = memoUILoader.getController();
-            memoController.setCurrentMemo(memo);
-
-            Stage stage = new Stage();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Memo");
-            stage.setResizable(false);
-            stage.showAndWait();
-
-            return memoController.isSaved();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-    }
-
-    private void popMemoMasterWindow(Memo memo) {
-        try {
-            FXMLLoader memoMasterUI = new FXMLLoader(getClass().getResource("/fxml/MemoMasterUI.fxml"));
-            Parent root = memoMasterUI.load();
-            MemoMasterController memoMasterController = memoMasterUI.getController();
-            memoMasterController.setCurrentMemo(memo);
-
-            Stage stage = new Stage();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Memo Master");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
