@@ -1,6 +1,6 @@
 package controllers;
 
-import Utilities.DatePickerFormatSingleton;
+import Utilities.DatePickerFormatter;
 import Utilities.DateTimeFormatSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +32,7 @@ public class MemoMasterController {
     private Memo memo;
 
     @FXML
-    private void intialize() {
+    private void initialize() {
         setDatePickers();
     }
 
@@ -66,9 +66,10 @@ public class MemoMasterController {
 
     private void setDatePickers() {
         DateTimeFormatter dtf = DateTimeFormatSingleton.getInstance().getDateTimeFormat();
-        DatePickerFormatSingleton.getInstance().setDatePickerFormat(cDatePicker, dtf);
-        DatePickerFormatSingleton.getInstance().setDatePickerFormat(sDatePicker, dtf);
-        DatePickerFormatSingleton.getInstance().setDatePickerFormat(eDatePicker, dtf);
+        DatePickerFormatter dpf = new DatePickerFormatter();
+        dpf.format(cDatePicker, dtf);
+        dpf.format(sDatePicker, dtf);
+        dpf.format(eDatePicker, dtf);
     }
 
 

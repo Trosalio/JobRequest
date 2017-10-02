@@ -155,7 +155,7 @@ public class MainController {
     }
 
     private void setDateColumnFormat(TableColumn<Memo, LocalDate> column) {
-        column.setCellFactory(cell -> new TableCell<>() {
+        column.setCellFactory(cell -> new TableCell<Memo, LocalDate>() {
             @Override
             protected void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
