@@ -1,8 +1,13 @@
+import controllers.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import models.MemoManager;
+import models.datastorage.DBManager;
+import models.datastorage.DatabaseConnector;
+import models.datastorage.SQLiteConnector;
 
 import java.io.IOException;
 
@@ -18,8 +23,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader mainUILoader = new FXMLLoader(getClass().getResource("fxml/MainUI.fxml"));
+        MemoManager memoManager = new MemoManager();
+        DBManager dbManager = new DBManager(memoManager);
+        DatabaseConnector databaseConnector = new SQLiteConnector();
+        dbManager.setDatabaseConnector(databaseConnector);
+
+        FXMLLoader mainUILoader = new FXMLLoader(getClass().getResource("/fxml/MainUI.fxml"));
         Parent root = mainUILoader.load();
+        MainController mainController = mainUILoader.getController();
+        mainController.setMemoManager(memoManager);
+        mainController.setUpTableView();
+
         stage.setScene(new Scene(root));
         stage.setTitle("Memorandum View");
         stage.setResizable(false);

@@ -14,7 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Memo;
-import models.MemoList;
+import models.MemoManager;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -34,19 +34,13 @@ public class MainController {
     @FXML
     private TableColumn<Memo, String> subjColumn, refNoColumn;
 
-    private MemoList memoList;
-
-    @FXML
-    private void initialize() {
-        memoList = new MemoList();
-        setUpTableView();
-    }
+    private MemoManager memoManager;
 
     @FXML
     private void onAdd() {
         Memo memo = new Memo();
         if (popMemoWindow(memo)) {
-            memoList.addMemo(memo);
+            memoManager.addMemo(memo);
             changeButtonsState();
         }
     }
@@ -54,16 +48,16 @@ public class MainController {
     @FXML
     private void onDelete() {
         int removeIndex = memoTable.getSelectionModel().getSelectedIndex();
-        memoList.deleteMemo(removeIndex);
+        memoManager.deleteMemo(removeIndex);
         changeButtonsState();
     }
 
     @FXML
     private void onEdit() {
-        Memo memo = memoList.getCurrentMemo();
+        Memo memo = memoManager.getCurrentMemo();
         if (memo != null) {
             if (popMemoWindow(memo)) {
-                memoList.editMemo(memo);
+                memoManager.editMemo(memo);
             }
         }
     }
@@ -121,8 +115,8 @@ public class MainController {
         }
     }
 
-    private void setUpTableView() {
-        memoTable.setItems(memoList.getList());
+    public void setUpTableView() {
+        memoTable.setItems(memoManager.getList());
         cDateColumn.setCellValueFactory(cell -> cell.getValue().createMemoDateProperty());
         subjColumn.setCellValueFactory(cell -> cell.getValue().memoNameProperty());
         refNoColumn.setCellValueFactory(cell -> cell.getValue().refNumberProperty());
@@ -135,7 +129,7 @@ public class MainController {
     }
 
     private void changeButtonsState() {
-        if (memoList.getList().isEmpty()) {
+        if (memoManager.getList().isEmpty()) {
             deleteButton.setDisable(true);
             editButton.setDisable(true);
             editButton.setVisible(false);
@@ -155,7 +149,7 @@ public class MainController {
     }
 
     private void setDateColumnFormat(TableColumn<Memo, LocalDate> column) {
-        column.setCellFactory(cell -> new TableCell<Memo, LocalDate>() {
+        column.setCellFactory(cell -> new TableCell<>() {
             @Override
             protected void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
@@ -169,14 +163,18 @@ public class MainController {
     }
 
     private void setUpItemListener() {
-        memoTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> memoList.setCurrentMemo(newSelection));
+        memoTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> memoManager.setCurrentMemo(newSelection));
 
-        memoList.currentMemoProperty().addListener((obs, oldSelection, newSelection) -> {
+        memoManager.currentMemoProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection == null) {
                 memoTable.getSelectionModel().clearSelection();
             } else {
                 memoTable.getSelectionModel().select(newSelection);
             }
         });
+    }
+
+    public void setMemoManager(MemoManager memoManager) {
+        this.memoManager = memoManager;
     }
 }
