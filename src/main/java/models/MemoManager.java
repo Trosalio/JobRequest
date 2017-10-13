@@ -4,7 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import models.datastorage.DBManager;
+import models.persistents.DBManager;
 
 /**
  * Project Name: MemoView
@@ -12,17 +12,17 @@ import models.datastorage.DBManager;
 
 public class MemoManager {
 
-    private final ObservableList<Memo> list = FXCollections.observableArrayList();
+    private final ObservableList<Memo> memoList = FXCollections.observableArrayList();
     private final ObjectProperty<Memo> currentMemo = new SimpleObjectProperty<>(null);
     private DBManager database;
 
     public void addMemo(Memo memo){
-        list.add(memo);
+        memoList.add(memo);
         if(database != null) database.insertRecord();
     }
 
     public void deleteMemo(int removeIndex){
-        list.remove(removeIndex);
+        memoList.remove(removeIndex);
         if(database != null) database.deleteRecord();
     }
 
@@ -30,8 +30,8 @@ public class MemoManager {
         if(database != null) database.modifyRecord();
     }
 
-    public ObservableList<Memo> getList() {
-        return list;
+    public ObservableList<Memo> getMemoList() {
+        return memoList;
     }
 
     public Memo getCurrentMemo() {

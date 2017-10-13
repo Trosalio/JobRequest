@@ -3,8 +3,12 @@ package models;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import models.forms.GenericForm;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  * Project Name: MemoView
@@ -18,6 +22,7 @@ public class Memo {
     private SimpleObjectProperty<LocalDate> createMemoDate = new SimpleObjectProperty<>(this, "createMemoDate");
     private SimpleObjectProperty<LocalDate> startMemoDate = new SimpleObjectProperty<>(this, "startMemoDate");
     private SimpleObjectProperty<LocalDate> endMemoDate = new SimpleObjectProperty<>(this, "endMemoDate");
+    private ArrayList<GenericForm> forms = new ArrayList<>();
 
     public Memo(){
         setMemoName("");
@@ -85,5 +90,9 @@ public class Memo {
 
     public void setEndMemoDate(LocalDate endMemoDate) {
         this.endMemoDate.set(endMemoDate);
+    }
+
+    public ArrayList<GenericForm> getForms() {
+        return forms;
     }
 }
