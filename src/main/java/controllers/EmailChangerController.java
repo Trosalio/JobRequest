@@ -1,7 +1,6 @@
 package controllers;
 
-import Utilities.AlertBoxSingleton;
-import javafx.event.ActionEvent;
+import utilities.AlertBoxSingleton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;

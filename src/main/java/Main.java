@@ -5,9 +5,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import models.MemoManager;
-import models.datastorage.DBManager;
-import models.datastorage.DatabaseConnector;
-import models.datastorage.SQLiteConnector;
+import models.persistents.DBManager;
+import models.persistents.DatabaseConnector;
+import models.persistents.SQLiteConnector;
 
 import java.io.IOException;
 

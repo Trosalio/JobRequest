@@ -1,6 +1,6 @@
 package controllers;
 
-import Utilities.DateTimeFormatSingleton;
+import utilities.DateTimeFormatSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -104,10 +104,10 @@ public class MainController {
             Parent root = memoMasterUI.load();
             MemoMasterController memoMasterController = memoMasterUI.getController();
             memoMasterController.setCurrentMemo(memo);
+            memoMasterController.setUpTableView();
 
             Stage stage = new Stage();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
+            stage.setScene(new Scene(root));
             stage.setTitle("Memo Master");
             stage.show();
         } catch (IOException e) {
@@ -116,7 +116,7 @@ public class MainController {
     }
 
     public void setUpTableView() {
-        memoTable.setItems(memoManager.getList());
+        memoTable.setItems(memoManager.getMemoList());
         cDateColumn.setCellValueFactory(cell -> cell.getValue().createMemoDateProperty());
         subjColumn.setCellValueFactory(cell -> cell.getValue().memoNameProperty());
         refNoColumn.setCellValueFactory(cell -> cell.getValue().refNumberProperty());
@@ -129,7 +129,7 @@ public class MainController {
     }
 
     private void changeButtonsState() {
-        if (memoManager.getList().isEmpty()) {
+        if (memoManager.getMemoList().isEmpty()) {
             deleteButton.setDisable(true);
             editButton.setDisable(true);
             editButton.setVisible(false);
@@ -149,7 +149,7 @@ public class MainController {
     }
 
     private void setDateColumnFormat(TableColumn<Memo, LocalDate> column) {
-        column.setCellFactory(cell -> new TableCell<>() {
+        column.setCellFactory(cell -> new TableCell<Memo, LocalDate>() {
             @Override
             protected void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
