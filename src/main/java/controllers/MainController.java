@@ -33,6 +33,8 @@ public class MainController {
     private TableColumn<Memo, LocalDate> cDateColumn, sDateColumn, eDateColumn;
     @FXML
     private TableColumn<Memo, String> subjColumn, refNoColumn;
+    @FXML
+    private TableColumn<Memo, Integer> formsColumn;
 
     private MemoManager memoManager;
 
@@ -122,6 +124,7 @@ public class MainController {
         refNoColumn.setCellValueFactory(cell -> cell.getValue().refNumberProperty());
         sDateColumn.setCellValueFactory(cell -> cell.getValue().startMemoDateProperty());
         eDateColumn.setCellValueFactory(cell -> cell.getValue().endMemoDateProperty());
+        formsColumn.setCellValueFactory(cell -> cell.getValue().numberOfFormsProperty().asObject());
 
         changeButtonsState();
         setDateColumnsFormat();
@@ -132,13 +135,10 @@ public class MainController {
         if (memoManager.getMemoList().isEmpty()) {
             deleteButton.setDisable(true);
             editButton.setDisable(true);
-            editButton.setVisible(false);
-            deleteButton.setVisible(false);
         } else {
+            memoTable.getSelectionModel().select(0);
             deleteButton.setDisable(false);
             editButton.setDisable(false);
-            editButton.setVisible(true);
-            deleteButton.setVisible(true);
         }
     }
 
@@ -148,6 +148,7 @@ public class MainController {
         setDateColumnFormat(eDateColumn);
     }
 
+    @SuppressWarnings("Duplicates")
     private void setDateColumnFormat(TableColumn<Memo, LocalDate> column) {
         column.setCellFactory(cell -> new TableCell<Memo, LocalDate>() {
             @Override

@@ -1,6 +1,7 @@
 package models;
 
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -23,13 +24,15 @@ public class Memo {
     private SimpleObjectProperty<LocalDate> startMemoDate = new SimpleObjectProperty<>(this, "startMemoDate");
     private SimpleObjectProperty<LocalDate> endMemoDate = new SimpleObjectProperty<>(this, "endMemoDate");
     private ArrayList<GenericForm> forms = new ArrayList<>();
+    private SimpleIntegerProperty numberOfForms = new SimpleIntegerProperty(this, "numberOfForms");
 
     public Memo(){
-        setMemoName("");
-        setRefNumber("");
-        setCreateMemoDate(LocalDate.now());
-        setStartMemoDate(LocalDate.now());
-        setEndMemoDate(LocalDate.now().plusDays(1));
+        memoName.set("");
+        refNumber.set("");
+        createMemoDate.set(LocalDate.now());
+        startMemoDate.set(LocalDate.now());
+        endMemoDate.set(LocalDate.now().plusDays(1));
+        numberOfForms.set(forms.size());
     }
 
     public String getMemoName() {
@@ -90,6 +93,10 @@ public class Memo {
 
     public void setEndMemoDate(LocalDate endMemoDate) {
         this.endMemoDate.set(endMemoDate);
+    }
+
+    public SimpleIntegerProperty numberOfFormsProperty() {
+        return numberOfForms;
     }
 
     public ArrayList<GenericForm> getForms() {

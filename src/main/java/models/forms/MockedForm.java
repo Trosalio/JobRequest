@@ -10,15 +10,21 @@ public class MockedForm extends GenericForm {
     private static int staticInt = 0;
 
     public MockedForm(String recipient){
-        setDateIssued(LocalDate.now());
-        setSubject(":DDD");
-        setRecipient(recipient);
-        setTypeOfForm(String.valueOf(staticInt));
-        staticInt++;
+        dateIssued.set(LocalDate.now());
+        subject.set(":DDD");
+        this.recipient.set(recipient);
+        typeOfForm.set(String.valueOf(staticInt));
+        changeStaticInt();
     }
 
 
     public void editForm(){
-        staticInt = 0;
+        changeStaticInt();
+        setTypeOfForm(String.valueOf(staticInt));
+    }
+
+    private void changeStaticInt(){
+        staticInt++;
+        if(staticInt > 3) staticInt = 0;
     }
 }

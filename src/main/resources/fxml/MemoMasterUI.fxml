@@ -96,10 +96,13 @@
    <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="580.0" GridPane.rowIndex="1">
       <TableView fx:id="formTable" prefHeight="278.0" prefWidth="565.0">
          <columns>
-            <TableColumn fx:id="dateIssuedColumn" prefWidth="100.0" text="Date Issued"/>
-            <TableColumn fx:id="subjectColumn" prefWidth="100.0" text="Subject"/>
-            <TableColumn fx:id="sentToColumn" prefWidth="75.0" text="Sent to"/>
-            <TableColumn fx:id="typeOfFormColumn" prefWidth="100.0" text="Type of Form"/>
+            <TableColumn fx:id="dateIssuedColumn" maxWidth="1.7976931348623157E308" prefWidth="100.0"
+                         style="-fx-alignment: CENTER;" text="Date Issued"/>
+            <TableColumn fx:id="subjectColumn" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="Subject"/>
+            <TableColumn fx:id="sentToColumn" maxWidth="1.7976931348623157E308" prefWidth="120.0"
+                         style="-fx-alignment: CENTER;" text="Sent to"/>
+            <TableColumn fx:id="typeOfFormColumn" maxWidth="1.7976931348623157E308" prefWidth="100.0"
+                         style="-fx-alignment: CENTER;" text="Type of Form"/>
          </columns>
       </TableView>
    </ScrollPane>

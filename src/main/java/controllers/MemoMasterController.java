@@ -103,6 +103,7 @@ public class MemoMasterController {
         eDatePicker.setValue(memo.getEndMemoDate());
     }
 
+    @SuppressWarnings("Duplicates")
     private void setDatePickers() {
         DateTimeFormatter dtf = DateTimeFormatSingleton.getInstance().getDateTimeFormat();
         DatePickerFormatter dpf = new DatePickerFormatter();
@@ -123,6 +124,7 @@ public class MemoMasterController {
         setUpItemListener();
     }
 
+    @SuppressWarnings("Duplicates")
     private void setDateColumnFormat(TableColumn<GenericForm, LocalDate> column) {
         column.setCellFactory(cell -> new TableCell<GenericForm, LocalDate>() {
             @Override

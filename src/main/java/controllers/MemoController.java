@@ -85,6 +85,7 @@ public class MemoController {
         return !eDatePicker.getValue().isBefore(sDatePicker.getValue());
     }
 
+    @SuppressWarnings("Duplicates")
     private void setsDatePickers() {
         DateTimeFormatter dtf = DateTimeFormatSingleton.getInstance().getDateTimeFormat();
         DatePickerFormatter dpf = new DatePickerFormatter();
@@ -92,7 +93,6 @@ public class MemoController {
         dpf.format(sDatePicker, dtf);
         dpf.format(eDatePicker, dtf);
     }
-
 
     private void closeWindow() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
