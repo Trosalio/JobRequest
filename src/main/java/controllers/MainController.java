@@ -1,5 +1,8 @@
 package controllers;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.SimpleObjectProperty;
 import utilities.DateTimeFormatSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -177,5 +180,18 @@ public class MainController {
 
     public void setMemoManager(MemoManager memoManager) {
         this.memoManager = memoManager;
+    }
+
+    private class MemoMasterObserver implements Observable {
+
+        @Override
+        public void addListener(InvalidationListener listener) {
+
+        }
+
+        @Override
+        public void removeListener(InvalidationListener listener) {
+
+        }
     }
 }

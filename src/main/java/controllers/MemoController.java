@@ -1,5 +1,7 @@
 package controllers;
 
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import utilities.AlertBoxSingleton;
 import utilities.DatePickerFormatter;
 import utilities.DateTimeFormatSingleton;
@@ -30,8 +32,12 @@ public class MemoController {
     private TextField refNoTxtF;
     @FXML
     private Button cancelButton;
+    @FXML
+    private HBox formLabelsPane;
+    @FXML
+    private Label numberOfFormsLabel;
 
-    private Boolean saveBool = false;
+    private boolean saveBool;
     private Memo memo;
 
     @FXML
@@ -79,6 +85,14 @@ public class MemoController {
         refNoTxtF.setText(memo.getRefNumber());
         sDatePicker.setValue(memo.getStartMemoDate());
         eDatePicker.setValue(memo.getEndMemoDate());
+        if(memo.getForms().isEmpty()){
+            formLabelsPane.setVisible(false);
+        } else {
+            formLabelsPane.setVisible(true);
+        }
+        numberOfFormsLabel.setText(String.valueOf(memo.getNumberOfForms()));
+        System.out.println("From Directly: " + memo.getForms().size());
+        System.out.println("From Property: " + memo.getNumberOfForms());
     }
 
     private boolean isValidDate() {
