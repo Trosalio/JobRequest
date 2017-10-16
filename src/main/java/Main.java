@@ -1,5 +1,6 @@
 import controllers.MainController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -37,6 +38,8 @@ public class Main extends Application {
         stage.setScene(new Scene(root));
         stage.setTitle("Memorandum View");
         stage.setResizable(false);
+        // perform cleanup before closing the program
+        stage.setOnHidden(e -> Platform.exit());
         stage.show();
     }
 }

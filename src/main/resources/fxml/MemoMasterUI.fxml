@@ -93,19 +93,17 @@
          </GridPane.margin>
       </Label>
    </GridPane>
-   <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="580.0" GridPane.rowIndex="1">
-      <TableView fx:id="formTable" prefHeight="278.0" prefWidth="565.0">
-         <columns>
-            <TableColumn fx:id="dateIssuedColumn" maxWidth="1.7976931348623157E308" prefWidth="100.0"
-                         style="-fx-alignment: CENTER;" text="Date Issued"/>
-            <TableColumn fx:id="subjectColumn" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="Subject"/>
-            <TableColumn fx:id="sentToColumn" maxWidth="1.7976931348623157E308" prefWidth="120.0"
-                         style="-fx-alignment: CENTER;" text="Sent to"/>
-            <TableColumn fx:id="typeOfFormColumn" maxWidth="1.7976931348623157E308" prefWidth="100.0"
-                         style="-fx-alignment: CENTER;" text="Type of Form"/>
-         </columns>
-      </TableView>
-   </ScrollPane>
+   <TableView fx:id="formTable" prefHeight="278.0" prefWidth="565.0" GridPane.rowIndex="1">
+      <columns>
+         <TableColumn fx:id="dateIssuedColumn" maxWidth="1.7976931348623157E308" prefWidth="100.0"
+                      style="-fx-alignment: CENTER;" text="Date Issued"/>
+         <TableColumn fx:id="subjectColumn" maxWidth="1.7976931348623157E308" prefWidth="260.0" text="Subject"/>
+         <TableColumn fx:id="sentToColumn" maxWidth="1.7976931348623157E308" prefWidth="120.0"
+                      style="-fx-alignment: CENTER;" text="Sent to"/>
+         <TableColumn fx:id="typeOfFormColumn" maxWidth="1.7976931348623157E308" prefWidth="100.0"
+                      style="-fx-alignment: CENTER;" text="Type of Form"/>
+      </columns>
+   </TableView>
    <Separator GridPane.rowIndex="3"/>
    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" GridPane.rowIndex="4">
       <Pane>
@@ -129,5 +127,8 @@
          <Button mnemonicParsing="false" onAction="#onEditForm" prefHeight="30.0" text="Edit Form"
                  BorderPane.alignment="CENTER"/>
       </left>
+      <padding>
+         <Insets top="10.0"/>
+      </padding>
    </BorderPane>
 </GridPane>

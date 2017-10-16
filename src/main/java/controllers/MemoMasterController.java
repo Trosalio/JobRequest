@@ -47,11 +47,13 @@ public class MemoMasterController {
     @FXML
     private void onCreateForm() {
         formManager.addForm(new MockedForm(recipientLabel.getText()));
+        memo.updateNumberOfForm();
     }
 
     @FXML
     private void onDeleteForm() {
         formManager.deleteForm(formTable.getSelectionModel().getSelectedIndex());
+        memo.updateNumberOfForm();
     }
 
     @FXML

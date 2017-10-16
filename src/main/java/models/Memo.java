@@ -103,6 +103,10 @@ public class Memo {
         return numberOfForms;
     }
 
+    public void updateNumberOfForm(){
+        numberOfForms.set(forms.size());
+    }
+
     public ArrayList<GenericForm> getForms() {
         return forms;
     }
