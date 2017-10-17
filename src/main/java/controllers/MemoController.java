@@ -1,16 +1,13 @@
 package controllers;
 
-import utilities.AlertBoxSingleton;
-import utilities.DatePickerFormatter;
-import utilities.DateTimeFormatSingleton;
+import formatter.DateFormatter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import models.Memo;
-
-import java.time.format.DateTimeFormatter;
+import utilities.AlertBoxSingleton;
 
 /**
  * Project Name: MemoView
@@ -36,7 +33,8 @@ public class MemoController {
 
     @FXML
     private void initialize() {
-        setsDatePickers();
+        DateFormatter dateFormatter = new DateFormatter();
+        dateFormatter.formatDatePicker(sDatePicker, eDatePicker, cDatePicker);
     }
 
     @FXML
@@ -81,22 +79,13 @@ public class MemoController {
         eDatePicker.setValue(memo.getEndMemoDate());
     }
 
-    private boolean isValidDate() {
-        return !eDatePicker.getValue().isBefore(sDatePicker.getValue());
-    }
-
-    private void setsDatePickers() {
-        DateTimeFormatter dtf = DateTimeFormatSingleton.getInstance().getDateTimeFormat();
-        DatePickerFormatter dpf = new DatePickerFormatter();
-        dpf.format(cDatePicker, dtf);
-        dpf.format(sDatePicker, dtf);
-        dpf.format(eDatePicker, dtf);
-    }
-
-
     private void closeWindow() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
+    }
+
+    private boolean isValidDate() {
+        return !eDatePicker.getValue().isBefore(sDatePicker.getValue());
     }
 
     public boolean isSaved() {
