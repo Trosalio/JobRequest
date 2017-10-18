@@ -1,12 +1,11 @@
 package controllers;
 
-import utilities.DateTimeFormatSingleton;
+import formatter.DateFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
@@ -104,7 +103,7 @@ public class MainController {
             Parent root = memoMasterUI.load();
             MemoMasterController memoMasterController = memoMasterUI.getController();
             memoMasterController.setCurrentMemo(memo);
-            memoMasterController.setUpTableView();
+            memoMasterController.prepareComponents();
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -116,6 +115,7 @@ public class MainController {
     }
 
     public void setUpTableView() {
+        // set list into table as usual
         memoTable.setItems(memoManager.getMemoList());
         cDateColumn.setCellValueFactory(cell -> cell.getValue().createMemoDateProperty());
         subjColumn.setCellValueFactory(cell -> cell.getValue().memoNameProperty());
@@ -123,8 +123,10 @@ public class MainController {
         sDateColumn.setCellValueFactory(cell -> cell.getValue().startMemoDateProperty());
         eDateColumn.setCellValueFactory(cell -> cell.getValue().endMemoDateProperty());
 
+        // set default time locale to all date columns
+        DateFormatter dateFormatter = new DateFormatter();
+        dateFormatter.formatDateColumn(cDateColumn, sDateColumn, eDateColumn);
         changeButtonsState();
-        setDateColumnsFormat();
         setUpItemListener();
     }
 
@@ -142,25 +144,6 @@ public class MainController {
         }
     }
 
-    private void setDateColumnsFormat() {
-        setDateColumnFormat(cDateColumn);
-        setDateColumnFormat(sDateColumn);
-        setDateColumnFormat(eDateColumn);
-    }
-
-    private void setDateColumnFormat(TableColumn<Memo, LocalDate> column) {
-        column.setCellFactory(cell -> new TableCell<Memo, LocalDate>() {
-            @Override
-            protected void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty)
-                    setText(null);
-                else
-                    setText(DateTimeFormatSingleton.getInstance().getDateTimeFormat().format(item));
-            }
-
-        });
-    }
 
     private void setUpItemListener() {
         memoTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> memoManager.setCurrentMemo(newSelection));

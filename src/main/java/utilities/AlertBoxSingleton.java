@@ -15,13 +15,11 @@ public class AlertBoxSingleton {
     private AlertBoxSingleton() {
     }
 
-    private Alert.AlertType getAlertTypeFromString(String title){
-        if(title.toUpperCase().equals("ERROR"))
-            return Alert.AlertType.ERROR;
-        return Alert.AlertType.INFORMATION;
+    private Alert.AlertType getAlertTypeFromString(String title) {
+        return title.toUpperCase().equals("ERROR") ? Alert.AlertType.ERROR : Alert.AlertType.INFORMATION;
     }
 
-    public void popAlertBox(String title, String msg){
+    public void popAlertBox(String title, String msg) {
         Alert alertBox = new Alert(getAlertTypeFromString(title));
         alertBox.setTitle(title);
         alertBox.setHeaderText(null);
