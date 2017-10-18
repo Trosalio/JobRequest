@@ -4,7 +4,7 @@ package models.persistents;
  * Project Name: MemoView
  */
 
-public class MySQLConnector extends DatabaseConnector {
+public class MySQLConnector extends DBConnector {
 
     public MySQLConnector(){
         JDBC_DRIVER = "com.mysql.jdbc.Driver";

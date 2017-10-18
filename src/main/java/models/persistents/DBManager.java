@@ -13,7 +13,7 @@ public class DBManager {
 
     private DateTimeFormatter dateTimeFormatter;
     private MemoManager memoManager;
-    private DatabaseConnector dbConn;
+    private DBConnector dbConnector;
 
     public DBManager(MemoManager memoManager){
         this.memoManager = memoManager;
@@ -41,7 +41,7 @@ public class DBManager {
 
     }
 
-    public void setDatabaseConnector(DatabaseConnector dbConn){
-        this.dbConn = dbConn;
+    public void setDatabaseConnector(DBConnector dbConnector){
+        this.dbConnector = dbConnector;
     }
 }

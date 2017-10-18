@@ -7,7 +7,7 @@ import java.io.IOException;
  * Project Name: MemoView
  */
 
-public class SQLiteConnector extends DatabaseConnector {
+public class SQLiteConnector extends DBConnector {
 
     public SQLiteConnector() {
         JDBC_DRIVER = "org.sqlite.JDBC";

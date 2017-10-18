@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import models.MemoManager;
 import models.persistents.DBManager;
-import models.persistents.DatabaseConnector;
+import models.persistents.DBConnector;
 import models.persistents.SQLiteConnector;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         MemoManager memoManager = new MemoManager();
         DBManager dbManager = new DBManager(memoManager);
-        DatabaseConnector DBConnector = new SQLiteConnector();
+        DBConnector DBConnector = new SQLiteConnector();
         dbManager.setDatabaseConnector(DBConnector);
 
         FXMLLoader mainUILoader = new FXMLLoader(getClass().getResource("/fxml/MainUI.fxml"));

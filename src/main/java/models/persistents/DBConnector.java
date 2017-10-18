@@ -8,7 +8,7 @@ import java.sql.SQLException;
  * Project Name: MemoView
  */
 
-public abstract class DatabaseConnector{
+public abstract class DBConnector {
 
     protected String JDBC_DRIVER;
     protected String JDBC_URL;
