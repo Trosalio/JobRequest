@@ -26,8 +26,8 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         MemoManager memoManager = new MemoManager();
         DBManager dbManager = new DBManager(memoManager);
-        DatabaseConnector databaseConnector = new SQLiteConnector();
-        dbManager.setDatabaseConnector(databaseConnector);
+        DatabaseConnector DBConnector = new SQLiteConnector();
+        dbManager.setDatabaseConnector(DBConnector);
 
         FXMLLoader mainUILoader = new FXMLLoader(getClass().getResource("/fxml/MainUI.fxml"));
         Parent root = mainUILoader.load();
