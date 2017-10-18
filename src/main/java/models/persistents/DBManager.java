@@ -1,6 +1,6 @@
 package models.persistents;
 
-import utilities.DateTimeFormatSingleton;
+import formatter.DateFormatter;
 import models.MemoManager;
 
 import java.time.format.DateTimeFormatter;
@@ -18,7 +18,7 @@ public class DBManager {
     public DBManager(MemoManager memoManager){
         this.memoManager = memoManager;
         this.memoManager.setDatabase(this);
-        this.dateTimeFormatter = DateTimeFormatSingleton.getInstance().getDateTimeFormat();
+        this.dateTimeFormatter = (new DateFormatter()).getFormatter();
     }
 
     public void insertRecord(){

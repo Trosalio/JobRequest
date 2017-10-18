@@ -1,18 +1,13 @@
 package controllers;
 
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import utilities.AlertBoxSingleton;
-import utilities.DatePickerFormatter;
-import utilities.DateTimeFormatSingleton;
+import formatter.DateFormatter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import models.Memo;
-
-import java.time.format.DateTimeFormatter;
+import utilities.AlertBoxSingleton;
 
 /**
  * Project Name: MemoView
@@ -32,17 +27,14 @@ public class MemoController {
     private TextField refNoTxtF;
     @FXML
     private Button cancelButton;
-    @FXML
-    private HBox formLabelsPane;
-    @FXML
-    private Label numberOfFormsLabel;
 
-    private boolean saveBool;
+    private Boolean saveBool = false;
     private Memo memo;
 
     @FXML
     private void initialize() {
-        setsDatePickers();
+        DateFormatter dateFormatter = new DateFormatter();
+        dateFormatter.formatDatePicker(sDatePicker, eDatePicker, cDatePicker);
     }
 
     @FXML
@@ -85,32 +77,15 @@ public class MemoController {
         refNoTxtF.setText(memo.getRefNumber());
         sDatePicker.setValue(memo.getStartMemoDate());
         eDatePicker.setValue(memo.getEndMemoDate());
-        if(memo.getForms().isEmpty()){
-            formLabelsPane.setVisible(false);
-        } else {
-            formLabelsPane.setVisible(true);
-        }
-        numberOfFormsLabel.setText(String.valueOf(memo.getNumberOfForms()));
-        System.out.println("From Directly: " + memo.getForms().size());
-        System.out.println("From Property: " + memo.getNumberOfForms());
-    }
-
-    private boolean isValidDate() {
-        return !eDatePicker.getValue().isBefore(sDatePicker.getValue());
-    }
-
-    @SuppressWarnings("Duplicates")
-    private void setsDatePickers() {
-        DateTimeFormatter dtf = DateTimeFormatSingleton.getInstance().getDateTimeFormat();
-        DatePickerFormatter dpf = new DatePickerFormatter();
-        dpf.format(cDatePicker, dtf);
-        dpf.format(sDatePicker, dtf);
-        dpf.format(eDatePicker, dtf);
     }
 
     private void closeWindow() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
+    }
+
+    private boolean isValidDate() {
+        return !eDatePicker.getValue().isBefore(sDatePicker.getValue());
     }
 
     public boolean isSaved() {

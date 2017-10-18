@@ -1,15 +1,11 @@
 package controllers;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.property.SimpleObjectProperty;
-import utilities.DateTimeFormatSingleton;
+import formatter.DateFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
@@ -36,8 +32,6 @@ public class MainController {
     private TableColumn<Memo, LocalDate> cDateColumn, sDateColumn, eDateColumn;
     @FXML
     private TableColumn<Memo, String> subjColumn, refNoColumn;
-    @FXML
-    private TableColumn<Memo, Integer> formsColumn;
 
     private MemoManager memoManager;
 
@@ -109,7 +103,7 @@ public class MainController {
             Parent root = memoMasterUI.load();
             MemoMasterController memoMasterController = memoMasterUI.getController();
             memoMasterController.setCurrentMemo(memo);
-            memoMasterController.setUpTableView();
+            memoMasterController.prepareComponents();
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -121,16 +115,18 @@ public class MainController {
     }
 
     public void setUpTableView() {
+        // set list into table as usual
         memoTable.setItems(memoManager.getMemoList());
         cDateColumn.setCellValueFactory(cell -> cell.getValue().createMemoDateProperty());
         subjColumn.setCellValueFactory(cell -> cell.getValue().memoNameProperty());
         refNoColumn.setCellValueFactory(cell -> cell.getValue().refNumberProperty());
         sDateColumn.setCellValueFactory(cell -> cell.getValue().startMemoDateProperty());
         eDateColumn.setCellValueFactory(cell -> cell.getValue().endMemoDateProperty());
-        formsColumn.setCellValueFactory(cell -> cell.getValue().numberOfFormsProperty().asObject());
 
+        // set default time locale to all date columns
+        DateFormatter dateFormatter = new DateFormatter();
+        dateFormatter.formatDateColumn(cDateColumn, sDateColumn, eDateColumn);
         changeButtonsState();
-        setDateColumnsFormat();
         setUpItemListener();
     }
 
@@ -138,33 +134,16 @@ public class MainController {
         if (memoManager.getMemoList().isEmpty()) {
             deleteButton.setDisable(true);
             editButton.setDisable(true);
+            editButton.setVisible(false);
+            deleteButton.setVisible(false);
         } else {
-            memoTable.getSelectionModel().select(0);
             deleteButton.setDisable(false);
             editButton.setDisable(false);
+            editButton.setVisible(true);
+            deleteButton.setVisible(true);
         }
     }
 
-    private void setDateColumnsFormat() {
-        setDateColumnFormat(cDateColumn);
-        setDateColumnFormat(sDateColumn);
-        setDateColumnFormat(eDateColumn);
-    }
-
-    @SuppressWarnings("Duplicates")
-    private void setDateColumnFormat(TableColumn<Memo, LocalDate> column) {
-        column.setCellFactory(cell -> new TableCell<Memo, LocalDate>() {
-            @Override
-            protected void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty)
-                    setText(null);
-                else
-                    setText(DateTimeFormatSingleton.getInstance().getDateTimeFormat().format(item));
-            }
-
-        });
-    }
 
     private void setUpItemListener() {
         memoTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> memoManager.setCurrentMemo(newSelection));
@@ -180,18 +159,5 @@ public class MainController {
 
     public void setMemoManager(MemoManager memoManager) {
         this.memoManager = memoManager;
-    }
-
-    private class MemoMasterObserver implements Observable {
-
-        @Override
-        public void addListener(InvalidationListener listener) {
-
-        }
-
-        @Override
-        public void removeListener(InvalidationListener listener) {
-
-        }
     }
 }

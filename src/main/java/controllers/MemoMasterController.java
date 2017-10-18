@@ -1,22 +1,23 @@
 package controllers;
 
-import javafx.scene.control.*;
-import models.FormManager;
-import utilities.DatePickerFormatter;
-import utilities.DateTimeFormatSingleton;
+import formatter.DateFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import models.FormManager;
 import models.Memo;
 import models.forms.GenericForm;
 import models.forms.MockedForm;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -39,21 +40,15 @@ public class MemoMasterController {
     private Memo memo;
     private FormManager formManager;
 
-    @FXML
-    private void initialize() {
-        setDatePickers();
-    }
 
     @FXML
     private void onCreateForm() {
         formManager.addForm(new MockedForm(recipientLabel.getText()));
-        memo.updateNumberOfForm();
     }
 
     @FXML
     private void onDeleteForm() {
         formManager.deleteForm(formTable.getSelectionModel().getSelectedIndex());
-        memo.updateNumberOfForm();
     }
 
     @FXML
@@ -105,43 +100,27 @@ public class MemoMasterController {
         eDatePicker.setValue(memo.getEndMemoDate());
     }
 
-    @SuppressWarnings("Duplicates")
-    private void setDatePickers() {
-        DateTimeFormatter dtf = DateTimeFormatSingleton.getInstance().getDateTimeFormat();
-        DatePickerFormatter dpf = new DatePickerFormatter();
-        dpf.format(cDatePicker, dtf);
-        dpf.format(sDatePicker, dtf);
-        dpf.format(eDatePicker, dtf);
-    }
-
-    public void setUpTableView(){
+    public void prepareComponents() {
+        // set cell values and listener as usual
         setFormManager();
         formTable.setItems(formManager.getViewingForms());
         dateIssuedColumn.setCellValueFactory(cell -> cell.getValue().dateIssuedProperty());
         subjectColumn.setCellValueFactory(cell -> cell.getValue().subjectProperty());
         sentToColumn.setCellValueFactory(cell -> cell.getValue().recipientProperty());
         typeOfFormColumn.setCellValueFactory(cell -> cell.getValue().typeOfFormProperty());
-
-        setDateColumnFormat(dateIssuedColumn);
         setUpItemListener();
+
+        // format all date components
+        DateFormatter dateFormatter = new DateFormatter();
+        dateFormatter.formatDatePicker(cDatePicker, sDatePicker, eDatePicker);
+        dateFormatter.formatDateColumn(dateIssuedColumn);
+
     }
 
-    @SuppressWarnings("Duplicates")
-    private void setDateColumnFormat(TableColumn<GenericForm, LocalDate> column) {
-        column.setCellFactory(cell -> new TableCell<GenericForm, LocalDate>() {
-            @Override
-            protected void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty)
-                    setText(null);
-                else
-                    setText(DateTimeFormatSingleton.getInstance().getDateTimeFormat().format(item));
-            }
-        });
-    }
 
     private void setUpItemListener() {
-        formTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> formManager.setCurrentForm(newSelection));
+        formTable.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldSelection, newSelection) -> formManager.setCurrentForm(newSelection));
 
         formManager.currentFormProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection == null) {
@@ -152,7 +131,7 @@ public class MemoMasterController {
         });
     }
 
-    private void setFormManager(){
+    private void setFormManager() {
         this.formManager = new FormManager(memo.getForms());
     }
 }
