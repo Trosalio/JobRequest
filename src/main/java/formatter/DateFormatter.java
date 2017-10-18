@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
  * This helper class handles format date components
  * into a desirable format.
  */
+
 public class DateFormatter {
 
     private String datePattern = "dd/MM/yyyy";
@@ -68,15 +69,15 @@ public class DateFormatter {
     }
 
     /**
-     * Format all LocalDAte TableColumn into a current format.
+     * Format all LocalDate TableColumn into a current format.
      *
      * @param columns A list of TableColumn from TableView
-     * @param <S>     A class of where property LocalDate belongs.
+     * @param <T>     A class of where property LocalDate belongs.
      */
     @SafeVarargs
-    public final <S> void formatDateColumn(TableColumn<S, LocalDate>... columns) {
-        for (TableColumn<S, LocalDate> column : columns) {
-            column.setCellFactory(cell -> new TableCell<S, LocalDate>() {
+    public final <T> void formatDateColumn(TableColumn<T, LocalDate>... columns) {
+        for (TableColumn<T, LocalDate> column : columns) {
+            column.setCellFactory(cell -> new TableCell<T, LocalDate>() {
                 @Override
                 protected void updateItem(LocalDate item, boolean empty) {
                     super.updateItem(item, empty);
