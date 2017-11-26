@@ -20,7 +20,7 @@ import java.time.temporal.ChronoUnit;
 public class JobReviewViewer {
 
     @FXML
-    private DatePicker cDatePicker, sDatePicker, eDatePicker;
+    private DatePicker cDatePicker;
     @FXML
     private Label subjectLabel, refNoLabel;
     @FXML
@@ -44,6 +44,7 @@ public class JobReviewViewer {
     private void onPublishForm() {
         if (popJobWindow(job)) {
             job.setStatus("พร้อมใช้งาน");
+            advertise.setJob(job);
             updateJobInfo();
         }
     }
@@ -52,6 +53,7 @@ public class JobReviewViewer {
     private void onDiscardForm() {
         if(AlertBoxSingleton.getInstance().popAlertBox("Confirmation", "Discarding...", "คุณต้องการจะยกเลิกแบบฟอร์มร้องขอนี้?")) {
             job.setDefaultValue();
+            advertise.setJob(null);
             updateJobInfo();
         }
     }
@@ -84,14 +86,14 @@ public class JobReviewViewer {
 
     public void setCurrentAds(Advertise currentAdvertise) {
         advertise = currentAdvertise;
-        job = advertise.getJob();
+        job = (advertise.getJob() == null ? new Job() : advertise.getJob());
         prepareComponents();
     }
 
     public void prepareComponents() {
         // format all date components
         DateFormatter dateFormatter = new DateFormatter();
-        dateFormatter.formatDatePicker(cDatePicker, sDatePicker, eDatePicker, fromDatePicker, toDatePicker);
+        dateFormatter.formatDatePicker(cDatePicker, fromDatePicker, toDatePicker);
 
         // setup components
         updateAdvertiseInfo();
@@ -102,8 +104,6 @@ public class JobReviewViewer {
         subjectLabel.setText(advertise.getAdsName());
         refNoLabel.setText(advertise.getRefNumber());
         cDatePicker.setValue(advertise.getCreateDate());
-        sDatePicker.setValue(advertise.getStartDate());
-        eDatePicker.setValue(advertise.getEndDate());
     }
 
     private void updateJobInfo() {

@@ -12,9 +12,6 @@ public class AdvertiseAdapter {
     private final SimpleStringProperty name = new SimpleStringProperty(this, "name");
     private final SimpleStringProperty refNo = new SimpleStringProperty(this, "refNo");
     private final SimpleObjectProperty<LocalDate> createDate = new SimpleObjectProperty<>(this,"createDate");
-    private final SimpleObjectProperty<LocalDate> startDate = new SimpleObjectProperty<>(this, "startDate");
-    private final SimpleObjectProperty<LocalDate> endDate = new SimpleObjectProperty<>(this, "endDate");
-
     public AdvertiseAdapter(Advertise advertise) {
         this.advertise = advertise;
         update();
@@ -24,8 +21,6 @@ public class AdvertiseAdapter {
         name.set(advertise.getAdsName());
         refNo.set(advertise.getRefNumber());
         createDate.set(advertise.getCreateDate());
-        startDate.set(advertise.getStartDate());
-        endDate.set(advertise.getEndDate());
     }
 
     // -------------------  Getter & Setter --------------------
@@ -48,13 +43,5 @@ public class AdvertiseAdapter {
 
     public SimpleObjectProperty<LocalDate> createDateProperty() {
         return createDate;
-    }
-
-    public SimpleObjectProperty<LocalDate> startDateProperty() {
-        return startDate;
-    }
-
-    public SimpleObjectProperty<LocalDate> endDateProperty() {
-        return endDate;
     }
 }

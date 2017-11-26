@@ -28,8 +28,6 @@ public class SQLiteConnector extends DBConnector {
                 "name TEXT NOT NULL," +
                 "refNumber TEXT NOT NULL," +
                 "createDate TEXT NOT NULL," +
-                "startDate TEXT NOT NULL," +
-                "endDate TEXT NOT NULL," +
                 "jobID INTEGER NOT NULL," +
                 "FOREIGN KEY(jobID) REFERENCES Job(ID));";
         updateDatabase(createTableSQL);

@@ -27,7 +27,7 @@ public class AdvertiseMasterViewer {
     @FXML
     private TableView<AdvertiseAdapter> adsTable;
     @FXML
-    private TableColumn<AdvertiseAdapter, LocalDate> cDateColumn, sDateColumn, eDateColumn;
+    private TableColumn<AdvertiseAdapter, LocalDate> cDateColumn;
     @FXML
     private TableColumn<AdvertiseAdapter, String> subjColumn, refNoColumn;
 
@@ -121,12 +121,10 @@ public class AdvertiseMasterViewer {
         cDateColumn.setCellValueFactory(cell -> cell.getValue().createDateProperty());
         subjColumn.setCellValueFactory(cell -> cell.getValue().nameProperty());
         refNoColumn.setCellValueFactory(cell -> cell.getValue().refNoProperty());
-        sDateColumn.setCellValueFactory(cell -> cell.getValue().startDateProperty());
-        eDateColumn.setCellValueFactory(cell -> cell.getValue().endDateProperty());
 
         // set default time locale to all date columns
         DateFormatter dateFormatter = new DateFormatter();
-        dateFormatter.formatDateColumn(cDateColumn, sDateColumn, eDateColumn);
+        dateFormatter.formatDateColumn(cDateColumn);
         changeButtonsState();
         setUpItemListener();
     }
