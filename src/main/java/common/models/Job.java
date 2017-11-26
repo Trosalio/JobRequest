@@ -20,7 +20,7 @@ public class Job implements Serializable {
     private LocalDate toDate;
     private String status;
 
-    public Job(){
+    public Job() {
         setDefaultValue();
     }
 
@@ -98,7 +98,7 @@ public class Job implements Serializable {
 
     public String getStationList() {
         String stationList;
-        if(!station.isEmpty()){
+        if (!station.isEmpty()) {
             stationList = station.stream().map(Station::getCode).collect(Collectors.joining(", "));
         } else { // will never be used, but for the sake of testing whether there is a bug
             stationList = "[รายการสถานี]";
@@ -107,13 +107,19 @@ public class Job implements Serializable {
     }
 
     public void setDefaultValue() {
-        JobDetail = "[ชื่อรายการ]";
-        requester = "[ชื่อผู้ขอ]";
-        typeOfMedia = "[ประเภทสื่อ]";
+        id = 0;
+        JobDetail = null;
+        requester = null;
+        typeOfMedia = null;
         station = new ArrayList<>();
         quantity = 0;
-        fromDate = LocalDate.now();
-        toDate = LocalDate.now().plusDays(1);
-        status = "[รอการสร้างฟอร์ม]";
+        fromDate = null;
+        toDate = null;
+        status = null;
+    }
+
+    public boolean isDefault() {
+        return ((id == 0) && (JobDetail == null) && (requester == null) && (typeOfMedia == null) && (station.isEmpty()) &&
+                (quantity == 0) && (fromDate == null) && (toDate == null) && (status == null));
     }
 }

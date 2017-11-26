@@ -48,11 +48,11 @@ public class AdvertiseViewer {
                 advertise.setStartDate(sDatePicker.getValue());
                 advertise.setEndDate(eDatePicker.getValue());
                 adapter.update();
-                AlertBoxSingleton.getInstance().popAlertBox("Success", "Advertise is saved!");
+                AlertBoxSingleton.getInstance().popAlertBox("Information", "Success", "โฆษณาถูกบันทึกแล้ว!");
                 saveBool = true;
                 closeWindow();
             } else {
-                AlertBoxSingleton.getInstance().popAlertBox("Error", "Subject or Reference Number is not filled");
+                AlertBoxSingleton.getInstance().popAlertBox("Error", "Null Value", "หัวข้อเรื่อง หรือ Reference Number ยังไม่ถูกเติม");
                 if (refNoTxtF.getText().isEmpty()) {
                     refNoTxtF.requestFocus();
                 }
@@ -61,7 +61,7 @@ public class AdvertiseViewer {
                 }
             }
         } else {
-            AlertBoxSingleton.getInstance().popAlertBox("Error", "End Date must not end before Start Date");
+            AlertBoxSingleton.getInstance().popAlertBox("Error", "Invalid Date Input","วันสิ้นสุดต้องไม่มาก่อนวันเริ่มต้น");
             eDatePicker.setValue(sDatePicker.getValue());
         }
 

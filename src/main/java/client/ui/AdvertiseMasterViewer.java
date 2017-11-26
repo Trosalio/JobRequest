@@ -4,6 +4,7 @@ import client.controllers.AdvertiseAdapter;
 import common.formatter.DateFormatter;
 import common.models.Advertise;
 import client.controllers.AdvertiseManager;
+import common.utilities.AlertBoxSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -47,9 +48,11 @@ public class AdvertiseMasterViewer {
 
     @FXML
     private void onDelete() {
-        int removeIndex = adsTable.getSelectionModel().getSelectedIndex();
-        advertiseManager.deleteAds(removeIndex);
-        changeButtonsState();
+        if(AlertBoxSingleton.getInstance().popAlertBox("Confirmation", "Deleting...", "คุณต้องการจะลบโฆษณานี้?")){
+            int removeIndex = adsTable.getSelectionModel().getSelectedIndex();
+            advertiseManager.deleteAds(removeIndex);
+            changeButtonsState();
+        }
     }
 
     @FXML

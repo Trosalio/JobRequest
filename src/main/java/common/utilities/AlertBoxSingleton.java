@@ -1,6 +1,9 @@
 package common.utilities;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
+import java.util.Optional;
 
 /**
  * Project Name: MemoView
@@ -15,15 +18,44 @@ public class AlertBoxSingleton {
     private AlertBoxSingleton() {
     }
 
-    private Alert.AlertType getAlertTypeFromString(String title) {
-        return title.toUpperCase().equals("ERROR") ? Alert.AlertType.ERROR : Alert.AlertType.INFORMATION;
+    public boolean popAlertBox(String alertType, String title, String msg) {
+        boolean isConfirmation = alertType.toUpperCase().equals("CONFIRMATION");
+        boolean isError = alertType.toUpperCase().equals("ERROR");
+        boolean isInformation = alertType.toUpperCase().equals("INFORMATION");
+        if (isConfirmation) {
+            return  popConfirmationBox(title, msg);
+        } else if (isError) {
+            popErrorBox(title, msg);
+        } else if (isInformation) {
+            popInfomationBox(title, msg);
+        }
+        return true;
     }
 
-    public void popAlertBox(String title, String msg) {
-        Alert alertBox = new Alert(getAlertTypeFromString(title));
+    public void popErrorBox(String title, String msg) {
+        Alert alertBox = new Alert(Alert.AlertType.ERROR);
+        alertBox.setTitle(title);
+        alertBox.setHeaderText(null);
+//        alertBox.initStyle(StageStyle.UTILITY);
+        alertBox.setContentText(msg);
+        alertBox.showAndWait();
+    }
+
+    public void popInfomationBox(String title, String msg) {
+        Alert alertBox = new Alert(Alert.AlertType.INFORMATION);
+        alertBox.setTitle(title);
+        alertBox.setHeaderText(null);
+//        alertBox.initStyle(StageStyle.UTILITY);
+        alertBox.setContentText(msg);
+        alertBox.showAndWait();
+    }
+
+    public boolean popConfirmationBox(String title, String msg) {
+        Alert alertBox = new Alert(Alert.AlertType.CONFIRMATION);
         alertBox.setTitle(title);
         alertBox.setHeaderText(null);
         alertBox.setContentText(msg);
-        alertBox.showAndWait();
+        Optional<ButtonType> result = alertBox.showAndWait();
+        return result.get() == ButtonType.OK;
     }
 }

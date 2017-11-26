@@ -40,22 +40,24 @@ public class JobReviewViewer {
 
     @FXML
     private void onPublishForm() {
-        if(popJobWindow(job)){
-
+        if (popJobWindow(job)) {
+            job.setStatus("พร้อมใช้งาน");
+            updateJobInfo();
         }
     }
 
     @FXML
     private void onDiscardForm() {
         job.setDefaultValue();
+        updateJobInfo();
     }
 
     @FXML
     private void onSend() {
-
+        // Need MIX to implement this method - it is bound to network connection
     }
 
-    private boolean popJobWindow(Job job){
+    private boolean popJobWindow(Job job) {
         try {
             FXMLLoader JobUILoader = new FXMLLoader(getClass().getResource("/JobUI.fxml"));
             Parent root = JobUILoader.load();
@@ -88,22 +90,46 @@ public class JobReviewViewer {
         dateFormatter.formatDatePicker(cDatePicker, sDatePicker, eDatePicker, fromDatePicker, toDatePicker);
 
         // setup components
+        updateAdvertiseInfo();
+        updateJobInfo();
+    }
+
+    private void updateAdvertiseInfo() {
         subjectLabel.setText(advertise.getAdsName());
         refNoLabel.setText(advertise.getRefNumber());
         cDatePicker.setValue(advertise.getCreateDate());
         sDatePicker.setValue(advertise.getStartDate());
         eDatePicker.setValue(advertise.getEndDate());
+    }
 
-        detailNameLbl.setText(job.getJobDetail());
-        requesterLbl.setText(job.getRequester());
-        typeOfMediaLbl.setText(job.getTypeOfMedia());
-        stationListLbl.setText(job.getStationList());
-        qtyLbl.setText(Integer.toString(job.getQuantity()));
-        totalQtyLbl.setText(Integer.toString(job.getStation().size() * job.getQuantity()));
-        fromDatePicker.setValue(job.getFromDate());
-        toDatePicker.setValue(job.getToDate());
-        totalDayLbl.setText(Long.toString(ChronoUnit.DAYS.between(job.getFromDate(), job.getToDate())));
-        statusLbl.setText(job.getStatus());
+    private void updateJobInfo() {
+        if(job.isDefault()){
+            setDefaultJobInfo();
+        } else {
+            detailNameLbl.setText(job.getJobDetail());
+            requesterLbl.setText(job.getRequester());
+            typeOfMediaLbl.setText(job.getTypeOfMedia());
+            stationListLbl.setText(job.getStationList());
+            qtyLbl.setText(Integer.toString(job.getQuantity()));
+            totalQtyLbl.setText(Integer.toString(job.getStation().size() * job.getQuantity()));
+            fromDatePicker.setValue(job.getFromDate());
+            toDatePicker.setValue(job.getToDate());
+            totalDayLbl.setText(Long.toString(ChronoUnit.DAYS.between(job.getFromDate(), job.getToDate())));
+            statusLbl.setText(job.getStatus());
+        }
+    }
+
+    private void setDefaultJobInfo() {
+        detailNameLbl.setText("<หัวข้อเรื่อง>");
+        requesterLbl.setText("<Reference Number>");
+        typeOfMediaLbl.setText("<ประเภทของสื่อ>");
+        stationListLbl.setText("<รายการของสถานที่>");
+        qtyLbl.setText("-");
+        totalQtyLbl.setText("-");
+        fromDatePicker.setValue(null);
+        toDatePicker.setValue(null);
+        totalDayLbl.setText("-");
+        statusLbl.setText("ยังไม่ถูกสร้าง");
     }
 }
 
