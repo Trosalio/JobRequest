@@ -24,12 +24,12 @@ public class SQLiteConnector extends DBConnector {
     @Override
     protected void createTableIfNotExist() {
         String createTableSQL = "CREATE TABLE IF NOT EXISTS Advertise" +
-                "(ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "(refNumber TEXT NOT NULL," +
                 "name TEXT NOT NULL," +
-                "refNumber TEXT NOT NULL," +
                 "createDate TEXT NOT NULL," +
                 "jobID INTEGER NOT NULL," +
-                "FOREIGN KEY(jobID) REFERENCES Job(ID));";
+                "FOREIGN KEY(jobID) REFERENCES Job(ID)," +
+                "PRIMARY KEY(refNumber));";
         updateDatabase(createTableSQL);
         createTableSQL = "CREATE TABLE IF NOT EXISTS Job" +
                 "(ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
