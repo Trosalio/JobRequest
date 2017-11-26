@@ -1,12 +1,14 @@
 package client.ui;
 
 import common.formatter.DateFormatter;
-import common.models.Advertise;
-import common.models.Job;
+import common.model.Advertise;
+import common.model.Job;
+import common.utility.AlertBoxSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
@@ -15,9 +17,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.temporal.ChronoUnit;
 
-/**
- * Project Name: MemoView
- */
 public class JobReviewViewer {
 
     @FXML
@@ -34,6 +33,9 @@ public class JobReviewViewer {
     private Label totalDayLbl;
     @FXML
     private Label statusLbl;
+    @FXML
+    private Button publishBtn, discardBtn, sendBtn;
+
 
     private Advertise advertise;
     private Job job;
@@ -48,8 +50,10 @@ public class JobReviewViewer {
 
     @FXML
     private void onDiscardForm() {
-        job.setDefaultValue();
-        updateJobInfo();
+        if(AlertBoxSingleton.getInstance().popAlertBox("Confirmation", "Discarding...", "คุณต้องการจะยกเลิกแบบฟอร์มร้องขอนี้?")) {
+            job.setDefaultValue();
+            updateJobInfo();
+        }
     }
 
     @FXML
@@ -109,13 +113,16 @@ public class JobReviewViewer {
             detailNameLbl.setText(job.getJobDetail());
             requesterLbl.setText(job.getRequester());
             typeOfMediaLbl.setText(job.getTypeOfMedia());
-            stationListLbl.setText(job.getStationList());
+            stationListLbl.setText(job.getListOfStations());
             qtyLbl.setText(Integer.toString(job.getQuantity()));
-            totalQtyLbl.setText(Integer.toString(job.getStation().size() * job.getQuantity()));
+            totalQtyLbl.setText(Integer.toString(job.getStations().size() * job.getQuantity()));
             fromDatePicker.setValue(job.getFromDate());
             toDatePicker.setValue(job.getToDate());
             totalDayLbl.setText(Long.toString(ChronoUnit.DAYS.between(job.getFromDate(), job.getToDate())));
             statusLbl.setText(job.getStatus());
+            publishBtn.setText("แก้ไขแบบฟอร์มร้องขอ");
+            discardBtn.setDisable(false);
+            sendBtn.setDisable(false);
         }
     }
 
@@ -130,6 +137,9 @@ public class JobReviewViewer {
         toDatePicker.setValue(null);
         totalDayLbl.setText("-");
         statusLbl.setText("ยังไม่ถูกสร้าง");
+        publishBtn.setText("สร้างแบบฟอร์มร้องขอ");
+        discardBtn.setDisable(true);
+        sendBtn.setDisable(true);
     }
 }
 

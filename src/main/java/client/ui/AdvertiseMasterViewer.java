@@ -1,10 +1,10 @@
 package client.ui;
 
-import client.controllers.AdvertiseAdapter;
+import client.controller.AdvertiseAdapter;
 import common.formatter.DateFormatter;
-import common.models.Advertise;
-import client.controllers.AdvertiseManager;
-import common.utilities.AlertBoxSingleton;
+import common.model.Advertise;
+import client.controller.AdvertiseManager;
+import common.utility.AlertBoxSingleton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,10 +19,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
-
-/**
- * Project Name: MemoView
- */
 
 public class AdvertiseMasterViewer {
 

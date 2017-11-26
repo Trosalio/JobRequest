@@ -1,18 +1,14 @@
 package client.ui;
 
-import client.controllers.AdvertiseAdapter;
+import client.controller.AdvertiseAdapter;
 import common.formatter.DateFormatter;
-import common.models.Advertise;
+import common.model.Advertise;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import common.utilities.AlertBoxSingleton;
-
-/**
- * Project Name: MemoView
- */
+import common.utility.AlertBoxSingleton;
 
 public class AdvertiseViewer {
 

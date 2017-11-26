@@ -13,10 +13,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<!--
-    Project Name: Advertise
--->
-
 <GridPane prefHeight="650.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ui.JobReviewViewer">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -284,19 +280,19 @@
    </VBox>
    <Separator GridPane.rowIndex="3" />
    <HBox alignment="CENTER" prefHeight="94.0" prefWidth="647.0" spacing="100.0" GridPane.rowIndex="2">
-      <Button mnemonicParsing="false" onAction="#onPublishForm" prefHeight="40.0" text="สร้างแบบฟอร์มร้องขอ">
+      <Button fx:id="publishBtn" mnemonicParsing="false" onAction="#onPublishForm" prefHeight="40.0" text="สร้างแบบฟอร์มร้องขอ">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button mnemonicParsing="false" onAction="#onDiscardForm" prefHeight="40.0" text="ยกเลิกแบบฟอร์มร้องขอ">
+      <Button fx:id="discardBtn" mnemonicParsing="false" onAction="#onDiscardForm" prefHeight="40.0" text="ยกเลิกแบบฟอร์มร้องขอ">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
    </HBox>
    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0" GridPane.rowIndex="4">
-      <Button mnemonicParsing="false" onAction="#onSend" prefHeight="40.0" prefWidth="100.0" text="ส่งแบบฟอร์ม">
+      <Button fx:id="sendBtn" mnemonicParsing="false" onAction="#onSend" prefHeight="40.0" prefWidth="100.0" text="ส่งแบบฟอร์ม">
          <font>
             <Font size="14.0" />
          </font>

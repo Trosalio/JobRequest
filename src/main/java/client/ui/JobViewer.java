@@ -1,10 +1,19 @@
 package client.ui;
 
-import common.models.Job;
-import common.utilities.AlertBoxSingleton;
+import common.model.Job;
+import common.model.Station;
+import common.utility.AlertBoxSingleton;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JobViewer {
 
@@ -13,11 +22,14 @@ public class JobViewer {
     @FXML
     private ComboBox<String> typeOfMediaCBox;
     @FXML
-    private ListView<String> candidateList, selectedList;
+    private ListView<Station> candidateListView, selectedListView;
+    @FXML
+    private ObservableList<Station> ObsCandidateList, ObsSelectedList;
     @FXML
     private DatePicker fromDatePicker, toDatePicker;
     @FXML
     private Button cancelBtn;
+    private List<Station> stationList = new ArrayList<>();
     private boolean saved;
     private Job job;
 
@@ -36,11 +48,33 @@ public class JobViewer {
                 "Pump Room"
         );
         typeOfMediaCBox.getSelectionModel().selectFirst();
+
+        setupCandidateList();
+    }
+
+    private void setupCandidateList() {
+        loadStationList();
+        ObsCandidateList = FXCollections.observableList(stationList);
+        candidateListView.setItems(ObsCandidateList.sorted());
+    }
+
+    private void loadStationList() {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get("station_list.txt"));
+            for(String line : lines){
+                String[] data = line.split(" ");
+                Station station = new Station(data[0], data[1]);
+                stationList.add(station);
+            }
+        } catch (IOException e) {
+            System.err.println("File not found");
+            e.printStackTrace();
+        }
     }
 
     private boolean isCompleted() {
         return !(isTxtFEmpty(detailTxtF) || isTxtFEmpty(requesterTxtF) || typeOfMediaCBox.getSelectionModel().getSelectedIndex() == 0 ||
-                isTxtFEmpty(quantityTxtF) || !isValidInteger(quantityTxtF) || !job.getStation().isEmpty() ||
+                isTxtFEmpty(quantityTxtF) || !isValidInteger(quantityTxtF) || job.getStations().isEmpty() ||
                 fromDatePicker.getValue() == null || toDatePicker.getValue() == null || !isValidDate());
     }
 
@@ -51,29 +85,43 @@ public class JobViewer {
 
     @FXML
     private void onSelect() {
-
+        onChoose(candidateListView, ObsCandidateList, ObsSelectedList);
     }
 
     @FXML
     private void onSelectAll() {
-
+        onChooseAll(candidateListView, ObsCandidateList, ObsSelectedList);
     }
 
     @FXML
     private void onDeselect() {
-
+        onChoose(selectedListView, ObsSelectedList, ObsCandidateList);
     }
 
     @FXML
     private void onDeselectAll() {
+        onChooseAll(selectedListView, ObsSelectedList, ObsCandidateList);
+    }
+
+    private void onChoose(ListView<Station> srcView, ObservableList<Station> srcObs, ObservableList<Station> destObs){
+        Station station = srcView.getSelectionModel().getSelectedItem();
+        if(station != null){
+            destObs.add(station);
+            srcObs.remove(station);
+        }
+    }
+
+    private void onChooseAll(ListView<Station> srcView, ObservableList<Station> srcObs, ObservableList<Station> destObs){
+        List<Station> stations = srcView.getItems();
+        destObs.addAll(stations);
+        srcObs.removeAll(stations);
     }
 
     @FXML
     private void onSubmit() {
         if (isCompleted()) {
-            System.out.println("Yey!");
-            saved = true;
             updateJobInfo();
+            saved = true;
             closeWindow();
         } else if (isTxtFEmpty(detailTxtF)) {
             AlertBoxSingleton.getInstance().popAlertBox("Error", "Detail info is not filled", "กรุณาระบุฃื่อเรื่อง");
@@ -84,8 +132,8 @@ public class JobViewer {
         } else if (typeOfMediaCBox.getSelectionModel().getSelectedIndex() == 0) {
             AlertBoxSingleton.getInstance().popAlertBox("Error", "Type of Media is not selected", "กรุณาเลือกหรือกรอกประเภทของสื่อประชาสัมพันธ์");
             typeOfMediaCBox.requestFocus();
-//        } else if (job.getStation().isEmpty()) {
-//            AlertBoxSingleton.getInstance().popAlertBox("Error", "No Station is selected", "กรุณาเลือกสถานีที่ต้องการติดตั้ง");
+        } else if (job.getStations().isEmpty()) {
+            AlertBoxSingleton.getInstance().popAlertBox("Error", "No Station is selected", "กรุณาเลือกสถานีที่ต้องการติดตั้ง");
         } else if (isTxtFEmpty(quantityTxtF) || !isValidInteger(quantityTxtF)) {
             if (isTxtFEmpty(quantityTxtF)) {
                 AlertBoxSingleton.getInstance().popAlertBox("Error", "Quantity info is not filled", "กรุณาระบุจำนวนที่ต้องการติดตั้ง");
@@ -124,8 +172,9 @@ public class JobViewer {
         } else {
             typeOfMediaCBox.getSelectionModel().selectFirst();
         }
-//        candidateList.getItems();
-//        selectedList.setItems();
+        ObsSelectedList = FXCollections.observableList(job.getStations());
+        selectedListView.setItems(ObsSelectedList.sorted());
+        ObsCandidateList.removeAll(ObsSelectedList);
         if(job.getQuantity() > 0){
             quantityTxtF.setText(Integer.toString(job.getQuantity()));
         } else {
@@ -139,8 +188,6 @@ public class JobViewer {
         job.setJobDetail(detailTxtF.getText());
         job.setRequester(requesterTxtF.getText());
         job.setTypeOfMedia(typeOfMediaCBox.getSelectionModel().getSelectedItem());
-//        job.setStation();
-//        selectedList.setItems();
         job.setQuantity(Integer.parseInt(quantityTxtF.getText()));
         job.setFromDate(fromDatePicker.getValue());
         job.setToDate(toDatePicker.getValue());

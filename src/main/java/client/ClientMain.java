@@ -1,15 +1,11 @@
 package client;
 
-import client.controllers.MainController;
+import client.controller.MainController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 
 import java.io.IOException;
-
-/**
- * Project Name: MemoView
- */
 
 public class ClientMain extends Application {
 
