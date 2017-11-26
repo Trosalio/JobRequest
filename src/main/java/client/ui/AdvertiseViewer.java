@@ -38,7 +38,7 @@ public class AdvertiseViewer {
 
     @FXML
     private void onSave() {
-        if (!(subjectTxtF.getText().isEmpty() || refNoTxtF.getText().isEmpty() || cDatePicker.getValue() == null)) {
+        if (!(isTxtFEmpty(subjectTxtF) || isTxtFEmpty(refNoTxtF) || cDatePicker.getValue() == null)) {
             advertise.setCreateDate(cDatePicker.getValue());
             advertise.setAdsName(subjectTxtF.getText());
             advertise.setRefNumber(refNoTxtF.getText());
@@ -47,10 +47,10 @@ public class AdvertiseViewer {
             saveBool = true;
             closeWindow();
         } else {
-            if(subjectTxtF.getText().isEmpty()){
+            if(isTxtFEmpty(subjectTxtF) ){
                 AlertBoxSingleton.getInstance().popAlertBox("Error", "Subject is not filled", "กรุณาใส่หัวข้อเรื่อง");
                 subjectTxtF.requestFocus();
-            } else if(refNoTxtF.getText().isEmpty()){
+            } else if(isTxtFEmpty(refNoTxtF)){
                 AlertBoxSingleton.getInstance().popAlertBox("Error", "Reference Number is not filled", "กรุณาใส่ Reference Number");
                 refNoTxtF.requestFocus();
             } else {
@@ -59,6 +59,10 @@ public class AdvertiseViewer {
                 cDatePicker.requestFocus();
             }
         }
+    }
+
+    private boolean isTxtFEmpty(TextField txtF){
+        return txtF.getText() == null || txtF.getText().isEmpty();
     }
 
     public void setCurrentAdapter(AdvertiseAdapter currentAdapter) {
