@@ -3,7 +3,7 @@ package server.persistence;
 import java.util.List;
 
 /**
- * Simple data source interface
+ * Simple data source ddd
  *
  * @param <T> - A data's class
  */
@@ -16,11 +16,10 @@ public interface DAO<T> {
      */
     void setup();
 
-
     /**
      * The method loads all the events from a source.
-     * The initialization of the source should be left
-     * for a developers to design it themselves.
+     * The initialization of the source should be left for
+     * a developers to design it themselves.
      */
     List<T> loadAll();
 

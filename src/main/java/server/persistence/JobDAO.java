@@ -1,20 +1,32 @@
 package server.persistence;
 
 import common.model.Job;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.sql.DataSource;
 import java.util.List;
 
-/**
- * ON PROGRESS!
- */
+//TODO implements queries code
 
-public class JobDAO implements DAO<Job>{
+public class JobDAO implements DAO<Job> {
+
+    private DataSource dataSource;
+
+    @Autowired
+    public JobDAO(DataSource dataSource){
+        this.dataSource = dataSource;
+    }
+
     @Override
     public void setup() {
 
     }
 
-    public Job load() {
+    /**
+     * This is a designated method for JobDAO
+     * The method loads an event from a source according to the Job ID.
+     */
+    public Job load(int jobID) {
         return null;
     }
 

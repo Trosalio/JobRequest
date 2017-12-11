@@ -1,14 +1,22 @@
 package server.persistence;
 
 import common.model.Advertise;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.sql.DataSource;
 import java.util.List;
 
-/**
- * ON PROGRESS!
- */
+//TODO implements queries code
 
-public class AdvertiseDAO implements DAO<Advertise>{
+public class AdvertiseDAO implements DAO {
+
+    private DataSource dataSource;
+
+    @Autowired
+    public AdvertiseDAO(DataSource dataSource){
+        this.dataSource = dataSource;
+    }
+
     @Override
     public void setup() {
 
@@ -20,17 +28,17 @@ public class AdvertiseDAO implements DAO<Advertise>{
     }
 
     @Override
-    public void insert(Advertise advertise) {
+    public void insert(Object object) {
 
     }
 
     @Override
-    public void delete(Advertise advertise) {
+    public void delete(Object object) {
 
     }
 
     @Override
-    public void update(Advertise advertise) {
+    public void update(Object object) {
 
     }
 

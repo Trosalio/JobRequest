@@ -1,6 +1,7 @@
 package common.service;
 
 import common.model.Job;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -8,8 +9,9 @@ import java.util.List;
  * ON PROGRESS!
  */
 
+@Service
 public interface JobService {
-    Job loadJob();
+    Job loadJob(int jobID);
 
     List<Job> loadJobs();
 

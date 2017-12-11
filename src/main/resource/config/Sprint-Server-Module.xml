@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Import .xml of DAO -->
+    <import resource="database/Spring-DAO.xml" />
+
+    <!-- Scanning components for the configs-->
+    <context:component-scan base-package="server.persistence"/>
+
+    <bean id="advertiseServiceImpl" class="server.serviceImpl.AdvertiseServiceImpl"/>
+    <bean id="jobServiceImp" class="server.serviceImpl.JobServiceImpl"/>
+    <bean id="stationImpl" class="server.serviceImpl.StationServiceImpl"/>
+
+    <!-- Instantiate RMI beans handled its service -->
+
+    <!-- Instantiate RMI bean handled Advertise Service at port 1337 -->
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="service" ref="advertiseServiceImpl"/>
+        <property name="serviceName" value="advertiseService"/>
+        <property name="serviceInterface" value="common.service.AdvertiseService"/>
+        <property name="registryPort" value="1337"/>
+    </bean>
+
+    <!-- Instantiate RMI bean handled Job Service at port 1338 -->
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="service" ref="jobServiceImp"/>
+        <property name="serviceName" value="jobService"/>
+        <property name="serviceInterface" value="common.service.JobService"/>
+        <property name="registryPort" value="1338"/>
+    </bean>
+
+    <!-- Instantiate RMI bean handled Station Service at port 1339 -->
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="service" ref="stationImpl"/>
+        <property name="serviceName" value="stationService"/>
+        <property name="serviceInterface" value="common.service.StationService"/>
+        <property name="registryPort" value="1339"/>
+    </bean>
+</beans>

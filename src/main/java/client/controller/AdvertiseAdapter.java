@@ -3,6 +3,7 @@ package client.controller;
 import common.model.Advertise;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 

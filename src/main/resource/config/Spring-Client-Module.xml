@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Scanning components for the configs-->
+    <context:component-scan base-package="client.controller"/>
+
+
+
+    <!-- Wire RMI Beans to Responded Interfaces -->
+
+    <bean id="advertiseService"
+          class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+        <property name="serviceUrl" value="rmi://localhost:1337/advertiseService"/>
+        <property name="serviceInterface" value="common.service.AdvertiseService" />
+    </bean>
+
+    <bean id="jobService"
+          class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+        <property name="serviceUrl" value="rmi://localhost:1338/jobService"/>
+        <property name="serviceInterface" value="common.service.JobService" />
+    </bean>
+
+    <bean id="stationService"
+          class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+        <property name="serviceUrl" value="rmi://localhost:1339/stationService"/>
+        <property name="serviceInterface" value="common.service.StationService" />
+    </bean>
+
+</beans>

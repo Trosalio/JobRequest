@@ -65,7 +65,7 @@ public class JobReviewViewer {
 
     private boolean popJobWindow(Job job) {
         try {
-            FXMLLoader JobUILoader = new FXMLLoader(getClass().getResource("/JobUI.fxml"));
+            FXMLLoader JobUILoader = new FXMLLoader(getClass().getResource("/fxml/JobUI.fxml"));
             Parent root = JobUILoader.load();
             JobViewer jobViewer = JobUILoader.getController();
             jobViewer.setCurrentJob(job);

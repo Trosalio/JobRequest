@@ -29,7 +29,7 @@ public class AdvertiseMasterViewer {
     @FXML
     private TableColumn<AdvertiseAdapter, LocalDate> cDateColumn;
     @FXML
-    private TableColumn<AdvertiseAdapter, String> subjColumn, refNoColumn;
+    private TableColumn<AdvertiseAdapter, String> refNoColumn, subjColumn;
 
     private AdvertiseManager advertiseManager;
 
@@ -37,7 +37,7 @@ public class AdvertiseMasterViewer {
     private void onAdd() {
         AdvertiseAdapter adapter = new AdvertiseAdapter(new Advertise());
         if (popAdsViewerWindow(adapter)) {
-            advertiseManager.addAds(adapter);
+            advertiseManager.addAdvertise(adapter);
             changeButtonsState();
         }
     }
@@ -46,7 +46,7 @@ public class AdvertiseMasterViewer {
     private void onDelete() {
         if(AlertBoxSingleton.getInstance().popAlertBox("Confirmation", "Deleting...", "คุณต้องการจะลบโฆษณานี้?")){
             int removeIndex = adsTable.getSelectionModel().getSelectedIndex();
-            advertiseManager.deleteAds(removeIndex);
+            advertiseManager.deleteAdvertise(removeIndex);
             changeButtonsState();
         }
     }
@@ -77,7 +77,7 @@ public class AdvertiseMasterViewer {
 
     private boolean popAdsViewerWindow(AdvertiseAdapter adapter) {
         try {
-            FXMLLoader adsViewerUILoader = new FXMLLoader(getClass().getResource("/AdvertiseUI.fxml"));
+            FXMLLoader adsViewerUILoader = new FXMLLoader(getClass().getResource("/fxml/AdvertiseUI.fxml"));
             Parent root = adsViewerUILoader.load();
             AdvertiseViewer advertiseViewer = adsViewerUILoader.getController();
             advertiseViewer.setCurrentAdapter(adapter);
@@ -98,7 +98,7 @@ public class AdvertiseMasterViewer {
 
     private void popJobReviewWindow(Advertise advertise) {
         try {
-            FXMLLoader JobReviewUILoader = new FXMLLoader(getClass().getResource("/JobReviewUI.fxml"));
+            FXMLLoader JobReviewUILoader = new FXMLLoader(getClass().getResource("/fxml/JobReviewUI.fxml"));
             Parent root = JobReviewUILoader.load();
             JobReviewViewer jobReviewViewer = JobReviewUILoader.getController();
             jobReviewViewer.setCurrentAds(advertise);
@@ -107,7 +107,7 @@ public class AdvertiseMasterViewer {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Advertise Master");
+            stage.setTitle("Job Review");
             stage.setResizable(false);
             stage.showAndWait();
         } catch (IOException e) {
@@ -118,9 +118,9 @@ public class AdvertiseMasterViewer {
     public void setUpTableView() {
         // set list into table as usual
         adsTable.setItems(advertiseManager.getAdvertiseList());
-        cDateColumn.setCellValueFactory(cell -> cell.getValue().createDateProperty());
-        subjColumn.setCellValueFactory(cell -> cell.getValue().nameProperty());
         refNoColumn.setCellValueFactory(cell -> cell.getValue().refNoProperty());
+        subjColumn.setCellValueFactory(cell -> cell.getValue().nameProperty());
+        cDateColumn.setCellValueFactory(cell -> cell.getValue().createDateProperty());
 
         // set default time locale to all date columns
         DateFormatter dateFormatter = new DateFormatter();

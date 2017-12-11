@@ -5,27 +5,36 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
+
+@Component
 public class AdvertiseManager {
 
     private final ObservableList<AdvertiseAdapter> advertiseList = FXCollections.observableArrayList();
     private final ObjectProperty<AdvertiseAdapter> currentAds = new SimpleObjectProperty<>(null);
 
-    public void addAds(AdvertiseAdapter adapter){
-        advertiseList.add(adapter);
-        Advertise advertise = adapter.getAdvertise();
-//        if(database != null) database.insertRecord(advertise);
+    //--------------------------- Simple CRUD Operation ---------------------------
+
+    public void loadAdvertises(List<Advertise> source){
+        source.forEach(advertise -> advertiseList.add(new AdvertiseAdapter(advertise)));
     }
 
-    public void deleteAds(int removeIndex){
+    public void addAdvertise(AdvertiseAdapter adapter){
+        advertiseList.add(adapter);
+        Advertise advertise = adapter.getAdvertise();
+    }
+
+    public void deleteAdvertise(int removeIndex){
         advertiseList.remove(removeIndex);
-//        if(database != null) database.deleteRecord(removeIndex);
     }
 
     public void editAds(AdvertiseAdapter adapter){
         Advertise advertise = adapter.getAdvertise();
-//        if(database != null) database.modifyRecord(advertise);
     }
+
+    //--------------------------- Accessor ----------------------------------
 
     public ObservableList<AdvertiseAdapter> getAdvertiseList() {
         return advertiseList;
