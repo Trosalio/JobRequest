@@ -253,11 +253,20 @@
    </VBox>
    <Separator GridPane.rowIndex="3" />
    <HBox alignment="CENTER" prefHeight="94.0" prefWidth="647.0" spacing="100.0" GridPane.rowIndex="2">
-      <Button fx:id="publishBtn" mnemonicParsing="false" onAction="#onPublishForm" prefHeight="40.0" text="สร้างแบบฟอร์มร้องขอ">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
+      <HBox fx:id="publishBox" alignment="CENTER">
+         <Button fx:id="publishBtn" mnemonicParsing="false" onAction="#onPublishForm" prefHeight="40.0"
+                 text="สร้างแบบฟอร์มร้องขอ">
+            <font>
+               <Font size="14.0"/>
+            </font>
+         </Button>
+         <Button fx:id="editBtn" mnemonicParsing="false" onAction="#onEditForm" prefHeight="40.0"
+                 text="แก้ไขแบบฟอร์มร้องขอ">
+            <font>
+               <Font size="14.0"/>
+            </font>
+         </Button>
+      </HBox>
       <Button fx:id="discardBtn" mnemonicParsing="false" onAction="#onDiscardForm" prefHeight="40.0" text="ยกเลิกแบบฟอร์มร้องขอ">
          <font>
             <Font size="14.0" />

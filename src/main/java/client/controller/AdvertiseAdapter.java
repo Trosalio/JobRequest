@@ -12,6 +12,7 @@ public class AdvertiseAdapter {
     private final SimpleStringProperty name = new SimpleStringProperty(this, "name");
     private final SimpleStringProperty refNo = new SimpleStringProperty(this, "refNo");
     private final SimpleObjectProperty<LocalDate> createDate = new SimpleObjectProperty<>(this,"createDate");
+
     public AdvertiseAdapter(Advertise adaptee) {
         this.adaptee = adaptee;
         updateAdapter();

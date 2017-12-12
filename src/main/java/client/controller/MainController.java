@@ -12,6 +12,7 @@ import java.util.List;
 
 @Component
 public class MainController {
+
     private AdvertiseManager advertiseManager;
     private AdvertiseService advertiseService;
     private JobService jobService;
@@ -29,8 +30,8 @@ public class MainController {
 
     public void start(Stage primaryStage) {
         viewManager.setPrimaryStage(primaryStage);
-        viewManager.setupStageControl(this);
-        viewManager.showPrimaryStage();
+        viewManager.setController(this);
+        viewManager.showAdvertiseReviewer();
     }
 
     public void handleAdd(AdvertiseAdapter adepter) {
@@ -63,6 +64,10 @@ public class MainController {
 
     public List<Station> getStationList() {
         return stationService.loadStations();
+    }
+
+    public AdvertiseManager getAdvertiseManager() {
+        return advertiseManager;
     }
 
     @Autowired

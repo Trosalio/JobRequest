@@ -26,8 +26,8 @@ public class AdvertiseManager {
         Advertise advertise = adapter.getAdaptee();
     }
 
-    public void deleteAdvertise(int removeIndex){
-        advertiseList.remove(removeIndex);
+    public AdvertiseAdapter deleteAdvertise(int removeIndex){
+        return advertiseList.remove(removeIndex);
     }
 
     public void editAds(AdvertiseAdapter adapter){

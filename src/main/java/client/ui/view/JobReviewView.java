@@ -1,20 +1,14 @@
 package client.ui.view;
 
+import client.ui.model.JobReviewModel;
 import common.formatter.DateFormatter;
-import common.model.Advertise;
-import common.model.Job;
 import common.utility.AlertBoxSingleton;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import javafx.scene.layout.HBox;
 
-import java.io.IOException;
 import java.time.temporal.ChronoUnit;
 
 public class JobReviewView {
@@ -34,60 +28,40 @@ public class JobReviewView {
     @FXML
     private Label statusLbl;
     @FXML
-    private Button publishBtn, discardBtn, sendBtn;
+    private Button publishBtn, editBtn, discardBtn, sendBtn;
+    @FXML
+    private HBox publishBox;
 
-
-    private Advertise advertise;
-    private Job job;
+    private JobReviewModel model;
 
     @FXML
     private void onPublishForm() {
-        if (popJobWindow(job)) {
-            job.setStatus("พร้อมใช้งาน");
-            advertise.setJob(job);
+        model.publishForm();
+        updateJobInfo();
+    }
+
+    @FXML
+    private void onDiscardForm() {
+        if (AlertBoxSingleton.getInstance().popAlertBox("Confirmation", "Discarding...", "คุณต้องการจะยกเลิกแบบฟอร์มร้องขอนี้หรือไม่?")) {
+            model.discardForm();
             updateJobInfo();
         }
     }
 
     @FXML
-    private void onDiscardForm() {
-        if(AlertBoxSingleton.getInstance().popAlertBox("Confirmation", "Discarding...", "คุณต้องการจะยกเลิกแบบฟอร์มร้องขอนี้?")) {
-            job.setDefaultValue();
-            advertise.setJob(null);
+    private void onEditForm() {
+        if (AlertBoxSingleton.getInstance().popAlertBox("Confirmation", "Editing...", "คุณต้องการจะแก้ไจแบบฟอร์มร้องขอนี้หรือไม่?")) {
+            model.editForm();
             updateJobInfo();
         }
     }
 
     @FXML
     private void onSend() {
-        // Need MIX to implement this method - it is bound to network connection
-    }
-
-    private boolean popJobWindow(Job job) {
-        try {
-            FXMLLoader JobUILoader = new FXMLLoader(getClass().getResource("/fxml/JobEditorUI.fxml"));
-            Parent root = JobUILoader.load();
-            JobEditorView jobEditorView = JobUILoader.getController();
-            jobEditorView.setCurrentJob(job);
-
-            Stage stage = new Stage();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Job");
-            stage.setResizable(false);
-            stage.showAndWait();
-            return jobEditorView.isSaved();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+        if (AlertBoxSingleton.getInstance().popAlertBox("Confirmation", "Sending...", "คุณต้องการจะส่งแบบฟอร์มร้องขอนี้หรืิอไม่?")) {
+            model.send();
+            updateJobInfo();
         }
-    }
-
-    public void setCurrentAds(Advertise currentAdvertise) {
-        advertise = currentAdvertise;
-        job = (advertise.getJob() == null ? new Job() : advertise.getJob());
-        prepareComponents();
     }
 
     public void prepareComponents() {
@@ -101,28 +75,31 @@ public class JobReviewView {
     }
 
     private void updateAdvertiseInfo() {
-        subjectLabel.setText(advertise.getAdsName());
-        refNoLabel.setText(advertise.getRefNumber());
-        cDatePicker.setValue(advertise.getCreateDate());
+        subjectLabel.setText(model.getAdvertise().getAdsName());
+        refNoLabel.setText(model.getAdvertise().getRefNumber());
+        cDatePicker.setValue(model.getAdvertise().getCreateDate());
     }
 
     private void updateJobInfo() {
-        if(job.isDefault()){
-            setDefaultJobInfo();
-        } else {
-            detailNameLbl.setText(job.getJobDetail());
-            requesterLbl.setText(job.getRequester());
-            typeOfMediaLbl.setText(job.getTypeOfMedia());
-            stationListLbl.setText(job.getListOfStations());
-            qtyLbl.setText(Integer.toString(job.getQuantity()));
-            totalQtyLbl.setText(Integer.toString(job.getStations().size() * job.getQuantity()));
-            fromDatePicker.setValue(job.getFromDate());
-            toDatePicker.setValue(job.getToDate());
-            totalDayLbl.setText(Long.toString(ChronoUnit.DAYS.between(job.getFromDate(), job.getToDate())));
-            statusLbl.setText(job.getStatus());
-            publishBtn.setText("แก้ไขแบบฟอร์มร้องขอ");
-            discardBtn.setDisable(false);
-            sendBtn.setDisable(false);
+        if (model.isStateChanged()) {
+            if (model.getJob().isDefault()) {
+                setDefaultJobInfo();
+            } else {
+                detailNameLbl.setText(model.getJob().getJobDetail());
+                requesterLbl.setText(model.getJob().getRequester());
+                typeOfMediaLbl.setText(model.getJob().getTypeOfMedia());
+                stationListLbl.setText(model.getJob().getListOfStations());
+                qtyLbl.setText(Integer.toString(model.getJob().getQuantity()));
+                totalQtyLbl.setText(Integer.toString(model.getJob().getStations().size() * model.getJob().getQuantity()));
+                fromDatePicker.setValue(model.getJob().getFromDate());
+                toDatePicker.setValue(model.getJob().getToDate());
+                totalDayLbl.setText(Long.toString(ChronoUnit.DAYS.between(model.getJob().getFromDate(), model.getJob().getToDate())));
+                statusLbl.setText(model.getJob().getStatus());
+                discardBtn.setDisable(false);
+                sendBtn.setDisable(false);
+                publishBox.getChildren().add(editBtn);
+                publishBox.getChildren().remove(publishBtn);
+            }
         }
     }
 
@@ -137,9 +114,14 @@ public class JobReviewView {
         toDatePicker.setValue(null);
         totalDayLbl.setText("-");
         statusLbl.setText("ยังไม่ถูกสร้าง");
-        publishBtn.setText("สร้างแบบฟอร์มร้องขอ");
+        publishBox.getChildren().add(publishBtn);
+        publishBox.getChildren().remove(editBtn);
         discardBtn.setDisable(true);
         sendBtn.setDisable(true);
+    }
+
+    public void setModel(JobReviewModel model) {
+        this.model = model;
     }
 }
 

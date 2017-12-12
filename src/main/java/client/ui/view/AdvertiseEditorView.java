@@ -1,8 +1,7 @@
 package client.ui.view;
 
-import client.controller.AdvertiseAdapter;
+import client.ui.model.AdvertiseEditorModel;
 import common.formatter.DateFormatter;
-import common.model.Advertise;
 import common.utility.AlertBoxSingleton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,9 +20,7 @@ public class AdvertiseEditorView {
     @FXML
     private Button cancelButton;
 
-    private Boolean saveBool = false;
-    private AdvertiseAdapter adapter;
-    private Advertise advertise;
+    private AdvertiseEditorModel model;
 
     @FXML
     private void initialize() {
@@ -39,12 +36,11 @@ public class AdvertiseEditorView {
     @FXML
     private void onSave() {
         if (!(isTxtFEmpty(subjectTxtF) || isTxtFEmpty(refNoTxtF) || cDatePicker.getValue() == null)) {
-            advertise.setCreateDate(cDatePicker.getValue());
-            advertise.setAdsName(subjectTxtF.getText());
-            advertise.setRefNumber(refNoTxtF.getText());
-            adapter.updateAdapter();
+            String subject = subjectTxtF.getText();
+            String refNumber = refNoTxtF.getText();
+            LocalDate createDate = cDatePicker.getValue();
+            model.saveAdvertise(subject, refNumber, createDate);
             AlertBoxSingleton.getInstance().popAlertBox("Information", "Success", "โฆษณาถูกบันทึกแล้ว!");
-            saveBool = true;
             closeWindow();
         } else {
             if(isTxtFEmpty(subjectTxtF) ){
@@ -65,21 +61,19 @@ public class AdvertiseEditorView {
         return txtF.getText() == null || txtF.getText().isEmpty();
     }
 
-    public void setCurrentAdapter(AdvertiseAdapter currentAdapter) {
-        this.adapter = currentAdapter;
-        this.advertise = adapter.getAdaptee();
-        cDatePicker.setValue(advertise.getCreateDate());
-        subjectTxtF.setText(advertise.getAdsName());
-        refNoTxtF.setText(advertise.getRefNumber());
-    }
-
     private void closeWindow() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
 
-    public boolean isSaved() {
-        return saveBool;
+    public void setModel(AdvertiseEditorModel model) {
+        this.model = model;
+    }
+
+    public void setupUI() {
+        cDatePicker.setValue(model.getAdapter().getAdaptee().getCreateDate());
+        subjectTxtF.setText(model.getAdapter().getAdaptee().getAdsName());
+        refNoTxtF.setText(model.getAdapter().getAdaptee().getRefNumber());
     }
 }
 
