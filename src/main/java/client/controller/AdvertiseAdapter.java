@@ -3,34 +3,37 @@ package client.controller;
 import common.model.Advertise;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
 public class AdvertiseAdapter {
 
-    private Advertise advertise;
+    private Advertise adaptee;
     private final SimpleStringProperty name = new SimpleStringProperty(this, "name");
     private final SimpleStringProperty refNo = new SimpleStringProperty(this, "refNo");
     private final SimpleObjectProperty<LocalDate> createDate = new SimpleObjectProperty<>(this,"createDate");
-    public AdvertiseAdapter(Advertise advertise) {
-        this.advertise = advertise;
-        update();
+    public AdvertiseAdapter(Advertise adaptee) {
+        this.adaptee = adaptee;
+        updateAdapter();
     }
 
-    public void update() {
-        name.set(advertise.getAdsName());
-        refNo.set(advertise.getRefNumber());
-        createDate.set(advertise.getCreateDate());
+    public void updateAdapter() {
+        name.set(adaptee.getAdsName());
+        refNo.set(adaptee.getRefNumber());
+        createDate.set(adaptee.getCreateDate());
     }
 
-    // -------------------  Getter & Setter --------------------
-    public Advertise getAdvertise() {
-        return advertise;
+    public void updateAdaptee() {
+        if(adaptee != null) {
+            adaptee.setAdsName(name.get());
+            adaptee.setRefNumber(refNo.get());
+            adaptee.setCreateDate(createDate.get());
+        }
     }
 
-    public void setAdvertise(Advertise advertise){
-        this.advertise = advertise;
+    // -------------------  Getter --------------------
+    public Advertise getAdaptee() {
+        return adaptee;
     }
 
     // -----------------------  Property -----------------------

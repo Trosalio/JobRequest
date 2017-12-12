@@ -23,7 +23,7 @@ public class AdvertiseManager {
 
     public void addAdvertise(AdvertiseAdapter adapter){
         advertiseList.add(adapter);
-        Advertise advertise = adapter.getAdvertise();
+        Advertise advertise = adapter.getAdaptee();
     }
 
     public void deleteAdvertise(int removeIndex){
@@ -31,7 +31,7 @@ public class AdvertiseManager {
     }
 
     public void editAds(AdvertiseAdapter adapter){
-        Advertise advertise = adapter.getAdvertise();
+        Advertise advertise = adapter.getAdaptee();
     }
 
     //--------------------------- Accessor ----------------------------------

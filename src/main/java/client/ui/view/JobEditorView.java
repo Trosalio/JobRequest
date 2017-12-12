@@ -1,4 +1,4 @@
-package client.ui;
+package client.ui.view;
 
 import common.model.Job;
 import common.model.Station;
@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JobViewer {
+public class JobEditorView {
 
     @FXML
     private TextField detailTxtF, requesterTxtF, quantityTxtF;

@@ -5,6 +5,7 @@ import common.model.Station;
 import common.service.AdvertiseService;
 import common.service.JobService;
 import common.service.StationService;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -26,20 +27,22 @@ public class MainController {
         advertiseManager.loadAdvertises(advertiseService.loadAdvertises());
     }
 
-    public void start() {
-        viewManager.displayUI();
+    public void start(Stage primaryStage) {
+        viewManager.setPrimaryStage(primaryStage);
+        viewManager.setupStageControl(this);
+        viewManager.showPrimaryStage();
     }
 
     public void handleAdd(AdvertiseAdapter adepter) {
-        advertiseService.addAdvertise(adepter.getAdvertise());
+        advertiseService.addAdvertise(adepter.getAdaptee());
     }
 
     public void handleEdit(AdvertiseAdapter adepter) {
-        advertiseService.updateAdvertise(adepter.getAdvertise());
+        advertiseService.updateAdvertise(adepter.getAdaptee());
     }
 
     public void handleRemove(AdvertiseAdapter adepter) {
-        advertiseService.deleteAdvertise(adepter.getAdvertise());
+        advertiseService.deleteAdvertise(adepter.getAdaptee());
     }
 
     public void handleAdd(Job job) {

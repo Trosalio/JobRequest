@@ -1,4 +1,4 @@
-package client.ui;
+package client.ui.view;
 
 import common.formatter.DateFormatter;
 import common.model.Advertise;
@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.temporal.ChronoUnit;
 
-public class JobReviewViewer {
+public class JobReviewView {
 
     @FXML
     private DatePicker cDatePicker;
@@ -65,10 +65,10 @@ public class JobReviewViewer {
 
     private boolean popJobWindow(Job job) {
         try {
-            FXMLLoader JobUILoader = new FXMLLoader(getClass().getResource("/fxml/JobUI.fxml"));
+            FXMLLoader JobUILoader = new FXMLLoader(getClass().getResource("/fxml/JobEditorUI.fxml"));
             Parent root = JobUILoader.load();
-            JobViewer jobViewer = JobUILoader.getController();
-            jobViewer.setCurrentJob(job);
+            JobEditorView jobEditorView = JobUILoader.getController();
+            jobEditorView.setCurrentJob(job);
 
             Stage stage = new Stage();
             Scene scene = new Scene(root);
@@ -77,7 +77,7 @@ public class JobReviewViewer {
             stage.setTitle("Job");
             stage.setResizable(false);
             stage.showAndWait();
-            return jobViewer.isSaved();
+            return jobEditorView.isSaved();
         } catch (IOException e) {
             e.printStackTrace();
             return false;

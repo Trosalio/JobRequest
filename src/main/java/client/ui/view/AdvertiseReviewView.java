@@ -1,6 +1,7 @@
-package client.ui;
+package client.ui.view;
 
 import client.controller.AdvertiseAdapter;
+import client.controller.MainController;
 import common.formatter.DateFormatter;
 import common.model.Advertise;
 import client.controller.AdvertiseManager;
@@ -20,7 +21,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
 
-public class AdvertiseMasterViewer {
+public class AdvertiseReviewView {
 
     @FXML
     private Button deleteButton, editButton;
@@ -32,6 +33,7 @@ public class AdvertiseMasterViewer {
     private TableColumn<AdvertiseAdapter, String> refNoColumn, subjColumn;
 
     private AdvertiseManager advertiseManager;
+    private MainController mainController;
 
     @FXML
     private void onAdd() {
@@ -67,7 +69,7 @@ public class AdvertiseMasterViewer {
             if (mouseEvent.getClickCount() == 2) {
                 if (adsTable.getSelectionModel().getSelectedItem() != null) {
                     mouseEvent.consume();
-                    popJobReviewWindow(adsTable.getSelectionModel().getSelectedItem().getAdvertise());
+                    popJobReviewWindow(adsTable.getSelectionModel().getSelectedItem().getAdaptee());
                 } else {
                     System.out.println("no item was found");
                 }
@@ -77,10 +79,10 @@ public class AdvertiseMasterViewer {
 
     private boolean popAdsViewerWindow(AdvertiseAdapter adapter) {
         try {
-            FXMLLoader adsViewerUILoader = new FXMLLoader(getClass().getResource("/fxml/AdvertiseUI.fxml"));
+            FXMLLoader adsViewerUILoader = new FXMLLoader(getClass().getResource("/fxml/AdvertiseEditorUI.fxml"));
             Parent root = adsViewerUILoader.load();
-            AdvertiseViewer advertiseViewer = adsViewerUILoader.getController();
-            advertiseViewer.setCurrentAdapter(adapter);
+            AdvertiseEditorView advertiseEditorView = adsViewerUILoader.getController();
+            advertiseEditorView.setCurrentAdapter(adapter);
 
             Stage stage = new Stage();
             Scene scene = new Scene(root);
@@ -89,7 +91,7 @@ public class AdvertiseMasterViewer {
             stage.setTitle("Advertise");
             stage.setResizable(false);
             stage.showAndWait();
-            return advertiseViewer.isSaved();
+            return advertiseEditorView.isSaved();
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -100,9 +102,9 @@ public class AdvertiseMasterViewer {
         try {
             FXMLLoader JobReviewUILoader = new FXMLLoader(getClass().getResource("/fxml/JobReviewUI.fxml"));
             Parent root = JobReviewUILoader.load();
-            JobReviewViewer jobReviewViewer = JobReviewUILoader.getController();
-            jobReviewViewer.setCurrentAds(advertise);
-            jobReviewViewer.prepareComponents();
+            JobReviewView jobReviewView = JobReviewUILoader.getController();
+            jobReviewView.setCurrentAds(advertise);
+            jobReviewView.prepareComponents();
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -159,5 +161,9 @@ public class AdvertiseMasterViewer {
 
     public void setAdvertiseManager(AdvertiseManager advertiseManager) {
         this.advertiseManager = advertiseManager;
+    }
+
+    public void setStageController(MainController mainController) {
+        this.mainController = mainController;
     }
 }
