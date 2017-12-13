@@ -11,7 +11,15 @@
     <context:component-scan base-package="server.serviceImpl"/>
 
     <!-- Instantiate DAO Beans -->
-    <bean id="advertiseDAO" class="server.persistence.AdvertiseDAO"/>
-    <bean id="jobDAO" class="server.persistence.JobDAO"/>
-    <bean id="stationDAO" class="server.persistence.StationDAO"/>
+    <bean id="advertiseDAO" class="server.persistence.AdvertiseDAO">
+        <constructor-arg index="0" ref="dataSource"/>
+        <constructor-arg index="1" ref="jobDAO"/>
+    </bean>
+    <bean id="jobDAO" class="server.persistence.JobDAO">
+        <constructor-arg index="0" ref="dataSource"/>
+        <constructor-arg index="1" ref="stationDAO"/>
+    </bean>
+    <bean id="stationDAO" class="server.persistence.StationDAO">
+        <constructor-arg ref="dataSource"/>
+    </bean>
 </beans>

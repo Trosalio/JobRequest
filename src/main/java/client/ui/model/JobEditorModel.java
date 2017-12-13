@@ -51,18 +51,4 @@ public class JobEditorModel {
     public List<Station>  getStationsInJob() {
         return job.getStations();
     }
-
-//        private void loadStationList() {
-//        try {
-//            List<String> lines = Files.readAllLines(Paths.get("station_list.txt"));
-//            for(String line : lines){
-//                String[] data = line.split(" ");
-//                Station station = new Station(data[0], data[1]);
-//                stationList.add(station);
-//            }
-//        } catch (IOException e) {
-//            System.err.println("File not found");
-//            e.printStackTrace();
-//        }
-//    }
 }

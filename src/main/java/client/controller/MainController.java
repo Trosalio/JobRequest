@@ -8,6 +8,7 @@ import common.service.StationService;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 @Component
@@ -19,7 +20,7 @@ public class MainController {
     private StationService stationService;
     private ViewManager viewManager;
 
-    public MainController(AdvertiseManager advertiseManager, ViewManager viewManager){
+    public MainController(AdvertiseManager advertiseManager, ViewManager viewManager) {
         this.advertiseManager = advertiseManager;
         this.viewManager = viewManager;
     }
@@ -58,8 +59,8 @@ public class MainController {
         jobService.deleteJob(job);
     }
 
-    public List<Station> getStationsInJob(Job job) {
-        return stationService.loadStationsInJob(job);
+    public void loadStationsInJob(Job job) {
+        stationService.loadStationsInJob(job);
     }
 
     public List<Station> getStationList() {

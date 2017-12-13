@@ -12,7 +12,7 @@ public interface StationService {
     // Common
     List<Station> loadStations();
 
-    List<Station> loadStationsInJob(Job job);
+    void loadStationsInJob(Job job);
 
     // Client - Requester
     void addStationInJob(Job job);

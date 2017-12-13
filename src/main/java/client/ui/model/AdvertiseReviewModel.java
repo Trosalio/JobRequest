@@ -18,6 +18,7 @@ public class AdvertiseReviewModel {
     public void addAdvertise() {
         AdvertiseAdapter adapter = new AdvertiseAdapter(new Advertise());
         if (viewManager.showAdvertiseEditor(adapter)) {
+            viewManager.getController().getAdvertiseManager().addAdvertise(adapter);
             viewManager.getController().handleAdd(adapter);
             state = true;
         } else {

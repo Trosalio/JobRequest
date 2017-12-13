@@ -54,15 +54,16 @@ public class JobReviewModel {
     }
 
     public void discardForm() {
-        Job discardedJob = this.job;
+        viewManager.getController().handleRemove(job);
         job.setDefaultValue();
         advertise.setJob(null);
-        viewManager.getController().handleRemove(job);
         state = true;
     }
 
     public void send(){
-        // TODO Need MIX to implement this method as it is bound to networking
+        job.setStatus("กำลังส่งคำขอ");
+        advertise.setJob(job);
+        viewManager.getController().handleEdit(job);
         state = true;
     }
 

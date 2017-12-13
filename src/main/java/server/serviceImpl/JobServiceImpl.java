@@ -16,7 +16,6 @@ public class JobServiceImpl implements JobService {
         this.dao = dao;
     }
 
-
     @Override
     public Job loadJob(int jobID) {
         System.out.println("loading a job");

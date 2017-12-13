@@ -25,9 +25,9 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public List<Station> loadStationsInJob(Job job) {
+    public void loadStationsInJob(Job job) {
         System.out.println("loading station list in a job");
-        return dao.loadAll(job);
+        dao.loadStationsInJob(job);
     }
 
     // Client - Requester

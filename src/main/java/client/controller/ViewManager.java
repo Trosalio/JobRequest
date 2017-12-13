@@ -27,7 +27,7 @@ public class ViewManager {
 
     public void showAdvertiseReviewer() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/resource/fxml/AdvertiseReviewUI.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AdvertiseEditorUI.fxml"));
             Parent root = loader.load();
 
             // setup Advertise Master model and UI
