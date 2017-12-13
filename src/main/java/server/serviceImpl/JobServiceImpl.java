@@ -7,10 +7,6 @@ import server.persistence.JobDAO;
 
 import java.util.List;
 
-/**
- * ON PROGRESS!
- */
-
 public class JobServiceImpl implements JobService {
 
     private final JobDAO dao;

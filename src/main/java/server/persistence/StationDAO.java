@@ -2,17 +2,22 @@ package server.persistence;
 
 import common.model.Job;
 import common.model.Station;
+import javafx.concurrent.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 
 //TODO implements queries code
 
 public class StationDAO implements DAO<Station> {
 
-
-    private DataSource dataSource;
+    private final DataSource dataSource;
+    private final AtomicInteger primaryKey = new AtomicInteger(0);
 
     @Autowired
     public StationDAO(DataSource dataSource){
@@ -34,10 +39,6 @@ public class StationDAO implements DAO<Station> {
         return null;
     }
 
-    public List<Station> loadAll(Job job) {
-        return null;
-    }
-
     @Override
     public void insert(Station station) {
 
@@ -51,6 +52,10 @@ public class StationDAO implements DAO<Station> {
     @Override
     public void update(Station station) {
 
+    }
+
+    public List<Station> loadAll(Job job) {
+        return null;
     }
 
     public void insert(Job job) {

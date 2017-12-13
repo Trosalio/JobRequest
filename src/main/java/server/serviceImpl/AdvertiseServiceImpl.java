@@ -7,9 +7,6 @@ import server.persistence.AdvertiseDAO;
 
 import java.util.List;
 
-/**
- * Project Name: JobRequest
- */
 public class AdvertiseServiceImpl implements AdvertiseService {
 
     private final AdvertiseDAO dao;

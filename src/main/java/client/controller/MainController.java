@@ -59,7 +59,7 @@ public class MainController {
     }
 
     public List<Station> getStationsInJob(Job job) {
-        return stationService.loadStationsInJob();
+        return stationService.loadStationsInJob(job);
     }
 
     public List<Station> getStationList() {

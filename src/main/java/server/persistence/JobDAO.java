@@ -1,16 +1,22 @@
 package server.persistence;
 
 import common.model.Job;
+import javafx.concurrent.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 
 //TODO implements queries code
 
 public class JobDAO implements DAO<Job> {
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
+    private final AtomicInteger primaryKey = new AtomicInteger(0);
 
     @Autowired
     public JobDAO(DataSource dataSource){
