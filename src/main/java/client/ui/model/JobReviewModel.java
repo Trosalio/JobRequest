@@ -42,12 +42,15 @@ public class JobReviewModel {
         }
     }
 
-    public boolean isStateChanged() {
-        if (state) {
+    public void editForm() {
+        if (viewManager.showJobEditor(job)) {
+            job.setStatus("พร้อมใช้งาน");
+            advertise.setJob(job);
+            viewManager.getController().handleEdit(job);
+            state = true;
+        } else {
             state = false;
-            return true;
         }
-        return false;
     }
 
     public void discardForm() {
@@ -63,6 +66,11 @@ public class JobReviewModel {
         state = true;
     }
 
-    public void editForm() {
+    public boolean isStateChanged() {
+        if (state) {
+            state = false;
+            return true;
+        }
+        return false;
     }
 }

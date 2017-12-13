@@ -10,7 +10,7 @@ import server.serviceImpl.StationServiceImpl;
 public class ServerMain {
 
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("config/Sprint-Server-Module.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("/config/Sprint-Server-Module.xml");
         AdvertiseServiceImpl advertiseService = (AdvertiseServiceImpl) context.getBean("advertiseServiceImpl");
         JobServiceImpl jobService = (JobServiceImpl) context.getBean("jobServiceImp");
         StationServiceImpl stationService = (StationServiceImpl) context.getBean("stationImpl");

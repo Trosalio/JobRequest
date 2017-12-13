@@ -2,6 +2,7 @@ package client.controller;
 
 import client.ui.model.AdvertiseEditorModel;
 import client.ui.model.AdvertiseReviewModel;
+import client.ui.model.JobEditorModel;
 import client.ui.model.JobReviewModel;
 import client.ui.view.AdvertiseEditorView;
 import client.ui.view.AdvertiseReviewView;
@@ -67,6 +68,7 @@ public class ViewManager {
             stage.setTitle("Advertise Editor");
             stage.setResizable(false);
             stage.showAndWait();
+
             return model.isSaved();
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,7 +86,7 @@ public class ViewManager {
             model.setAdapter(adapter);
             JobReviewView jobReviewView = JobReviewUILoader.getController();
             jobReviewView.setModel(model);
-            jobReviewView.prepareComponents();
+            jobReviewView.setupUI();
 
             // setup the stage
             Stage stage = new Stage();
@@ -104,8 +106,11 @@ public class ViewManager {
             Parent root = JobUILoader.load();
 
             // setup Job Editor model and UI
+            JobEditorModel model = new JobEditorModel(this);
+            model.setJob(job);
             JobEditorView jobEditorView = JobUILoader.getController();
-            jobEditorView.setCurrentJob(job);
+            jobEditorView.setModel(model);
+            jobEditorView.setupUI();
 
             // setup the stage
             Stage stage = new Stage();
@@ -115,7 +120,8 @@ public class ViewManager {
             stage.setTitle("Job Editor");
             stage.setResizable(false);
             stage.showAndWait();
-            return jobEditorView.isSaved();
+
+            return model.isSaved();
         } catch (IOException e) {
             e.printStackTrace();
             return false;

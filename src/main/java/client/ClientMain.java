@@ -13,7 +13,7 @@ public class ClientMain extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        ApplicationContext context = new ClassPathXmlApplicationContext("config/Spring-Client-Module.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("/config/Spring-Client-Module.xml");
         MainController mc = context.getBean("mainController", MainController.class);
         mc.handleLoad();
         mc.start(primaryStage);

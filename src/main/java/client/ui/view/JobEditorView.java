@@ -1,6 +1,6 @@
 package client.ui.view;
 
-import common.model.Job;
+import client.ui.model.JobEditorModel;
 import common.model.Station;
 import common.utility.AlertBoxSingleton;
 import javafx.collections.FXCollections;
@@ -9,10 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 public class JobEditorView {
@@ -29,9 +26,7 @@ public class JobEditorView {
     private DatePicker fromDatePicker, toDatePicker;
     @FXML
     private Button cancelBtn;
-    private List<Station> stationList = new ArrayList<>();
-    private boolean saved;
-    private Job job;
+    private JobEditorModel model;
 
     @FXML
     public void initialize() {
@@ -48,33 +43,11 @@ public class JobEditorView {
                 "Pump Room"
         );
         typeOfMediaCBox.getSelectionModel().selectFirst();
-
-        setupCandidateList();
-    }
-
-    private void setupCandidateList() {
-        loadStationList();
-        ObsCandidateList = FXCollections.observableList(stationList);
-        candidateListView.setItems(ObsCandidateList.sorted());
-    }
-
-    private void loadStationList() {
-        try {
-            List<String> lines = Files.readAllLines(Paths.get("station_list.txt"));
-            for(String line : lines){
-                String[] data = line.split(" ");
-                Station station = new Station(data[0], data[1]);
-                stationList.add(station);
-            }
-        } catch (IOException e) {
-            System.err.println("File not found");
-            e.printStackTrace();
-        }
     }
 
     private boolean isCompleted() {
         return !(isTxtFEmpty(detailTxtF) || isTxtFEmpty(requesterTxtF) || typeOfMediaCBox.getSelectionModel().getSelectedIndex() == 0 ||
-                isTxtFEmpty(quantityTxtF) || !isValidInteger(quantityTxtF) || job.getStations().isEmpty() ||
+                isTxtFEmpty(quantityTxtF) || !isValidInteger(quantityTxtF) || model.getJob().getStations().isEmpty() ||
                 fromDatePicker.getValue() == null || toDatePicker.getValue() == null || !isValidDate());
     }
 
@@ -121,7 +94,6 @@ public class JobEditorView {
     private void onSubmit() {
         if (isCompleted()) {
             updateJobInfo();
-            saved = true;
             closeWindow();
         } else if (isTxtFEmpty(detailTxtF)) {
             AlertBoxSingleton.getInstance().popAlertBox("Error", "Detail info is not filled", "กรุณาระบุฃื่อเรื่อง");
@@ -132,7 +104,7 @@ public class JobEditorView {
         } else if (typeOfMediaCBox.getSelectionModel().getSelectedIndex() == 0) {
             AlertBoxSingleton.getInstance().popAlertBox("Error", "Type of Media is not selected", "กรุณาเลือกหรือกรอกประเภทของสื่อประชาสัมพันธ์");
             typeOfMediaCBox.requestFocus();
-        } else if (job.getStations().isEmpty()) {
+        } else if (model.getJob().getStations().isEmpty()) {
             AlertBoxSingleton.getInstance().popAlertBox("Error", "No Station is selected", "กรุณาเลือกสถานีที่ต้องการติดตั้ง");
         } else if (isTxtFEmpty(quantityTxtF) || !isValidInteger(quantityTxtF)) {
             if (isTxtFEmpty(quantityTxtF)) {
@@ -159,52 +131,63 @@ public class JobEditorView {
         stage.close();
     }
 
-    public void setCurrentJob(Job currentJob) {
-        job = currentJob;
-        setUpJob();
-    }
-
-    private void setUpJob() {
-        detailTxtF.setText(job.getJobDetail());
-        requesterTxtF.setText(job.getRequester());
-        if(job.getTypeOfMedia() != null){
-            typeOfMediaCBox.setValue(job.getTypeOfMedia());
-        } else {
-            typeOfMediaCBox.getSelectionModel().selectFirst();
-        }
-        ObsSelectedList = FXCollections.observableList(job.getStations());
-        selectedListView.setItems(ObsSelectedList.sorted());
-        ObsCandidateList.removeAll(ObsSelectedList);
-        if(job.getQuantity() > 0){
-            quantityTxtF.setText(Integer.toString(job.getQuantity()));
+    public void setupUI() {
+        detailTxtF.setText(model.getJob().getJobDetail());
+        requesterTxtF.setText(model.getJob().getRequester());
+        setupTypeOfMediaComboBox();
+        setupSelectedList();
+        setupCandidateList();
+        if(model.getJob().getQuantity() > 0){
+            quantityTxtF.setText(Integer.toString(model.getJob().getQuantity()));
         } else {
             quantityTxtF.setText(null);
         }
-        fromDatePicker.setValue(job.getFromDate());
-        toDatePicker.setValue(job.getToDate());
+        fromDatePicker.setValue(model.getJob().getFromDate());
+        toDatePicker.setValue(model.getJob().getToDate());
+    }
+
+    private void setupTypeOfMediaComboBox(){
+        if(model.getJob().getTypeOfMedia() != null){
+            typeOfMediaCBox.setValue(model.getJob().getTypeOfMedia());
+        } else {
+            typeOfMediaCBox.getSelectionModel().selectFirst();
+        }
+    }
+
+    private void setupSelectedList() {
+        ObsSelectedList = FXCollections.observableList(model.getStationsInJob());
+        selectedListView.setItems(ObsSelectedList.sorted());
+    }
+
+    private void setupCandidateList() {
+        ObsCandidateList = FXCollections.observableList(model.loadStationList());
+        candidateListView.setItems(ObsCandidateList.sorted());
+        ObsCandidateList.removeAll(ObsSelectedList);
     }
 
     private void updateJobInfo() {
-        job.setJobDetail(detailTxtF.getText());
-        job.setRequester(requesterTxtF.getText());
-        job.setTypeOfMedia(typeOfMediaCBox.getSelectionModel().getSelectedItem());
-        job.setQuantity(Integer.parseInt(quantityTxtF.getText()));
-        job.setFromDate(fromDatePicker.getValue());
-        job.setToDate(toDatePicker.getValue());
-    }
-
-    public boolean isSaved() {
-        return saved;
+        String detail = detailTxtF.getText();
+        String requester = requesterTxtF.getText();
+        String typeOfMedia = typeOfMediaCBox.getSelectionModel().getSelectedItem();
+        int quantity = Integer.parseInt(quantityTxtF.getText());
+        LocalDate fromDate = fromDatePicker.getValue();
+        LocalDate toDate = toDatePicker.getValue();
+        model.updateJobInfo(detail, requester, typeOfMedia, quantity, fromDate, toDate);
     }
 
     private boolean isTxtFEmpty(TextField txtF){
         return txtF.getText() == null || txtF.getText().isEmpty();
     }
+
     private boolean isValidInteger(TextField txtF) {
         return txtF.getText().matches("[0-9]+") && Integer.parseInt(txtF.getText()) > 0;
     }
 
     private boolean isValidDate() {
         return !toDatePicker.getValue().isBefore(fromDatePicker.getValue());
+    }
+
+    public void setModel(JobEditorModel model) {
+        this.model = model;
     }
 }

@@ -1,5 +1,6 @@
 package server.persistence;
 
+import common.model.Job;
 import common.model.Station;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,12 +28,13 @@ public class StationDAO implements DAO<Station> {
      * This is a designated method for StationDAO
      * The method loads an event from a source according to the Station Code.
      */
-    public Station load(String stationCode) {
-        return null;
-    }
 
     @Override
     public List<Station> loadAll() {
+        return null;
+    }
+
+    public List<Station> loadAll(Job job) {
         return null;
     }
 
@@ -48,6 +50,18 @@ public class StationDAO implements DAO<Station> {
 
     @Override
     public void update(Station station) {
+
+    }
+
+    public void insert(Job job) {
+
+    }
+
+    public void delete(Job job) {
+
+    }
+
+    public void update(Job job) {
 
     }
 

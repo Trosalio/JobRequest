@@ -64,7 +64,7 @@ public class JobReviewView {
         }
     }
 
-    public void prepareComponents() {
+    public void setupUI() {
         // format all date components
         DateFormatter dateFormatter = new DateFormatter();
         dateFormatter.formatDatePicker(cDatePicker, fromDatePicker, toDatePicker);
