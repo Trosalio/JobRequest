@@ -19,14 +19,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class JobDAO implements DAO<Job> {
 
     private final DataSource dataSource;
-    private final StationDAO stationDAO;
     private DateTimeFormatter dateTimeFormatter;
-    private final AtomicInteger primaryKey = new AtomicInteger(0);
+    private final AtomicInteger primaryKey = new AtomicInteger(-1);
 
 
-    public JobDAO(DataSource dataSource, StationDAO stationDAO) {
+    public JobDAO(DataSource dataSource) {
         this.dataSource = dataSource;
-        this.stationDAO = stationDAO;
         this.dateTimeFormatter = new DateFormatter().getFormatter();
     }
 
@@ -76,7 +74,6 @@ public class JobDAO implements DAO<Job> {
             pStmt.setString(6, dateTimeFormatter.format(job.getToDate()));
             pStmt.setString(7, job.getStatus());
             pStmt.executeUpdate();
-            stationDAO.insert(job);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -106,7 +103,6 @@ public class JobDAO implements DAO<Job> {
             pStmt.setString(7, job.getStatus());
             pStmt.setInt(8, job.getId());
             pStmt.executeUpdate();
-            stationDAO.update(job);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -134,7 +130,6 @@ public class JobDAO implements DAO<Job> {
                 job.setFromDate(LocalDate.parse(fromDate, new DateFormatter().getFormatter()));
                 job.setToDate(LocalDate.parse(toDate, new DateFormatter().getFormatter()));
                 job.setStatus(status);
-                stationDAO.loadStationsInJob(job);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -150,6 +145,7 @@ public class JobDAO implements DAO<Job> {
             String loadSQL = "SELECT * FROM Job";
             ResultSet resultSet = con.prepareStatement(loadSQL).executeQuery();
             pullDataToJobs(resultSet, jobs);
+            adjustPrimaryKey();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -175,7 +171,6 @@ public class JobDAO implements DAO<Job> {
             job.setFromDate(LocalDate.parse(fromDate, new DateFormatter().getFormatter()));
             job.setToDate(LocalDate.parse(toDate, new DateFormatter().getFormatter()));
             job.setStatus(status);
-            stationDAO.loadStationsInJob(job);
             jobs.add(job);
         }
     }

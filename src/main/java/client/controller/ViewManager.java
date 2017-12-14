@@ -51,6 +51,7 @@ public class ViewManager {
             Parent root = adReviewUIloader.load();
 
             // setup Advertise Master model and UI
+            controller.handleLoadAdvertises();
             AdvertiseReviewModel model = new AdvertiseReviewModel(this);
             AdvertiseReviewView advertiseReviewView = adReviewUIloader.getController();
             advertiseReviewView.setModel(model);
@@ -157,6 +158,7 @@ public class ViewManager {
             Parent root = jobMasterReviewUILoader.load();
 
             // setup Job Editor model and UI
+            controller.handleLoadJobs();
             JobMasterReviewModel model = new JobMasterReviewModel(this);
             JobMasterReviewView jobMasterReviewView = jobMasterReviewUILoader.getController();
             jobMasterReviewView.setModel(model);

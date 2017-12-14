@@ -18,7 +18,6 @@ public class AdvertiseReviewModel {
     public void addAdvertise() {
         AdvertiseAdapter adapter = new AdvertiseAdapter(new Advertise());
         if (viewManager.showAdvertiseEditor(adapter)) {
-            viewManager.getController().getAdvertiseManager().addAdvertise(adapter);
             viewManager.getController().handleAdd(adapter);
             state = true;
         } else {
@@ -28,8 +27,7 @@ public class AdvertiseReviewModel {
 
     public void deleteAdvertise(int removedIndex) {
         if (AlertBoxSingleton.getInstance().popAlertBox("Confirmation", "Deleting...", "คุณต้องการจะลบโฆษณานี้?")) {
-            AdvertiseAdapter removedAdapter = viewManager.getController().getAdvertiseManager().deleteAdvertise(removedIndex);
-            viewManager.getController().handleRemove(removedAdapter);
+            viewManager.getController().handleRemove(removedIndex);
             state = true;
         } else {
             state = false;
@@ -40,7 +38,6 @@ public class AdvertiseReviewModel {
         AdvertiseAdapter adapter = viewManager.getController().getAdvertiseManager().getCurrentAdapter();
         if (adapter != null) {
             if (viewManager.showAdvertiseEditor(adapter)) {
-                viewManager.getController().getAdvertiseManager().editAds(adapter);
                 viewManager.getController().handleEdit(adapter);
             }
         }

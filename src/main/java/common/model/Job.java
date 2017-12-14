@@ -104,7 +104,7 @@ public class Job implements Serializable {
     }
 
     public void setDefaultValue() {
-        id = 0;
+        id = -1;
         JobDetail = null;
         requester = null;
         typeOfMedia = null;
@@ -116,7 +116,7 @@ public class Job implements Serializable {
     }
 
     public boolean isDefault() {
-        return ((id == 0) && (JobDetail == null) && (requester == null) && (typeOfMedia == null) && (stations.isEmpty()) &&
+        return ((id == -1) && (JobDetail == null) && (requester == null) && (typeOfMedia == null) && (stations.isEmpty()) &&
                 (quantity == 0) && (fromDate == null) && (toDate == null) && (status == null));
     }
 }

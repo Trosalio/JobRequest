@@ -7,6 +7,7 @@ import java.util.List;
 
 @Service
 public interface JobService {
+
     Job loadJob(int jobID);
 
     List<Job> loadJobs();
