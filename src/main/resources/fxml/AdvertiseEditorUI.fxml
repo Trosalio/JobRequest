@@ -1,73 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-
-<GridPane prefHeight="200.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ui.view.AdvertiseEditorView">
-    <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    </rowConstraints>
-    <GridPane prefHeight="120.0" prefWidth="580.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="145.0" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="266.0" minWidth="10.0" prefWidth="200.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="10.0" prefWidth="200.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="344.0" prefWidth="419.0" spacing="20.0"
+      xmlns="http://javafx.com/javafx/9.0.1" fx:controller="client.ui.view.AdsEditorView">
+    <padding>
+        <Insets bottom="10.0"/>
+    </padding>
+    <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="419.0"
+          style="-fx-background-color: #b4bebf; -fx-border-width: 0 0 1 0; -fx-border-color: #808080;">
         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets left="20.0"/>
         </padding>
-        <Label text="เรื่อง: ">
-            <GridPane.margin>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </GridPane.margin>
+        <Label text="Advertise Editor" textFill="#434343">
+            <font>
+                <Font size="20.0"/>
+            </font>
         </Label>
-        <Label text="Ref No. :" GridPane.rowIndex="1">
-            <GridPane.margin>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </GridPane.margin>
-        </Label>
-        <DatePicker fx:id="cDatePicker" editable="false" prefWidth="160.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
-            <GridPane.margin>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </GridPane.margin>
-        </DatePicker>
-        <Label text="วันสร้าง: " GridPane.columnIndex="2" GridPane.rowIndex="1">
-            <GridPane.margin>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </GridPane.margin>
-        </Label>
-        <TextField fx:id="subjectTxtF" promptText="&lt;หัวข้อเรื่อง&gt;" GridPane.columnIndex="1" GridPane.columnSpan="2147483647">
-            <GridPane.margin>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </GridPane.margin>
-        </TextField>
-        <TextField fx:id="refNoTxtF" maxWidth="160.0" promptText="&lt;Reference Number&gt;" GridPane.columnIndex="1" GridPane.rowIndex="1">
-            <GridPane.margin>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </GridPane.margin>
-        </TextField>
-    </GridPane>
-    <HBox alignment="CENTER" spacing="50.0" GridPane.rowIndex="1">
-        <GridPane.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-        </GridPane.margin>
-        <Button mnemonicParsing="false" onAction="#onSave" prefHeight="50.0" prefWidth="80.0" text="บันทึก Ad" />
-        <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancel" prefHeight="50.0" prefWidth="80.0" text="ยกเลิก" />
     </HBox>
-</GridPane>
+    <VBox>
+        <HBox>
+            <padding>
+                <Insets left="20.0" right="20.0"/>
+            </padding>
+            <Label prefHeight="25.0" prefWidth="102.0" text="Name">
+                <font>
+                    <Font size="16.0"/>
+                </font>
+            </Label>
+            <TextField fx:id="nameField" prefHeight="25.0" prefWidth="302.0"
+                       promptText="eg. Green card promotional"/>
+        </HBox>
+    </VBox>
+    <HBox>
+        <padding>
+            <Insets left="20.0" right="20.0"/>
+        </padding>
+        <Label prefHeight="17.0" prefWidth="90.0" text="Ref No.">
+            <font>
+                <Font size="16.0"/>
+            </font>
+        </Label>
+        <TextField fx:id="refNoField" maxWidth="160.0" prefHeight="25.0" prefWidth="158.0"
+                   promptText="eg. CEO/1234"/>
+    </HBox>
+    <HBox>
+        <padding>
+            <Insets left="20.0" right="20.0"/>
+        </padding>
+        <Label prefHeight="17.0" prefWidth="90.0" text="Issue Date">
+            <font>
+                <Font size="16.0"/>
+            </font>
+        </Label>
+        <DatePicker fx:id="issueDatePicker" editable="false" prefWidth="160.0" promptText="dd/mm/yyyy"/>
+    </HBox>
+    <Label text="* Please fill all the fields" textFill="#5191c3">
+        <padding>
+            <Insets left="20.0"/>
+        </padding>
+        <font>
+            <Font name="System Italic" size="13.0"/>
+        </font>
+    </Label>
+    <HBox alignment="CENTER" prefHeight="80.0" prefWidth="419.0" spacing="30.0" VBox.vgrow="SOMETIMES">
+        <Button defaultButton="true" mnemonicParsing="false" onAction="#onSave" prefHeight="50.0" prefWidth="80.0"
+                text="Save"/>
+        <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancel"
+                prefHeight="50.0" prefWidth="80.0" text="Cancel"/>
+        <padding>
+            <Insets top="20.0"/>
+        </padding>
+    </HBox>
+</VBox>

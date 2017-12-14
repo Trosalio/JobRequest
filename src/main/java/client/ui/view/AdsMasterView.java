@@ -1,11 +1,14 @@
 package client.ui.view;
 
 import client.controller.AdvertiseAdapter;
-import client.ui.model.AdvertiseMasterModel;
+import client.ui.model.AdsMasterModel;
 import common.formatter.DateFormatter;
 import common.utility.AlertBoxSingleton;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -14,7 +17,7 @@ import javafx.scene.text.Font;
 
 import java.time.LocalDate;
 
-public class AdvertiseMasterView {
+public class AdsMasterView {
 
     @FXML
     private BorderPane window;
@@ -25,8 +28,6 @@ public class AdvertiseMasterView {
     @FXML
     private Hyperlink deleteLink;
     @FXML
-    private Button editButton, addButton;
-    @FXML
     private TableView<AdvertiseAdapter> adsTable;
     @FXML
     private TableColumn<AdvertiseAdapter, LocalDate> issueDateCol;
@@ -35,12 +36,13 @@ public class AdvertiseMasterView {
 
     private StackPane placeHolder;
 
-    private AdvertiseMasterModel viewModel;
+    private AdsMasterModel viewModel;
 
     public void initialize() {
+        Label label = new Label("No advertise is selected.");
+        label.setFont(Font.font(18));
         placeHolder = new StackPane();
-        Label label = new Label("No advertise selected, Try add one");
-        label.setFont(Font.font(20));
+        placeHolder.setPrefSize(detailPane.getPrefWidth(), detailPane.getPrefHeight());
         placeHolder.getChildren().add(label);
         showPlaceHolder();
     }
@@ -56,8 +58,7 @@ public class AdvertiseMasterView {
                 "Confirmation",
                 "Deleting...",
                 "Are you sure you want to delete this?")) {
-            int removeIndex = adsTable.getSelectionModel().getSelectedIndex();
-            viewModel.deleteAdvertise(removeIndex);
+            viewModel.deleteAdvertise();
             deleteLink.setVisited(false);
         }
     }
@@ -65,6 +66,7 @@ public class AdvertiseMasterView {
     @FXML
     private void onEdit() {
         viewModel.editAdvertise();
+        showDetail();
     }
 
     @FXML
@@ -81,7 +83,7 @@ public class AdvertiseMasterView {
 //        }
     }
 
-    public void setViewModel(AdvertiseMasterModel model) {
+    public void setViewModel(AdsMasterModel model) {
         this.viewModel = model;
         setupTable();
     }
@@ -100,6 +102,8 @@ public class AdvertiseMasterView {
         // setup item listener
         adsTable.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelect, newSelect) -> {
+                    if (window.getRight().equals(placeHolder))
+                        window.setRight(detailPane);
                     viewModel.setCurrentAdapter(newSelect);
                     showDetail();
                 });
@@ -119,11 +123,11 @@ public class AdvertiseMasterView {
     }
 
     private void showDetail() {
-        if (viewModel.getCurrentAdapter() != null) {
-            window.setRight(detailPane);
-            refNoLabel.setText(viewModel.getCurrentAdapter().refNoProperty().get());
+        AdvertiseAdapter current = viewModel.getCurrentAdapter();
+        if (current != null) {
+            refNoLabel.setText(current.refNoProperty().get());
             nameLabel.setText(viewModel.getCurrentAdapter().nameProperty().get());
-            issueDateLabel.setText(viewModel.getCurrentAdapter().nameProperty().get());
+            issueDateLabel.setText(current.createDateProperty().get().format(viewModel.getDateFormatter().getFormatter()));
             if (viewModel.getCurrentAdapter().jobProperty().get() != null) {
                 jobIdLabel.setText(String.valueOf(viewModel.getCurrentAdapter().jobProperty().get().getId()));
                 jobStatusLabel.setText(String.valueOf(viewModel.getCurrentAdapter().jobProperty().get().getStatus()));

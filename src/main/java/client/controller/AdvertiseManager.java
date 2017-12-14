@@ -14,16 +14,16 @@ public class AdvertiseManager {
 
     //--------------------------- Simple CRUD Operation ---------------------------
 
-    public void loadAdvertises(List<Advertise> source) {
+    public void load(List<Advertise> source) {
         source.forEach(advertise -> advertiseList.add(new AdvertiseAdapter(advertise)));
     }
 
-    public void addAdvertise(AdvertiseAdapter adapter) {
+    public void add(AdvertiseAdapter adapter) {
         advertiseList.add(adapter);
     }
 
-    public AdvertiseAdapter deleteAdvertise(int removeIndex) {
-        return advertiseList.remove(removeIndex);
+    public void remove(AdvertiseAdapter adapter) {
+        advertiseList.remove(adapter);
     }
 
     //--------------------------- Accessor ----------------------------------

@@ -42,7 +42,7 @@ public class JobEditorModel {
     }
 
     public List<Station> getStationList() {
-        return viewManager.getController().loadStationList();
+        return viewManager.getHandler().loadStationList();
     }
 
     public List<Station>  getStationsInJob() {
@@ -51,7 +51,7 @@ public class JobEditorModel {
 
     public List<String> getCandidateTypeOfMedia() {
         if (typeOfMedia == null){
-            typeOfMedia = viewManager.getController().loadCandidateTypeOfMedia();
+            typeOfMedia = viewManager.getHandler().loadCandidateTypeOfMedia();
         }
         return typeOfMedia;
     }

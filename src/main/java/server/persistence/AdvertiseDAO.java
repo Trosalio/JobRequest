@@ -101,7 +101,7 @@ public class AdvertiseDAO implements DAO<Advertise> {
             pStmt.setString(2, advertise.getAdsName());
             pStmt.setString(3, dateTimeFormatter.format(advertise.getCreateDate()));
             int jobID;
-            if(advertise.getJob() == null){
+            if (advertise.getJob() == null) {
                 jobID = -1;
             } else {
                 jobID = advertise.getJob().getId();
@@ -117,8 +117,10 @@ public class AdvertiseDAO implements DAO<Advertise> {
     @Override
     public void delete(Advertise advertise) {
         try (Connection con = dataSource.getConnection()) {
-            String deleteSQL = String.format("DELETE FROM Advertise WHERE refNumber = %s", advertise.getRefNumber());
-            con.prepareStatement(deleteSQL).executeUpdate();
+            String deleteSQL = "DELETE FROM Advertise WHERE refNumber = ?";
+            PreparedStatement statement = con.prepareStatement(deleteSQL);
+            statement.setString(1, advertise.getRefNumber());
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -132,7 +134,7 @@ public class AdvertiseDAO implements DAO<Advertise> {
             pStmt.setString(1, advertise.getAdsName());
             pStmt.setString(2, dateTimeFormatter.format(advertise.getCreateDate()));
             int jobID;
-            if(advertise.getJob() == null) {
+            if (advertise.getJob() == null) {
                 jobID = -1;
             } else {
                 jobID = advertise.getJob().getId();

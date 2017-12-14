@@ -16,34 +16,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MainController {
-
+public class ActionController {
     private AdvertiseManager advertiseManager;
     private AdvertiseService advertiseService;
     private JobService jobService;
     private StationService stationService;
     private ViewManager viewManager;
 
-    public MainController(AdvertiseManager advertiseManager, ViewManager viewManager) {
+    public ActionController(AdvertiseManager advertiseManager, ViewManager viewManager) {
         this.advertiseManager = advertiseManager;
         this.viewManager = viewManager;
     }
 
-
     public void start(Stage primaryStage) {
         viewManager.setPrimaryStage(primaryStage);
-        viewManager.setController(this);
+        viewManager.setHandler(this);
         viewManager.showStartUpView();
     }
 
     //---------------------------- Ads Handler -------------------------
 
     public void handleLoad() {
-        advertiseManager.loadAdvertises(advertiseService.loadAdvertises());
+        advertiseManager.getAdvertiseList().clear();
+        advertiseManager.load(advertiseService.loadAdvertises());
     }
 
     public void handleAdd(AdvertiseAdapter adapter) {
-        advertiseManager.addAdvertise(adapter);
+        advertiseManager.add(adapter);
         advertiseService.addAdvertise(adapter.getModel());
     }
 
@@ -52,6 +51,7 @@ public class MainController {
     }
 
     public void handleRemove(AdvertiseAdapter adapter) {
+        advertiseManager.remove(adapter);
         advertiseService.deleteAdvertise(adapter.getModel());
     }
 
@@ -69,6 +69,7 @@ public class MainController {
     public void handleRemove(Job job) {
         jobService.deleteJob(job);
     }
+
 
     public List<Station> loadStationList() {
         return stationService.loadStations();
@@ -91,6 +92,10 @@ public class MainController {
 
     public AdvertiseManager getAdvertiseManager() {
         return advertiseManager;
+    }
+
+    public ViewManager getViewManager() {
+        return viewManager;
     }
 
 

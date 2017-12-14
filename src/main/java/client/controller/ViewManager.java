@@ -1,13 +1,7 @@
 package client.controller;
 
-import client.ui.model.AdvertiseEditorModel;
-import client.ui.model.AdvertiseReviewModel;
-import client.ui.model.JobEditorModel;
-import client.ui.model.JobReviewModel;
-import client.ui.view.AdvertiseEditorView;
-import client.ui.view.AdvertiseReviewView;
-import client.ui.view.JobEditorView;
-import client.ui.view.JobReviewView;
+import client.ui.model.*;
+import client.ui.view.*;
 import common.model.Job;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +17,7 @@ import java.io.IOException;
 public class ViewManager {
 
     private Stage primaryStage;
-    private MainController controller;
+    private ActionController handler;
 
     // Client Main
 
@@ -42,7 +36,6 @@ public class ViewManager {
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
             primaryStage.setTitle("Startup");
-            primaryStage.setOnHidden(e -> Platform.exit());
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,20 +46,22 @@ public class ViewManager {
 
     public void showAdvertiseReviewer() {
         try {
+            primaryStage.hide();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AdvertiseMaster.fxml"));
             Parent root = loader.load();
 
             // setup Advertise Master model and UI
-            AdvertiseMasterModel model = new AdvertiseMasterModel(this);
-            AdvertiseMasterView advertiseReviewView = loader.getController();
+            AdsMasterModel model = new AdsMasterModel(handler);
+            AdsMasterView advertiseReviewView = loader.getController();
             advertiseReviewView.setViewModel(model);
 
             // setup the primary stage
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-            primaryStage.setResizable(false);
+            //primaryStage.setResizable(false);
             primaryStage.setTitle("Advertise Master");
             primaryStage.setOnHidden(e -> Platform.exit());
+            primaryStage.centerOnScreen();
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -79,10 +74,9 @@ public class ViewManager {
             Parent root = adsViewerUILoader.load();
 
             // setup Advertise Editor model and UI
-            AdvertiseEditorModel model = new AdvertiseEditorModel(adapter);
-            AdvertiseEditorView advertiseEditorView = adsViewerUILoader.getController();
-            advertiseEditorView.setModel(model);
-            advertiseEditorView.setupUI();
+            AdsEditorModel model = new AdsEditorModel(adapter);
+            AdsEditorView adsEditorView = adsViewerUILoader.getController();
+            adsEditorView.setViewModel(model);
 
             // setup the stage
             Stage stage = new Stage();
@@ -158,10 +152,10 @@ public class ViewManager {
             Parent root = jobMasterReviewUILoader.load();
 
             // setup Job Editor model and UI
-            JobMasterReviewModel model = new JobMasterReviewModel(this);
-            JobMasterReviewView jobMasterReviewView = jobMasterReviewUILoader.getController();
-            jobMasterReviewView.setModel(model);
-            jobMasterReviewView.setupUI();
+            JobMasterModel model = new JobMasterModel(this);
+            JobMasterView jobMasterView = jobMasterReviewUILoader.getController();
+            jobMasterView.setModel(model);
+            jobMasterView.setupUI();
 
             // setup the stage
             Stage stage = new Stage();
@@ -181,11 +175,11 @@ public class ViewManager {
         this.primaryStage = primaryStage;
     }
 
-    public void setController(MainController controller) {
-        this.controller = controller;
+    public ActionController getHandler() {
+        return handler;
     }
 
-    public MainController getController() {
-        return controller;
+    public void setHandler(ActionController handler) {
+        this.handler = handler;
     }
 }

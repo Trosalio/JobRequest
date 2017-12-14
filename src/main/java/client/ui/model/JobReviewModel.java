@@ -35,7 +35,7 @@ public class JobReviewModel {
         if (viewManager.showJobEditor(job)) {
             job.setStatus("พร้อมใช้งาน");
             advertise.setJob(job);
-            viewManager.getController().handleAdd(job);
+            viewManager.getHandler().handleAdd(job);
             state = true;
         } else {
             state = false;
@@ -46,7 +46,7 @@ public class JobReviewModel {
         if (viewManager.showJobEditor(job)) {
             job.setStatus("พร้อมใช้งาน");
             advertise.setJob(job);
-            viewManager.getController().handleEdit(job);
+            viewManager.getHandler().handleEdit(job);
             state = true;
         } else {
             state = false;
@@ -54,7 +54,7 @@ public class JobReviewModel {
     }
 
     public void discardForm() {
-        viewManager.getController().handleRemove(job);
+        viewManager.getHandler().handleRemove(job);
         job.setDefaultValue();
         advertise.setJob(null);
         state = true;
@@ -63,7 +63,7 @@ public class JobReviewModel {
     public void send(){
         job.setStatus("กำลังส่งคำขอ");
         advertise.setJob(job);
-        viewManager.getController().handleEdit(job);
+        viewManager.getHandler().handleEdit(job);
         state = true;
     }
 

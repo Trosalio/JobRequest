@@ -6,9 +6,10 @@
 <?import javafx.scene.text.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity"
             minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0"
-            xmlns="http://javafx.com/javafx/8.0.121" fx:controller="client.ui.view.AdvertiseMasterView">
+            xmlns="http://javafx.com/javafx/8.0.121" fx:controller="client.ui.view.AdsMasterView">
     <center>
-        <TableView fx:id="adsTable" onMouseClicked="#onMouseClicked" prefHeight="467.0" prefWidth="622.0">
+        <TableView fx:id="adsTable" minWidth="625.0" onMouseClicked="#onMouseClicked" prefHeight="485.0"
+                   prefWidth="625.0">
             <columns>
                 <TableColumn fx:id="issueDateCol" editable="false" maxWidth="1.7976931348623157E308" prefWidth="123.0"
                              text="Issue Date"/>
@@ -38,7 +39,7 @@
                 </HBox.margin>
             </Label>
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS"/>
-            <Button fx:id="addButton" mnemonicParsing="false" onAction="#onAdd" prefHeight="34.0" prefWidth="124.0"
+            <Button mnemonicParsing="false" onAction="#onAdd" prefHeight="34.0" prefWidth="124.0"
                     style="-fx-background-color: #f14949;" text="ADD NEW ADS" textFill="WHITE">
                 <font>
                     <Font name="System Bold" size="14.0"/>
@@ -47,7 +48,8 @@
         </HBox>
     </top>
     <right>
-        <VBox fx:id="detailPane" prefHeight="535.0" prefWidth="375.0" spacing="10.0" BorderPane.alignment="CENTER">
+        <VBox fx:id="detailPane" minWidth="375.0" prefHeight="485.0" prefWidth="375.0" spacing="10.0"
+              BorderPane.alignment="CENTER">
             <padding>
                 <Insets left="30.0" right="30.0" top="20.0"/>
             </padding>
@@ -68,8 +70,8 @@
                     </font>
                 </Label>
                 <HBox alignment="CENTER_RIGHT" spacing="10.0" GridPane.columnIndex="1">
-                    <Button fx:id="editButton" mnemonicParsing="false" onAction="#onEdit" prefHeight="30.0"
-                            prefWidth="75.0" style="-fx-background-color: #33c1ff;" text="Edit" textFill="WHITE">
+                    <Button mnemonicParsing="false" onAction="#onEdit" prefHeight="30.0" prefWidth="75.0"
+                            style="-fx-background-color: #33c1ff;" text="Edit" textFill="WHITE">
                         <font>
                             <Font name="System Bold" size="16.0"/>
                         </font>
@@ -110,7 +112,7 @@
                         <Font size="14.0"/>
                     </font>
                 </Label>
-                <Label fx:id="JobIdLabel" prefWidth="195.0" text="Not yet request" textFill="#505050" wrapText="true">
+                <Label fx:id="jobIdLabel" prefWidth="195.0" text="Not yet request" textFill="#505050" wrapText="true">
                     <font>
                         <Font size="14.0"/>
                     </font>
@@ -123,7 +125,7 @@
                         <Font size="14.0"/>
                     </font>
                 </Label>
-                <Label fx:id="JobStatusLabel" prefWidth="195.0" text="Not yet request" textFill="#505050"
+                <Label fx:id="jobStatusLabel" prefWidth="195.0" text="Not yet request" textFill="#505050"
                        wrapText="true">
                     <font>
                         <Font size="14.0"/>
