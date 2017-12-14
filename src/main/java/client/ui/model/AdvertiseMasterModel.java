@@ -1,17 +1,19 @@
 package client.ui.model;
 
 import client.controller.AdvertiseAdapter;
-import client.controller.AdvertiseManager;
 import client.controller.ViewManager;
 import common.model.Advertise;
 import common.utility.AlertBoxSingleton;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
 
-public class AdvertiseReviewModel {
+public class AdvertiseMasterModel {
 
     private final ViewManager viewManager;
-    private boolean state = false;
+    private final ObjectProperty<AdvertiseAdapter> currentAds = new SimpleObjectProperty<>(null);
 
-    public AdvertiseReviewModel(ViewManager viewManager) {
+    public AdvertiseMasterModel(ViewManager viewManager) {
         this.viewManager = viewManager;
     }
 
@@ -20,27 +22,23 @@ public class AdvertiseReviewModel {
         if (viewManager.showAdvertiseEditor(adapter)) {
             viewManager.getController().getAdvertiseManager().addAdvertise(adapter);
             viewManager.getController().handleAdd(adapter);
-            state = true;
-        } else {
-            state = false;
         }
     }
 
     public void deleteAdvertise(int removedIndex) {
-        if (AlertBoxSingleton.getInstance().popAlertBox("Confirmation", "Deleting...", "คุณต้องการจะลบโฆษณานี้?")) {
+        if (AlertBoxSingleton.getInstance().popAlertBox(
+                "Confirmation",
+                "Deleting...",
+                "Delete this ads?")) {
             AdvertiseAdapter removedAdapter = viewManager.getController().getAdvertiseManager().deleteAdvertise(removedIndex);
             viewManager.getController().handleRemove(removedAdapter);
-            state = true;
-        } else {
-            state = false;
         }
     }
 
     public void editAdvertise() {
-        AdvertiseAdapter adapter = viewManager.getController().getAdvertiseManager().getCurrentAdapter();
+        AdvertiseAdapter adapter = currentAds.get();
         if (adapter != null) {
             if (viewManager.showAdvertiseEditor(adapter)) {
-                viewManager.getController().getAdvertiseManager().editAds(adapter);
                 viewManager.getController().handleEdit(adapter);
             }
         }
@@ -50,15 +48,20 @@ public class AdvertiseReviewModel {
         viewManager.showJobReviewer(adapter);
     }
 
-    public AdvertiseManager getAdManager() {
-        return viewManager.getController().getAdvertiseManager();
+    public ObservableList<AdvertiseAdapter> getAdvertiseList() {
+        return viewManager.getController().getAdvertiseManager().getAdvertiseList();
     }
 
-    public boolean isStateChanged() {
-        if (state) {
-            state = false;
-            return true;
-        }
-        return false;
+    public AdvertiseAdapter getCurrentAdapter() {
+        return currentAds.get();
     }
+
+    public void setCurrentAdapter(AdvertiseAdapter currentAds) {
+        this.currentAds.set(currentAds);
+    }
+
+    public ObjectProperty<AdvertiseAdapter> currentAdapterProperty() {
+        return currentAds;
+    }
+
 }

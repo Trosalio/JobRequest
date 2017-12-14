@@ -25,27 +25,33 @@ public class MainController {
         this.viewManager = viewManager;
     }
 
-    public void handleLoad() {
-        advertiseManager.loadAdvertises(advertiseService.loadAdvertises());
-    }
-
     public void start(Stage primaryStage) {
         viewManager.setPrimaryStage(primaryStage);
         viewManager.setController(this);
         viewManager.showAdvertiseReviewer();
     }
 
-    public void handleAdd(AdvertiseAdapter adepter) {
-        advertiseService.addAdvertise(adepter.getAdaptee());
+    //---------------------------- Ads Handler -------------------------
+
+    public void handleLoad() {
+        advertiseManager.loadAdvertises(advertiseService.loadAdvertises());
     }
 
-    public void handleEdit(AdvertiseAdapter adepter) {
-        advertiseService.updateAdvertise(adepter.getAdaptee());
+    public void handleAdd(AdvertiseAdapter adapter) {
+        advertiseManager.addAdvertise(adapter);
+        advertiseService.addAdvertise(adapter.getModel());
     }
 
-    public void handleRemove(AdvertiseAdapter adepter) {
-        advertiseService.deleteAdvertise(adepter.getAdaptee());
+    public void handleEdit(AdvertiseAdapter adapter) {
+        advertiseService.updateAdvertise(adapter.getModel());
     }
+
+    public void handleRemove(AdvertiseAdapter adapter) {
+        advertiseService.deleteAdvertise(adapter.getModel());
+    }
+
+
+    //---------------------------- JOB Handler -------------------------
 
     public void handleAdd(Job job) {
         jobService.addJob(job);
@@ -59,10 +65,6 @@ public class MainController {
         jobService.deleteJob(job);
     }
 
-    public void loadStationsInJob(Job job) {
-        stationService.loadStationsInJob(job);
-    }
-
     public List<Station> getStationList() {
         return stationService.loadStations();
     }
@@ -71,6 +73,8 @@ public class MainController {
         return advertiseManager;
     }
 
+
+    //---------------------------- Service Wired -------------------------
     @Autowired
     public void setAdvertiseService(AdvertiseService advertiseService) {
         this.advertiseService = advertiseService;

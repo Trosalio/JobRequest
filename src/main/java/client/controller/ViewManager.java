@@ -1,11 +1,11 @@
 package client.controller;
 
 import client.ui.model.AdvertiseEditorModel;
-import client.ui.model.AdvertiseReviewModel;
+import client.ui.model.AdvertiseMasterModel;
 import client.ui.model.JobEditorModel;
 import client.ui.model.JobReviewModel;
 import client.ui.view.AdvertiseEditorView;
-import client.ui.view.AdvertiseReviewView;
+import client.ui.view.AdvertiseMasterView;
 import client.ui.view.JobEditorView;
 import client.ui.view.JobReviewView;
 import common.model.Job;
@@ -27,20 +27,19 @@ public class ViewManager {
 
     public void showAdvertiseReviewer() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AdvertiseEditorUI.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AdvertiseMaster.fxml"));
             Parent root = loader.load();
 
             // setup Advertise Master model and UI
-            AdvertiseReviewModel model = new AdvertiseReviewModel(this);
-            AdvertiseReviewView advertiseReviewView = loader.getController();
-            advertiseReviewView.setModel(model);
-            advertiseReviewView.setupUI();
+            AdvertiseMasterModel model = new AdvertiseMasterModel(this);
+            AdvertiseMasterView advertiseReviewView = loader.getController();
+            advertiseReviewView.setViewModel(model);
 
             // setup the primary stage
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
-            primaryStage.setTitle("Advertise Reviewer");
+            primaryStage.setTitle("Advertise Master");
             primaryStage.setOnHidden(e -> Platform.exit());
             primaryStage.show();
         } catch (IOException e) {
@@ -54,8 +53,7 @@ public class ViewManager {
             Parent root = adsViewerUILoader.load();
 
             // setup Advertise Editor model and UI
-            AdvertiseEditorModel model = new AdvertiseEditorModel(this);
-            model.setAdapter(adapter);
+            AdvertiseEditorModel model = new AdvertiseEditorModel(adapter);
             AdvertiseEditorView advertiseEditorView = adsViewerUILoader.getController();
             advertiseEditorView.setModel(model);
             advertiseEditorView.setupUI();
@@ -68,8 +66,7 @@ public class ViewManager {
             stage.setTitle("Advertise Editor");
             stage.setResizable(false);
             stage.showAndWait();
-
-            return model.isSaved();
+            return model.isConfirm();
         } catch (IOException e) {
             e.printStackTrace();
             return false;

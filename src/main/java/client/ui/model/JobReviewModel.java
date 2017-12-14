@@ -19,7 +19,7 @@ public class JobReviewModel {
 
     public void setAdapter(AdvertiseAdapter adapter) {
         this.adapter = adapter;
-        this.advertise = this.adapter.getAdaptee();
+        this.advertise = this.adapter.getModel();
         this.job = (advertise.getJob() == null ? new Job() : advertise.getJob());
     }
 

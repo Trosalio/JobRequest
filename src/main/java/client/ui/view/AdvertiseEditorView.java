@@ -36,10 +36,7 @@ public class AdvertiseEditorView {
     @FXML
     private void onSave() {
         if (!(isTxtFEmpty(subjectTxtF) || isTxtFEmpty(refNoTxtF) || cDatePicker.getValue() == null)) {
-            String subject = subjectTxtF.getText();
-            String refNumber = refNoTxtF.getText();
-            LocalDate createDate = cDatePicker.getValue();
-            model.saveAdvertise(subject, refNumber, createDate);
+            model.saveAdvertise();
             AlertBoxSingleton.getInstance().popAlertBox("Information", "Success", "โฆษณาถูกบันทึกแล้ว!");
             closeWindow();
         } else {
@@ -71,9 +68,9 @@ public class AdvertiseEditorView {
     }
 
     public void setupUI() {
-        cDatePicker.setValue(model.getAdapter().getAdaptee().getCreateDate());
-        subjectTxtF.setText(model.getAdapter().getAdaptee().getAdsName());
-        refNoTxtF.setText(model.getAdapter().getAdaptee().getRefNumber());
+        cDatePicker.setValue(model.getAdapter().getModel().getCreateDate());
+        subjectTxtF.setText(model.getAdapter().getModel().getAdsName());
+        refNoTxtF.setText(model.getAdapter().getModel().getRefNumber());
     }
 }
 
