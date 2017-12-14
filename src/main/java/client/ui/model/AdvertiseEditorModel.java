@@ -17,11 +17,7 @@ public class AdvertiseEditorModel {
     }
 
     public boolean isSaved() {
-        if(saveBool){
-            saveBool = false;
-            return true;
-        }
-        return false;
+        return saveBool;
     }
 
     public void saveAdvertise(String subject, String refNumber, LocalDate createDate) {

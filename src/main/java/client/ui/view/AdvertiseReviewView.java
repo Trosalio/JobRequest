@@ -29,7 +29,9 @@ public class AdvertiseReviewView {
     @FXML
     private void onAdd() {
         model.addAdvertise();
-        changeButtonsState();
+        if (model.isStateChanged()) {
+            changeButtonsState();
+        }
     }
 
     @FXML
@@ -37,7 +39,9 @@ public class AdvertiseReviewView {
         if (AlertBoxSingleton.getInstance().popAlertBox("Confirmation", "Deleting...", "คุณต้องการจะลบแบบโฆษณานี้หรือไม่?")) {
             int removeIndex = adsTable.getSelectionModel().getSelectedIndex();
             model.deleteAdvertise(removeIndex);
-            changeButtonsState();
+            if (model.isStateChanged()) {
+                changeButtonsState();
+            }
         }
     }
 
@@ -87,19 +91,17 @@ public class AdvertiseReviewView {
     }
 
     private void changeButtonsState() {
-        if (model.isStateChanged()) {
-            if (model.getAdManager().getAdvertiseList().isEmpty()) {
-                deleteButton.setDisable(true);
-                editButton.setDisable(true);
-                editButton.setVisible(false);
-                deleteButton.setVisible(false);
-                adsTable.getSelectionModel().clearSelection();
-            } else {
-                deleteButton.setDisable(false);
-                editButton.setDisable(false);
-                editButton.setVisible(true);
-                deleteButton.setVisible(true);
-            }
+        if (model.getAdManager().getAdvertiseList().isEmpty()) {
+            deleteButton.setDisable(true);
+            editButton.setDisable(true);
+            editButton.setVisible(false);
+            deleteButton.setVisible(false);
+            adsTable.getSelectionModel().clearSelection();
+        } else {
+            deleteButton.setDisable(false);
+            editButton.setDisable(false);
+            editButton.setVisible(true);
+            deleteButton.setVisible(true);
         }
     }
 
