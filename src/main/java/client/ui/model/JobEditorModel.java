@@ -11,6 +11,7 @@ public class JobEditorModel {
 
     private final ViewManager viewManager;
     private boolean saveBool;
+    private List<String> typeOfMedia;
 
     private Job job;
 
@@ -29,11 +30,7 @@ public class JobEditorModel {
     }
 
     public boolean isSaved() {
-        if (saveBool) {
-            saveBool = false;
-            return true;
-        }
-        return false;
+        return saveBool;
     }
 
     public Job getJob() {
@@ -44,11 +41,18 @@ public class JobEditorModel {
         this.job = job;
     }
 
-    public List<Station> loadStationList() {
-        return viewManager.getController().getStationList();
+    public List<Station> getStationList() {
+        return viewManager.getController().loadStationList();
     }
 
     public List<Station>  getStationsInJob() {
         return job.getStations();
+    }
+
+    public List<String> getCandidateTypeOfMedia() {
+        if (typeOfMedia == null){
+            typeOfMedia = viewManager.getController().loadCandidateTypeOfMedia();
+        }
+        return typeOfMedia;
     }
 }

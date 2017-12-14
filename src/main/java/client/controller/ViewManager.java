@@ -1,11 +1,11 @@
 package client.controller;
 
 import client.ui.model.AdvertiseEditorModel;
-import client.ui.model.AdvertiseMasterModel;
+import client.ui.model.AdvertiseReviewModel;
 import client.ui.model.JobEditorModel;
 import client.ui.model.JobReviewModel;
 import client.ui.view.AdvertiseEditorView;
-import client.ui.view.AdvertiseMasterView;
+import client.ui.view.AdvertiseReviewView;
 import client.ui.view.JobEditorView;
 import client.ui.view.JobReviewView;
 import common.model.Job;
@@ -24,6 +24,32 @@ public class ViewManager {
 
     private Stage primaryStage;
     private MainController controller;
+
+    // Client Main
+
+    public void showStartUpView() {
+        try {
+            FXMLLoader startupUILoader = new FXMLLoader(getClass().getResource("/fxml/StartupUI.fxml"));
+            Parent root = startupUILoader.load();
+
+            // setup Startup model and UI
+            StartupModel model = new StartupModel(this);
+            StartupView startupView = startupUILoader.getController();
+            startupView.setModel(model);
+
+            // setup the primary stage
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setResizable(false);
+            primaryStage.setTitle("Startup");
+            primaryStage.setOnHidden(e -> Platform.exit());
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Client - MO
 
     public void showAdvertiseReviewer() {
         try {
@@ -75,13 +101,13 @@ public class ViewManager {
 
     public void showJobReviewer(AdvertiseAdapter adapter) {
         try {
-            FXMLLoader JobReviewUILoader = new FXMLLoader(getClass().getResource("/fxml/JobReviewUI.fxml"));
-            Parent root = JobReviewUILoader.load();
+            FXMLLoader jobReviewUILoader = new FXMLLoader(getClass().getResource("/fxml/JobReviewUI.fxml"));
+            Parent root = jobReviewUILoader.load();
 
             // setup Job Reviewer model and UI
             JobReviewModel model = new JobReviewModel(this);
             model.setAdapter(adapter);
-            JobReviewView jobReviewView = JobReviewUILoader.getController();
+            JobReviewView jobReviewView = jobReviewUILoader.getController();
             jobReviewView.setModel(model);
             jobReviewView.setupUI();
 
@@ -99,13 +125,13 @@ public class ViewManager {
 
     public boolean showJobEditor(Job job) {
         try {
-            FXMLLoader JobUILoader = new FXMLLoader(getClass().getResource("/fxml/JobEditorUI.fxml"));
-            Parent root = JobUILoader.load();
+            FXMLLoader jobEditUILoader = new FXMLLoader(getClass().getResource("/fxml/JobEditorUI.fxml"));
+            Parent root = jobEditUILoader.load();
 
             // setup Job Editor model and UI
             JobEditorModel model = new JobEditorModel(this);
             model.setJob(job);
-            JobEditorView jobEditorView = JobUILoader.getController();
+            JobEditorView jobEditorView = jobEditUILoader.getController();
             jobEditorView.setModel(model);
             jobEditorView.setupUI();
 
@@ -122,6 +148,32 @@ public class ViewManager {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    // Client - CMO
+    public void showJobMasterReviewer() {
+        try {
+            FXMLLoader jobMasterReviewUILoader = new FXMLLoader(getClass().getResource("/fxml/JobMasterReviewUI.fxml"));
+            Parent root = jobMasterReviewUILoader.load();
+
+            // setup Job Editor model and UI
+            JobMasterReviewModel model = new JobMasterReviewModel(this);
+            JobMasterReviewView jobMasterReviewView = jobMasterReviewUILoader.getController();
+            jobMasterReviewView.setModel(model);
+            jobMasterReviewView.setupUI();
+
+            // setup the stage
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Job Editor");
+            stage.setResizable(false);
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

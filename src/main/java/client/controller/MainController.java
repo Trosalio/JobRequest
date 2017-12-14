@@ -9,6 +9,10 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -25,10 +29,11 @@ public class MainController {
         this.viewManager = viewManager;
     }
 
+
     public void start(Stage primaryStage) {
         viewManager.setPrimaryStage(primaryStage);
         viewManager.setController(this);
-        viewManager.showAdvertiseReviewer();
+        viewManager.showStartUpView();
     }
 
     //---------------------------- Ads Handler -------------------------
@@ -65,8 +70,23 @@ public class MainController {
         jobService.deleteJob(job);
     }
 
-    public List<Station> getStationList() {
+    public List<Station> loadStationList() {
         return stationService.loadStations();
+    }
+
+    public List<String> loadCandidateTypeOfMedia() {
+        final String file_url = "type_of_media.txt";
+        List<String> typeOfMedia = new ArrayList<>();
+        try{
+            BufferedReader reader = new BufferedReader(new FileReader(file_url));
+            for(String media = reader.readLine(); media != null; media = reader.readLine()){
+                typeOfMedia.add(media);
+            }
+        } catch (IOException e) {
+            System.err.println("File in "+ file_url + " not found");
+            e.printStackTrace();
+        }
+        return typeOfMedia;
     }
 
     public AdvertiseManager getAdvertiseManager() {
