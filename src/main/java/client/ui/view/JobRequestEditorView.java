@@ -1,8 +1,8 @@
 package client.ui.view;
 
 import client.ui.model.JobRequestEditorModel;
+import client.utility.AlertBoxSingleton;
 import common.model.Station;
-import common.utility.AlertBoxSingleton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

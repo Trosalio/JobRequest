@@ -10,10 +10,6 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -38,41 +34,41 @@ public class ActionController {
     public void handleLoadAds() {
         List<Advertise> source = advertiseService.loadAdvertises();
         for (Advertise advertise : source) {
-            if (advertise.getJobID() >= 0)
-                advertise.setJob(loadJob(advertise.getJobID()));
+            Job job = jobService.loadJob(advertise.getRefNumber());
+            advertise.setJob(job);
+            if (job != null) {
+                job.getStations().addAll(stationService.loadStationsInJob(job.getId()));
+            }
         }
         advertiseManager.load(source);
     }
 
-
-    public void handleAdd(AdvertiseAdapter adepter) {
-        advertiseManager.add(adepter);
-        advertiseService.addAdvertise(adepter.getModel());
+    public void handleAdd(AdvertiseAdapter adapter) {
+        advertiseManager.add(adapter);
+        advertiseService.addAdvertise(adapter.getModel());
     }
 
     public void handleEdit(AdvertiseAdapter adapter) {
-        Advertise advertise = adapter.getModel();
-        advertiseService.updateAdvertise(advertise);
-        if (advertise.getJob() != null) {
-            handleEdit(advertise.getJob());
-        }
+        advertiseService.updateAdvertise(adapter.getModel());
     }
 
     public void handleRemove(AdvertiseAdapter adapter) {
         advertiseManager.remove(adapter);
-        Advertise removedAdvertise = adapter.getModel();
-        advertiseService.deleteAdvertise(removedAdvertise);
-        // In case that CASCADE ON DELETE did not work
-//        if(removedAdvertise.getJob() != null){
-//            handleRemove(removedAdvertise.getJob());
-//        }
+        advertiseService.deleteAdvertise(adapter.getModel());
     }
 
 
     //---------------------------- JOB Handler -------------------------
 
+    public List<Job> handleLoadJobs() {
+        List<Job> source = jobService.loadJobs();
+        source.forEach(job -> job.getStations().addAll(stationService.loadStationsInJob(job.getId())));
+        return source;
+    }
+
     public void handleAdd(Job job) {
-        jobService.addJob(job);
+        int id = jobService.addJob(job);
+        job.setId(id);
         stationService.addStationInJob(job);
     }
 
@@ -83,40 +79,10 @@ public class ActionController {
 
     public void handleRemove(Job job) {
         jobService.deleteJob(job);
-        // In case that CASCADE ON DELETE did not work
-//        stationService.deleteStationInJob(job);
     }
 
     public List<Station> loadStationList() {
         return stationService.loadStations();
-    }
-
-    public List<String> loadCandidateTypeOfMedia() {
-        final String file_url = "type_of_media.txt";
-        List<String> typeOfMedia = new ArrayList<>();
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(file_url));
-            for (String media = reader.readLine(); media != null; media = reader.readLine()) {
-                typeOfMedia.add(media);
-            }
-        } catch (IOException e) {
-            System.err.println("File in " + file_url + " not found");
-            e.printStackTrace();
-        }
-        return typeOfMedia;
-    }
-
-    // Client - CMO
-    public List<Job> handleLoadJobs() {
-        List<Job> source = jobService.loadJobs();
-        source.forEach(job -> stationService.loadStationsInJob(job));
-        return source;
-    }
-
-    private Job loadJob(int jobID) {
-        Job job = jobService.loadJob(jobID);
-        stationService.loadStationsInJob(job);
-        return job;
     }
 
     //---------------------------- Accessor Wired -------------------------

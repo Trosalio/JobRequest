@@ -12,21 +12,11 @@ public interface StationService {
     // Common
     List<Station> loadStations();
 
-    void loadStationsInJob(Job job);
+    List<Station> loadStationsInJob(int jobID);
 
     // Client - Requester
     void addStationInJob(Job job);
 
     void updateStationInJob(Job job);
-
-    void deleteStationInJob(Job job);
-
-    // Client - Manager
-
-    void addStation(Station station);
-
-    void updateStation(Station station);
-
-    void deleteStation(Station station);
 
 }

@@ -27,13 +27,13 @@ public class AdsMasterModel {
     }
 
     public void deleteAdvertise() {
-        AdvertiseAdapter current = currentAds.get();
+        AdvertiseAdapter current = getCurrentAdapter();
         if (current != null) handler.handleRemove(current);
 
     }
 
     public void editAdvertise() {
-        AdvertiseAdapter current = currentAds.get();
+        AdvertiseAdapter current = getCurrentAdapter();
         if (current != null) {
             AdvertiseAdapter temp = new AdvertiseAdapter(current.getModel());
             if (handler.getViewManager().showAdvertiseEditor(temp)) {
@@ -44,8 +44,8 @@ public class AdsMasterModel {
         }
     }
 
-    public void openJobReview(AdvertiseAdapter adapter) {
-        handler.getViewManager().showJobReviewer(adapter);
+    public void openJobReview() {
+        handler.getViewManager().showJobReviewer(getCurrentAdapter());
     }
 
     public ObservableList<AdvertiseAdapter> getAdvertiseList() {

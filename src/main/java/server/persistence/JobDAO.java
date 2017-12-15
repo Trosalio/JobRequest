@@ -63,7 +63,8 @@ public class JobDAO implements DAO<Job> {
     public void insert(Job job) {
         adjustPrimaryKey();
         job.setId(primaryKey.incrementAndGet());
-        String insertSQL = "INSERT INTO Job (detailName, requester, typeOfMedia, quantity, fromDate, toDate, status) VALUES(?,?,?,?,?,?,?)";
+        String insertSQL = "INSERT INTO Job (detailName, requester, typeOfMedia, quantity, fromDate, toDate, status, adsRefNumber) " +
+                "VALUES(?,?,?,?,?,?,?,?)";
         try (Connection con = dataSource.getConnection();
              PreparedStatement pStmt = con.prepareStatement(insertSQL)) {
             pStmt.setString(1, job.getJobDetail());
@@ -73,6 +74,7 @@ public class JobDAO implements DAO<Job> {
             pStmt.setString(5, dateTimeFormatter.format(job.getFromDate()));
             pStmt.setString(6, dateTimeFormatter.format(job.getToDate()));
             pStmt.setString(7, job.getStatus());
+            pStmt.setString(8, job.getRefNumber());
             pStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -109,27 +111,24 @@ public class JobDAO implements DAO<Job> {
     }
 
     // Client - Requester
-    public Job load(int jobID) {
-        Job job = new Job();
-        try(Connection con = dataSource.getConnection()) {
-            String loadSQL = String.format("SELECT FROM Job WHERE jobID = %d", jobID);
-            ResultSet resultSet = con.prepareStatement(loadSQL).executeQuery();
-            if(resultSet.next()){
-                String detailName = resultSet.getString("detailName");
-                String requester = resultSet.getString("requester");
-                String typeOfMedia = resultSet.getString("typeOfMedia");
-                int quantity = resultSet.getInt("quantity");
-                String fromDate = resultSet.getString("fromDate");
-                String toDate = resultSet.getString("toDate");
-                String status = resultSet.getString("status");
-                job.setId(jobID);
-                job.setJobDetail(detailName);
-                job.setRequester(requester);
-                job.setTypeOfMedia(typeOfMedia);
-                job.setQuantity(quantity);
-                job.setFromDate(LocalDate.parse(fromDate, new DateFormatter().getFormatter()));
-                job.setToDate(LocalDate.parse(toDate, new DateFormatter().getFormatter()));
-                job.setStatus(status);
+    public Job load(String refNo) {
+        Job job = null;
+        try (Connection con = dataSource.getConnection()) {
+            String loadSQL = "SELECT * FROM Job WHERE adsRefNumber = ?";
+            PreparedStatement statement = con.prepareStatement(loadSQL);
+            statement.setString(1, refNo);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                job = new Job();
+                job.setId(resultSet.getInt("ID"));
+                job.setJobDetail(resultSet.getString("detailName"));
+                job.setRequester(resultSet.getString("requester"));
+                job.setTypeOfMedia(resultSet.getString("typeOfMedia"));
+                job.setQuantity(resultSet.getInt("quantity"));
+                job.setFromDate(LocalDate.parse(resultSet.getString("fromDate"), dateTimeFormatter));
+                job.setToDate(LocalDate.parse(resultSet.getString("toDate"), dateTimeFormatter));
+                job.setStatus(resultSet.getString("status"));
+                job.setRefNumber(resultSet.getString("adsRefNumber"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -142,7 +141,7 @@ public class JobDAO implements DAO<Job> {
     public List<Job> loadAll() {
         List<Job> jobs = new ArrayList<>();
         try (Connection con = dataSource.getConnection()) {
-            String loadSQL = "SELECT * FROM Job";
+            String loadSQL = "SELECT * FROM Job WHERE NOT status = 'READY'";
             ResultSet resultSet = con.prepareStatement(loadSQL).executeQuery();
             pullDataToJobs(resultSet, jobs);
             adjustPrimaryKey();
@@ -162,24 +161,26 @@ public class JobDAO implements DAO<Job> {
             String fromDate = resultSet.getString("fromDate");
             String toDate = resultSet.getString("toDate");
             String status = resultSet.getString("status");
+            String refNo = resultSet.getString("adsRefNumber");
             Job job = new Job();
             job.setId(jobID);
             job.setJobDetail(detailName);
             job.setRequester(requester);
             job.setTypeOfMedia(typeOfMedia);
             job.setQuantity(quantity);
-            job.setFromDate(LocalDate.parse(fromDate, new DateFormatter().getFormatter()));
-            job.setToDate(LocalDate.parse(toDate, new DateFormatter().getFormatter()));
+            job.setFromDate(LocalDate.parse(fromDate, dateTimeFormatter));
+            job.setToDate(LocalDate.parse(toDate, dateTimeFormatter));
             job.setStatus(status);
+            job.setRefNumber(refNo);
             jobs.add(job);
         }
     }
 
-    private void adjustPrimaryKey(){
-        try(Connection con = dataSource.getConnection()){
+    private void adjustPrimaryKey() {
+        try (Connection con = dataSource.getConnection()) {
             String pkSQL = "SELECT * FROM sqlite_sequence WHERE name = 'Job'";
             ResultSet resultSet = con.prepareStatement(pkSQL).executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 primaryKey.set(resultSet.getInt("seq"));
             }
         } catch (SQLException e) {

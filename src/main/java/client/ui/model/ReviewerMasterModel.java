@@ -23,17 +23,13 @@ public class ReviewerMasterModel {
         refreshList();
     }
 
-    public void acceptJob() {
-        currentJobs.get().statusProperty().set("ACCEPT");
-        currentJobs.get().save();
+    public void reviewAndSend(String status) {
+        JobAdapter current = getCurrentAdapter();
+        current.statusProperty().set(status);
+        current.save();
         handler.handleEdit(currentJobs.get().getModel());
     }
 
-    public void rejectJob() {
-        currentJobs.get().statusProperty().set("REJECT");
-        currentJobs.get().save();
-        handler.handleEdit(currentJobs.get().getModel());
-    }
 
     public void refreshList() {
         jobList.clear();

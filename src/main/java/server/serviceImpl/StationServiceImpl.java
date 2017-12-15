@@ -27,9 +27,9 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public void loadStationsInJob(Job job) {
+    public List<Station> loadStationsInJob(int jobID) {
         System.out.println("loading station list in a job");
-        dao.loadStationsInJob(job);
+        return dao.loadStationsInJob(jobID);
     }
 
     // Client - Requester
@@ -45,28 +45,4 @@ public class StationServiceImpl implements StationService {
         dao.update(job);
     }
 
-    @Override
-    public void deleteStationInJob(Job job) {
-        System.out.println("deleting station list in a job");
-        dao.delete(job);
-    }
-
-    // Client - Manager
-    @Override
-    public void addStation(Station station) {
-        System.out.println("Adding a station");
-        dao.insert(station);
-    }
-
-    @Override
-    public void updateStation(Station station) {
-        System.out.println("updating a station");
-        dao.update(station);
-    }
-
-    @Override
-    public void deleteStation(Station station) {
-        System.out.println("deleting a station");
-        dao.delete(station);
-    }
 }

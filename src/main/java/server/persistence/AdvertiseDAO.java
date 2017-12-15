@@ -79,24 +79,21 @@ public class AdvertiseDAO implements DAO<Advertise> {
             String refNumber = resultSet.getString("refNumber");
             String name = resultSet.getString("name");
             String date = resultSet.getString("createDate");
-            int jobID = resultSet.getInt("jobID");
             advertise.setRefNumber(refNumber);
             advertise.setAdsName(name);
-            advertise.setJobID(jobID);
-            advertise.setCreateDate(LocalDate.parse(date, new DateFormatter().getFormatter()));
+            advertise.setCreateDate(LocalDate.parse(date, dateTimeFormatter));
             advertises.add(advertise);
         }
     }
 
     @Override
     public void insert(Advertise advertise) {
-        String insertSQL = "INSERT INTO Advertise (refNumber, name, createDate, jobID) VALUES(?,?,?,?)";
+        String insertSQL = "INSERT INTO Advertise (refNumber, name, createDate) VALUES(?,?,?)";
         try (Connection con = dataSource.getConnection();
              PreparedStatement pStmt = con.prepareStatement(insertSQL)) {
             pStmt.setString(1, advertise.getRefNumber());
             pStmt.setString(2, advertise.getAdsName());
             pStmt.setString(3, dateTimeFormatter.format(advertise.getCreateDate()));
-            pStmt.setInt(4, advertise.getJobID());
             pStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -117,13 +114,12 @@ public class AdvertiseDAO implements DAO<Advertise> {
 
     @Override
     public void update(Advertise advertise) {
-        String updateSQL = "UPDATE Advertise SET name = ?, createDate = ?, jobID = ? WHERE refNumber = ?";
+        String updateSQL = "UPDATE Advertise SET name = ?, createDate = ? WHERE refNumber = ?";
         try (Connection con = dataSource.getConnection();
              PreparedStatement pStmt = con.prepareStatement(updateSQL)) {
             pStmt.setString(1, advertise.getAdsName());
             pStmt.setString(2, dateTimeFormatter.format(advertise.getCreateDate()));
-            pStmt.setInt(3, advertise.getJobID());
-            pStmt.setString(4, advertise.getRefNumber());
+            pStmt.setString(3, advertise.getRefNumber());
             pStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -75,33 +75,30 @@ public class StationDAO implements DAO<Station> {
         return stations;
     }
 
+    public List<Station> loadStationsInJob(int jobID) {
+        ArrayList<Station> stations = new ArrayList<>();
+        try (Connection con = dataSource.getConnection()) {
+            String loadStationsSQL = "SELECT code, name " +
+                    "FROM Station " +
+                    "INNER JOIN Stations_In_Job S ON Station.code = S.stationCode " +
+                    "INNER JOIN Job J ON S.jobID = J.ID " +
+                    "WHERE jobID = ?";
+            PreparedStatement statement = con.prepareStatement(loadStationsSQL);
+            statement.setInt(1, jobID);
+            ResultSet resultSet = statement.executeQuery();
+            pullDataToStations(resultSet, stations);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return stations;
+    }
+
     private void pullDataToStations(ResultSet resultSet, List<Station> stations) throws SQLException {
         while (resultSet.next()) {
             String code = resultSet.getString("code");
             String name = resultSet.getString("name");
             Station station = new Station(code, name);
             stations.add(station);
-        }
-    }
-
-    public void loadStationsInJob(Job job) {
-        List<Station> stations = job.getStations();
-        try (Connection con = dataSource.getConnection()) {
-            String loadStationsSQL = String.format("SELECT * FROM Stations_In_Job WHERE jobID = %d", job.getId());
-            ResultSet resultSet = con.prepareStatement(loadStationsSQL).executeQuery();
-            while (resultSet.next()) {
-                String code = resultSet.getString("stationCode");
-                String loadStationSQL = String.format("SELECT name FROM Station WHERE code = %s", code);
-                ResultSet rs = con.prepareStatement(loadStationSQL).executeQuery();
-                String name;
-                if (rs.next()) {
-                    name = rs.getString("name");
-                    Station station = new Station(code, name);
-                    stations.add(station);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 

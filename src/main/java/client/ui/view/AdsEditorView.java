@@ -2,7 +2,7 @@ package client.ui.view;
 
 import client.controller.AdvertiseAdapter;
 import client.ui.model.AdsEditorModel;
-import common.utility.AlertBoxSingleton;
+import client.utility.AlertBoxSingleton;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;

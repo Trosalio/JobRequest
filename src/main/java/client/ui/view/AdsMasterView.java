@@ -2,13 +2,10 @@ package client.ui.view;
 
 import client.controller.AdvertiseAdapter;
 import client.ui.model.AdsMasterModel;
+import client.utility.AlertBoxSingleton;
 import common.formatter.DateFormatter;
-import common.utility.AlertBoxSingleton;
 import javafx.fxml.FXML;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -24,6 +21,8 @@ public class AdsMasterView {
     private BorderPane window;
     @FXML
     private VBox detailPane;
+    @FXML
+    public Button jobButton, editButton;
     @FXML
     private Label refNoLabel, nameLabel, issueDateLabel, jobIdLabel, jobStatusLabel;
     @FXML
@@ -61,6 +60,7 @@ public class AdsMasterView {
                 "Are you sure you want to delete this?")) {
             viewModel.deleteAdvertise();
             deleteLink.setVisited(false);
+            deleteLink.setBorder(null);
         }
     }
 
@@ -71,15 +71,17 @@ public class AdsMasterView {
     }
 
     @FXML
+    public void onJob() {
+        viewModel.openJobReview();
+    }
+
+    @FXML
     private void onMouseClicked(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-            if (mouseEvent.getClickCount() == 2) {
-                if (adsTable.getSelectionModel().getSelectedItem() != null) {
-                    mouseEvent.consume();
-                    viewModel.openJobReview(adsTable.getSelectionModel().getSelectedItem());
-                } else {
-                    System.out.println("no item was found");
-                }
+        if (viewModel.getAdvertiseList().isEmpty()) return;
+        if (mouseEvent.getClickCount() == 2 && mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+            if (adsTable.getSelectionModel().getSelectedItem() != null) {
+                mouseEvent.consume();
+                onJob();
             }
         }
     }
@@ -125,6 +127,8 @@ public class AdsMasterView {
     }
 
     private void showDetail() {
+        deleteLink.setDisable(false);
+        editButton.setDisable(false);
         AdvertiseAdapter current = viewModel.getCurrentAdapter();
         if (current != null) {
             refNoLabel.setText(current.refNoProperty().get());
@@ -132,8 +136,17 @@ public class AdsMasterView {
             issueDateLabel.setText(current.createDateProperty().get().format(viewModel.getDateFormatter().getFormatter()));
             if (viewModel.getCurrentAdapter().jobProperty().get() != null) {
                 jobIdLabel.setText(String.valueOf(viewModel.getCurrentAdapter().jobProperty().get().getId()));
-                jobStatusLabel.setText(String.valueOf(viewModel.getCurrentAdapter().jobProperty().get().getStatus()));
+                String status = viewModel.getCurrentAdapter().jobProperty().get().getStatus();
+                jobStatusLabel.setText(status);
+                if (status.equals("PENDING") || status.equals("ACCEPT") || status.equals("REJECT")) {
+                    deleteLink.setDisable(true);
+                    editButton.setDisable(true);
+                }
+            } else {
+                jobIdLabel.setText("Not yet assigned");
+                jobStatusLabel.setText("Not yet assigned");
             }
         }
     }
+
 }

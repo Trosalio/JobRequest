@@ -8,7 +8,6 @@ import common.model.Job;
 public class JobReviewModel {
 
     private final ViewManager viewManager;
-    private AdvertiseAdapter adapter;
     private Advertise advertise;
     private Job job;
     private boolean state;
@@ -18,8 +17,7 @@ public class JobReviewModel {
     }
 
     public void setAdapter(AdvertiseAdapter adapter) {
-        this.adapter = adapter;
-        this.advertise = this.adapter.getModel();
+        this.advertise = adapter.getModel();
         this.job = (advertise.getJob() == null ? new Job() : advertise.getJob());
     }
 
@@ -35,6 +33,7 @@ public class JobReviewModel {
         if (viewManager.showJobEditor(job)) {
             job.setStatus("READY");
             advertise.setJob(job);
+            job.setRefNumber(advertise.getRefNumber());
             viewManager.getHandler().handleAdd(job);
             state = true;
         } else {
@@ -60,7 +59,7 @@ public class JobReviewModel {
         state = true;
     }
 
-    public void send(){
+    public void send() {
         job.setStatus("PENDING");
         advertise.setJob(job);
         viewManager.getHandler().handleEdit(job);

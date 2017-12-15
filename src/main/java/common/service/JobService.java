@@ -8,11 +8,11 @@ import java.util.List;
 @Service
 public interface JobService {
 
-    Job loadJob(int jobID);
+    Job loadJob(String refNo);
 
     List<Job> loadJobs();
 
-    void addJob(Job job);
+    int addJob(Job job);
 
     void updateJob(Job job);
 

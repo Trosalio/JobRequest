@@ -19,9 +19,9 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job loadJob(int jobID) {
+    public Job loadJob(String refNO) {
         System.out.println("loading a job");
-        return dao.load(jobID);
+        return dao.load(refNO);
     }
 
     @Override
@@ -31,9 +31,10 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void addJob(Job job) {
+    public int addJob(Job job) {
         System.out.println("inserting a job");
         dao.insert(job);
+        return job.getId();
     }
 
     @Override

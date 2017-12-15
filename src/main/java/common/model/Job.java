@@ -16,6 +16,7 @@ public class Job implements Serializable {
     private LocalDate fromDate;
     private LocalDate toDate;
     private String status;
+    private String refNumber;
 
     public Job() {
         setDefaultValue();
@@ -93,6 +94,14 @@ public class Job implements Serializable {
         this.status = status;
     }
 
+    public String getRefNumber() {
+        return refNumber;
+    }
+
+    public void setRefNumber(String refNumber) {
+        this.refNumber = refNumber;
+    }
+
     public String getListOfStations() {
         String stationList;
         if (!stations.isEmpty()) {
@@ -119,4 +128,6 @@ public class Job implements Serializable {
         return ((id == -1) && (JobDetail == null) && (requester == null) && (typeOfMedia == null) && (stations.isEmpty()) &&
                 (quantity == 0) && (fromDate == null) && (toDate == null) && (status == null));
     }
+
+
 }

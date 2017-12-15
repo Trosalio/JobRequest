@@ -4,7 +4,13 @@ import client.controller.ViewManager;
 import common.model.Job;
 import common.model.Station;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JobRequestEditorModel {
@@ -45,13 +51,27 @@ public class JobRequestEditorModel {
         return viewManager.getHandler().loadStationList();
     }
 
-    public List<Station>  getStationsInJob() {
+    public List<Station> getStationsInJob() {
         return job.getStations();
     }
 
     public List<String> getCandidateTypeOfMedia() {
-        if (typeOfMedia == null){
-            typeOfMedia = viewManager.getHandler().loadCandidateTypeOfMedia();
+        if (typeOfMedia == null) {
+            typeOfMedia = loadCandidateTypeOfMedia();
+        }
+        return typeOfMedia;
+    }
+
+    private List<String> loadCandidateTypeOfMedia() {
+        List<String> typeOfMedia = new ArrayList<>();
+        try {
+            File file = new File(getClass().getResource("/type_of_media.txt").toURI());
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            for (String media = reader.readLine(); media != null; media = reader.readLine()) {
+                typeOfMedia.add(media);
+            }
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
         }
         return typeOfMedia;
     }

@@ -1,8 +1,8 @@
 package client.ui.view;
 
 import client.ui.model.JobReviewModel;
+import client.utility.AlertBoxSingleton;
 import common.formatter.DateFormatter;
-import common.utility.AlertBoxSingleton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -33,7 +33,9 @@ public class JobReviewView {
     @FXML
     private void onPublishForm() {
         model.publishForm();
-        updateJobInfo();
+        if (model.isStateChanged()) {
+            updateJobInfo();
+        }
     }
 
     @FXML
@@ -41,9 +43,11 @@ public class JobReviewView {
         if (AlertBoxSingleton.getInstance().popAlertBox(
                 "Confirmation",
                 "Discarding...",
-                "Are you sure, you want to 'Discard' this from?")) {
+                "'Discard' this form?")) {
             model.discardForm();
-            updateJobInfo();
+            if (model.isStateChanged()) {
+                updateJobInfo();
+            }
         }
     }
 
@@ -52,9 +56,11 @@ public class JobReviewView {
         if (AlertBoxSingleton.getInstance().popAlertBox(
                 "Confirmation",
                 "Editing...",
-                "Are you sure, you want to 'Edit' this from?")) {
+                "'Edit' this form?")) {
             model.editForm();
-            updateJobInfo();
+            if (model.isStateChanged()) {
+                updateJobInfo();
+            }
         }
     }
 
@@ -63,9 +69,11 @@ public class JobReviewView {
         if (AlertBoxSingleton.getInstance().popAlertBox(
                 "Confirmation",
                 "Sending...",
-                "Are you sure, you want to 'Send' this from?")) {
+                "'Send' this form?")) {
             model.send();
-            updateJobInfo();
+            if (model.isStateChanged()) {
+                updateJobInfo();
+            }
         }
     }
 
@@ -73,27 +81,31 @@ public class JobReviewView {
         // format all date components
         DateFormatter dateFormatter = new DateFormatter();
         dateFormatter.formatDatePicker(fromDatePicker, toDatePicker);
+        publishBox.getChildren().remove(editBtn);
+        publishBox.getChildren().remove(publishBtn);
         updateJobInfo();
     }
 
     private void updateJobInfo() {
-        if (model.isStateChanged()) {
-            if (model.getJob().isDefault()) {
-                setDefaultJobInfo();
-            } else {
-                detailNameLbl.setText(model.getJob().getJobDetail());
-                requesterLbl.setText(model.getJob().getRequester());
-                typeOfMediaLbl.setText(model.getJob().getTypeOfMedia());
-                stationListLbl.setText(model.getJob().getListOfStations());
-                qtyLbl.setText(Integer.toString(model.getJob().getQuantity()));
-                totalQtyLbl.setText(Integer.toString(model.getJob().getStations().size() * model.getJob().getQuantity()));
-                fromDatePicker.setValue(model.getJob().getFromDate());
-                toDatePicker.setValue(model.getJob().getToDate());
-                totalDayLbl.setText(Long.toString(ChronoUnit.DAYS.between(model.getJob().getFromDate(), model.getJob().getToDate())));
-                statusLbl.setText(model.getJob().getStatus());
-                discardBtn.setDisable(false);
-                sendBtn.setDisable(false);
+        if (model.getJob().isDefault()) {
+            setDefaultJobInfo();
+        } else {
+            detailNameLbl.setText(model.getJob().getJobDetail());
+            requesterLbl.setText(model.getJob().getRequester());
+            typeOfMediaLbl.setText(model.getJob().getTypeOfMedia());
+            stationListLbl.setText(model.getJob().getListOfStations());
+            qtyLbl.setText(Integer.toString(model.getJob().getQuantity()));
+            totalQtyLbl.setText(Integer.toString(model.getJob().getStations().size() * model.getJob().getQuantity()));
+            fromDatePicker.setValue(model.getJob().getFromDate());
+            toDatePicker.setValue(model.getJob().getToDate());
+            totalDayLbl.setText(Long.toString(ChronoUnit.DAYS.between(model.getJob().getFromDate(), model.getJob().getToDate())));
+            statusLbl.setText(model.getJob().getStatus());
+            discardBtn.setDisable(false);
+            sendBtn.setDisable(false);
+            if (!publishBox.getChildren().contains(editBtn)) {
                 publishBox.getChildren().add(editBtn);
+            }
+            if (publishBox.getChildren().contains(publishBtn)) {
                 publishBox.getChildren().remove(publishBtn);
             }
         }
@@ -110,10 +122,15 @@ public class JobReviewView {
         toDatePicker.setValue(null);
         totalDayLbl.setText("-");
         statusLbl.setText("NOT YET REQUEST");
-        publishBox.getChildren().add(publishBtn);
-        publishBox.getChildren().remove(editBtn);
         discardBtn.setDisable(true);
         sendBtn.setDisable(true);
+        if (!publishBox.getChildren().contains(publishBtn)) {
+            publishBox.getChildren().add(publishBtn);
+        }
+        if (publishBox.getChildren().contains(editBtn)) {
+            publishBox.getChildren().remove(editBtn);
+        }
+
     }
 
     public void setModel(JobReviewModel model) {

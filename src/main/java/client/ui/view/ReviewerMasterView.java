@@ -58,14 +58,14 @@ public class ReviewerMasterView {
 
     @FXML
     public void onAccept() {
-        viewModel.acceptJob();
-        System.out.println("accepting...");
+        viewModel.reviewAndSend("ACCEPT");
+        showDetail();
     }
 
     @FXML
     public void onReject() {
-        viewModel.rejectJob();
-        System.out.println("rejecting...");
+        viewModel.reviewAndSend("REJECT");
+        showDetail();
     }
 
 
@@ -124,7 +124,7 @@ public class ReviewerMasterView {
             fromDateLabel.setText(current.fromDateProperty().get().format(viewModel.getDateFormatter().getFormatter()));
             toDateLabel.setText(current.toDateProperty().get().format(viewModel.getDateFormatter().getFormatter()));
             String status = current.statusProperty().get();
-            stationsLabel.setText(status);
+            statusLabel.setText(status);
             if (status.equals("ACCEPT") || status.equals("REJECT")) {
                 acceptButton.setDisable(true);
                 rejectButton.setDisable(true);
