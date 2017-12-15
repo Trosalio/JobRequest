@@ -14,10 +14,6 @@ import java.time.temporal.ChronoUnit;
 public class JobReviewView {
 
     @FXML
-    private DatePicker cDatePicker;
-    @FXML
-    private Label subjectLabel, refNoLabel;
-    @FXML
     private Label detailNameLbl, requesterLbl, typeOfMediaLbl;
     @FXML
     private Label stationListLbl, qtyLbl, totalQtyLbl;
@@ -42,7 +38,10 @@ public class JobReviewView {
 
     @FXML
     private void onDiscardForm() {
-        if (AlertBoxSingleton.getInstance().popAlertBox("Confirmation", "Discarding...", "คุณต้องการจะยกเลิกแบบฟอร์มร้องขอนี้หรือไม่?")) {
+        if (AlertBoxSingleton.getInstance().popAlertBox(
+                "Confirmation",
+                "Discarding...",
+                "Are you sure, you want to 'Discard' this from?")) {
             model.discardForm();
             updateJobInfo();
         }
@@ -50,7 +49,10 @@ public class JobReviewView {
 
     @FXML
     private void onEditForm() {
-        if (AlertBoxSingleton.getInstance().popAlertBox("Confirmation", "Editing...", "คุณต้องการจะแก้ไจแบบฟอร์มร้องขอนี้หรือไม่?")) {
+        if (AlertBoxSingleton.getInstance().popAlertBox(
+                "Confirmation",
+                "Editing...",
+                "Are you sure, you want to 'Edit' this from?")) {
             model.editForm();
             updateJobInfo();
         }
@@ -58,7 +60,10 @@ public class JobReviewView {
 
     @FXML
     private void onSend() {
-        if (AlertBoxSingleton.getInstance().popAlertBox("Confirmation", "Sending...", "คุณต้องการจะส่งแบบฟอร์มร้องขอนี้หรืิอไม่?")) {
+        if (AlertBoxSingleton.getInstance().popAlertBox(
+                "Confirmation",
+                "Sending...",
+                "Are you sure, you want to 'Send' this from?")) {
             model.send();
             updateJobInfo();
         }
@@ -67,17 +72,8 @@ public class JobReviewView {
     public void setupUI() {
         // format all date components
         DateFormatter dateFormatter = new DateFormatter();
-        dateFormatter.formatDatePicker(cDatePicker, fromDatePicker, toDatePicker);
-
-        // setup components
-        updateAdvertiseInfo();
+        dateFormatter.formatDatePicker(fromDatePicker, toDatePicker);
         updateJobInfo();
-    }
-
-    private void updateAdvertiseInfo() {
-        subjectLabel.setText(model.getAdvertise().getAdsName());
-        refNoLabel.setText(model.getAdvertise().getRefNumber());
-        cDatePicker.setValue(model.getAdvertise().getCreateDate());
     }
 
     private void updateJobInfo() {
@@ -104,16 +100,16 @@ public class JobReviewView {
     }
 
     private void setDefaultJobInfo() {
-        detailNameLbl.setText("<หัวข้อเรื่อง>");
+        detailNameLbl.setText("<Detail Name>");
         requesterLbl.setText("<Reference Number>");
-        typeOfMediaLbl.setText("<ประเภทของสื่อ>");
-        stationListLbl.setText("<รายการของสถานที่>");
+        typeOfMediaLbl.setText("<Type of Media>");
+        stationListLbl.setText("<Station List>");
         qtyLbl.setText("-");
         totalQtyLbl.setText("-");
         fromDatePicker.setValue(null);
         toDatePicker.setValue(null);
         totalDayLbl.setText("-");
-        statusLbl.setText("ยังไม่ถูกสร้าง");
+        statusLbl.setText("NOT YET REQUEST");
         publishBox.getChildren().add(publishBtn);
         publishBox.getChildren().remove(editBtn);
         discardBtn.setDisable(true);

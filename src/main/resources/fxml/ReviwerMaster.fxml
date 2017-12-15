@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0"
+            xmlns="http://javafx.com/javafx/8.0.121" fx:controller="client.ui.view.ReviewerMasterView">
+    <center>
+        <TableView fx:id="jobTable">
+            <columns>
+                <TableColumn fx:id="fromDateCol" editable="false" maxWidth="1.7976931348623157E308" prefWidth="104.0"
+                             text="From Date"/>
+                <TableColumn fx:id="statusCol" editable="false" maxWidth="1.7976931348623157E308" prefWidth="129.0"
+                             text="Status"/>
+                <TableColumn fx:id="detailNameCol" prefWidth="313.0" text="Detail Name"/>
+            </columns>
+        </TableView>
+    </center>
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="800.0" spacing="10.0"
+              style="-fx-background-color: #e3e3e3; -fx-border-width: 0 0 1 0; -fx-border-color: #7e7070;"
+              BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets/>
+            </BorderPane.margin>
+            <padding>
+                <Insets left="30.0" right="30.0"/>
+            </padding>
+            <Label text="Job Table">
+                <font>
+                    <Font size="20.0"/>
+                </font>
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+            </Label>
+            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS"/>
+            <Button mnemonicParsing="false" onAction="#onRefresh" prefHeight="34.0" prefWidth="124.0"
+                    style="-fx-background-color: #33c1ff;" text="  Refresh" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="14.0"/>
+                </font>
+            </Button>
+        </HBox>
+    </top>
+    <right>
+        <VBox fx:id="detailPane" prefHeight="485.0" prefWidth="453.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets left="30.0" right="30.0" top="20.0"/>
+            </padding>
+            <HBox>
+                <Label fx:id="detailNameLabel" text="BTS Movie Lover “THE FOREIGNER”">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                    <HBox.margin>
+                        <Insets bottom="15.0"/>
+                    </HBox.margin>
+                </Label>
+            </HBox>
+            <HBox spacing="40.0">
+                <Label prefHeight="20.0" prefWidth="100.0" text="Requester">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="requesterLabel" layoutX="10.0" layoutY="10.0" prefWidth="220.0"
+                       text="Pawarisa Sukpakdeetham" textFill="#505050" wrapText="true">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+            </HBox>
+            <Separator prefWidth="200.0"/>
+            <HBox spacing="40.0">
+                <Label prefWidth="100.0" text="Type of Media">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="typeOfMediaLabel" layoutX="10.0" layoutY="10.0" prefWidth="220.0" text="Standard Poster"
+                       textFill="#505050" wrapText="true">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+            </HBox>
+            <Separator layoutX="25.0" layoutY="114.0" prefWidth="200.0"/>
+            <HBox spacing="40.0">
+                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="100.0" text="Stations">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="stationsLabel" prefWidth="220.0" text="S1,S2,S3,S4" textFill="#505050" wrapText="true">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+            </HBox>
+            <Separator prefWidth="200.0"/>
+            <HBox layoutX="40.0" layoutY="160.0" spacing="40.0">
+                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="100.0" text="Quantity">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="quantityLabel" prefWidth="220.0" text="10" textFill="#505050" wrapText="true">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+            </HBox>
+            <Separator layoutX="40.0" layoutY="187.0" prefWidth="200.0"/>
+            <HBox layoutX="40.0" layoutY="211.0" spacing="40.0">
+                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="100.0" text="From Date">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="fromDateLabel" prefWidth="220.0" text="1/1/2018" textFill="#505050" wrapText="true">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+            </HBox>
+            <Separator layoutX="40.0" layoutY="241.0" prefWidth="200.0"/>
+            <HBox layoutX="40.0" layoutY="289.0" spacing="40.0">
+                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="100.0" text="To Date">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="toDateLabel" prefWidth="220.0" text="1/31/2018" textFill="#505050" wrapText="true">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+            </HBox>
+            <Separator layoutX="40.0" layoutY="319.0" prefWidth="200.0"/>
+            <HBox layoutX="40.0" layoutY="302.0" spacing="40.0">
+                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="100.0" text="Status">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="statusLabel" prefWidth="220.0" text="PENDING" textFill="#505050" wrapText="true">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+            </HBox>
+            <Separator layoutX="40.0" layoutY="332.0" prefWidth="200.0"/>
+            <HBox alignment="CENTER" prefWidth="393.0" spacing="50.0">
+                <VBox.margin>
+                    <Insets top="20.0"/>
+                </VBox.margin>
+                <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#onAccept" prefHeight="40.0"
+                        prefWidth="90.0" style="-fx-background-color: #3bd822;" text="✔Accept" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="16.0"/>
+                    </font>
+                </Button>
+                <Button fx:id="rejectButton" mnemonicParsing="false" onAction="#onReject" prefHeight="40.0"
+                        prefWidth="90.0" style="-fx-background-color: #f14949;" text="✖ Reject" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="16.0"/>
+                    </font>
+                </Button>
+            </HBox>
+        </VBox>
+    </right>
+</BorderPane>

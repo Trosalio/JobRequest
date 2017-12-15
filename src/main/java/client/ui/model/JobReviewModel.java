@@ -19,7 +19,7 @@ public class JobReviewModel {
 
     public void setAdapter(AdvertiseAdapter adapter) {
         this.adapter = adapter;
-        this.advertise = this.adapter.getAdaptee();
+        this.advertise = this.adapter.getModel();
         this.job = (advertise.getJob() == null ? new Job() : advertise.getJob());
     }
 
@@ -33,9 +33,9 @@ public class JobReviewModel {
 
     public void publishForm() {
         if (viewManager.showJobEditor(job)) {
-            job.setStatus("พร้อมใช้งาน");
+            job.setStatus("READY");
             advertise.setJob(job);
-            viewManager.getController().handleAdd(job);
+            viewManager.getHandler().handleAdd(job);
             state = true;
         } else {
             state = false;
@@ -44,9 +44,9 @@ public class JobReviewModel {
 
     public void editForm() {
         if (viewManager.showJobEditor(job)) {
-            job.setStatus("พร้อมใช้งาน");
+            job.setStatus("READY");
             advertise.setJob(job);
-            viewManager.getController().handleEdit(job);
+            viewManager.getHandler().handleEdit(job);
             state = true;
         } else {
             state = false;
@@ -54,16 +54,16 @@ public class JobReviewModel {
     }
 
     public void discardForm() {
-        viewManager.getController().handleRemove(job);
+        viewManager.getHandler().handleRemove(job);
         job.setDefaultValue();
         advertise.setJob(null);
         state = true;
     }
 
     public void send(){
-        job.setStatus("กำลังส่งคำขอ");
+        job.setStatus("PENDING");
         advertise.setJob(job);
-        viewManager.getController().handleEdit(job);
+        viewManager.getHandler().handleEdit(job);
         state = true;
     }
 

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="344.0" prefWidth="419.0" spacing="20.0"
+      xmlns="http://javafx.com/javafx/9.0.1" fx:controller="client.ui.view.AdsEditorView">
+    <padding>
+        <Insets bottom="10.0"/>
+    </padding>
+    <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="419.0"
+          style="-fx-background-color: #b4bebf; -fx-border-width: 0 0 1 0; -fx-border-color: #808080;">
+        <padding>
+            <Insets left="20.0"/>
+        </padding>
+        <Label text="Advertise Editor" textFill="#434343">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Label>
+    </HBox>
+    <VBox>
+        <HBox>
+            <padding>
+                <Insets left="20.0" right="20.0"/>
+            </padding>
+            <Label prefHeight="25.0" prefWidth="102.0" text="Name">
+                <font>
+                    <Font size="16.0"/>
+                </font>
+            </Label>
+            <TextField fx:id="nameField" prefHeight="25.0" prefWidth="302.0"
+                       promptText="eg. Green card promotional"/>
+        </HBox>
+    </VBox>
+    <HBox>
+        <padding>
+            <Insets left="20.0" right="20.0"/>
+        </padding>
+        <Label prefHeight="17.0" prefWidth="90.0" text="Ref No.">
+            <font>
+                <Font size="16.0"/>
+            </font>
+        </Label>
+        <TextField fx:id="refNoField" maxWidth="160.0" prefHeight="25.0" prefWidth="158.0"
+                   promptText="eg. CEO/1234"/>
+    </HBox>
+    <HBox>
+        <padding>
+            <Insets left="20.0" right="20.0"/>
+        </padding>
+        <Label prefHeight="17.0" prefWidth="90.0" text="Issue Date">
+            <font>
+                <Font size="16.0"/>
+            </font>
+        </Label>
+        <DatePicker fx:id="issueDatePicker" editable="false" prefWidth="160.0" promptText="dd/mm/yyyy"/>
+    </HBox>
+    <Label text="* Please fill all the fields" textFill="#5191c3">
+        <padding>
+            <Insets left="20.0"/>
+        </padding>
+        <font>
+            <Font name="System Italic" size="13.0"/>
+        </font>
+    </Label>
+    <HBox alignment="CENTER" prefHeight="80.0" prefWidth="419.0" spacing="30.0" VBox.vgrow="SOMETIMES">
+        <Button defaultButton="true" mnemonicParsing="false" onAction="#onSave" prefHeight="50.0" prefWidth="80.0"
+                text="Save"/>
+        <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancel"
+                prefHeight="50.0" prefWidth="80.0" text="Cancel"/>
+        <padding>
+            <Insets top="20.0"/>
+        </padding>
+    </HBox>
+</VBox>

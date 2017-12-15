@@ -17,55 +17,59 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MainController {
-
+public class ActionController {
     private AdvertiseService advertiseService;
     private JobService jobService;
     private StationService stationService;
     private AdvertiseManager advertiseManager;
-    private JobManager jobManager;
     private ViewManager viewManager;
 
-    public MainController(AdvertiseManager advertiseManager, JobManager jobManager, ViewManager viewManager) {
+    public ActionController(AdvertiseManager advertiseManager, ViewManager viewManager) {
         this.advertiseManager = advertiseManager;
-        this.jobManager = jobManager;
         this.viewManager = viewManager;
     }
 
-    // Client - MO
-    public void handleLoadAdvertises() {
-        List<Advertise> source = advertiseService.loadAdvertises();
-        for (Advertise advertise : source) { if (advertise.getJobID() >= 0) advertise.setJob(loadJob(advertise.getJobID())); }
-        advertiseManager.loadAdvertises(source);
+    public void start(Stage primaryStage) {
+        viewManager.setPrimaryStage(primaryStage);
+        viewManager.setHandler(this);
+        viewManager.showStartUpView();
     }
 
-    public void handleAdd(AdvertiseAdapter adapter) {
-        advertiseManager.addAdvertise(adapter);
-        Advertise advertise = adapter.getAdaptee();
-        advertiseService.addAdvertise(advertise);
-        if(advertise.getJob() != null){
-            handleAdd(advertise.getJob());
+    public void handleLoadAds() {
+        List<Advertise> source = advertiseService.loadAdvertises();
+        for (Advertise advertise : source) {
+            if (advertise.getJobID() >= 0)
+                advertise.setJob(loadJob(advertise.getJobID()));
         }
+        advertiseManager.load(source);
+    }
+
+
+    public void handleAdd(AdvertiseAdapter adepter) {
+        advertiseManager.add(adepter);
+        advertiseService.addAdvertise(adepter.getModel());
     }
 
     public void handleEdit(AdvertiseAdapter adapter) {
-        advertiseManager.editAds(adapter);
-        Advertise advertise = adapter.getAdaptee();
+        Advertise advertise = adapter.getModel();
         advertiseService.updateAdvertise(advertise);
-        if(advertise.getJob() != null){
+        if (advertise.getJob() != null) {
             handleEdit(advertise.getJob());
         }
     }
 
-    public void handleRemove(int removedIndex) {
-        AdvertiseAdapter removedAdapter = advertiseManager.deleteAdvertise(removedIndex);
-        Advertise removedAdvertise = removedAdapter.getAdaptee();
+    public void handleRemove(AdvertiseAdapter adapter) {
+        advertiseManager.remove(adapter);
+        Advertise removedAdvertise = adapter.getModel();
         advertiseService.deleteAdvertise(removedAdvertise);
         // In case that CASCADE ON DELETE did not work
 //        if(removedAdvertise.getJob() != null){
 //            handleRemove(removedAdvertise.getJob());
 //        }
     }
+
+
+    //---------------------------- JOB Handler -------------------------
 
     public void handleAdd(Job job) {
         jobService.addJob(job);
@@ -102,30 +106,28 @@ public class MainController {
         return typeOfMedia;
     }
 
-    public AdvertiseManager getAdvertiseManager() {
-        return advertiseManager;
-    }
-
-
     // Client - CMO
-    public void handleLoadJobs() {
+    public List<Job> handleLoadJobs() {
         List<Job> source = jobService.loadJobs();
         source.forEach(job -> stationService.loadStationsInJob(job));
-        jobManager.loadJobs(source);
-    }
-
-    // Common
-
-    public void start(Stage primaryStage) {
-        viewManager.setPrimaryStage(primaryStage);
-        viewManager.setController(this);
-        viewManager.showStartUpView();
+        return source;
     }
 
     private Job loadJob(int jobID) {
         Job job = jobService.loadJob(jobID);
         stationService.loadStationsInJob(job);
         return job;
+    }
+
+    //---------------------------- Accessor Wired -------------------------
+
+    public AdvertiseManager getAdvertiseManager() {
+        return advertiseManager;
+    }
+
+
+    public ViewManager getViewManager() {
+        return viewManager;
     }
 
     @Autowired

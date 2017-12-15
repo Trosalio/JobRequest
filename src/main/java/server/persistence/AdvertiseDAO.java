@@ -52,7 +52,6 @@ public class AdvertiseDAO implements DAO<Advertise> {
                     "name TEXT NOT NULL," +
                     "createDate TEXT NOT NULL," +
                     "jobID INTEGER NOT NULL," +
-                    "FOREIGN KEY(jobID) REFERENCES Job(ID) ON DELETE CASCADE," +
                     "PRIMARY KEY(refNumber));";
             con.prepareStatement(createTableSQL).execute();
         } catch (SQLException e) {
@@ -107,8 +106,10 @@ public class AdvertiseDAO implements DAO<Advertise> {
     @Override
     public void delete(Advertise advertise) {
         try (Connection con = dataSource.getConnection()) {
-            String deleteSQL = String.format("DELETE FROM Advertise WHERE refNumber = %s", advertise.getRefNumber());
-            con.prepareStatement(deleteSQL).executeUpdate();
+            String deleteSQL = "DELETE FROM Advertise WHERE refNumber = ?";
+            PreparedStatement statement = con.prepareStatement(deleteSQL);
+            statement.setString(1, advertise.getRefNumber());
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }

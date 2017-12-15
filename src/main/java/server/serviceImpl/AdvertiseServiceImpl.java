@@ -3,10 +3,12 @@ package server.serviceImpl;
 import common.model.Advertise;
 import common.service.AdvertiseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import server.persistence.AdvertiseDAO;
 
 import java.util.List;
 
+@Service
 public class AdvertiseServiceImpl implements AdvertiseService {
 
     private final AdvertiseDAO dao;

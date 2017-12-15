@@ -177,7 +177,7 @@ public class JobDAO implements DAO<Job> {
 
     private void adjustPrimaryKey(){
         try(Connection con = dataSource.getConnection()){
-            String pkSQL = "SELECT FROM sqlite_sequence where name = Job";
+            String pkSQL = "SELECT * FROM sqlite_sequence WHERE name = 'Job'";
             ResultSet resultSet = con.prepareStatement(pkSQL).executeQuery();
             if(resultSet.next()){
                 primaryKey.set(resultSet.getInt("seq"));
