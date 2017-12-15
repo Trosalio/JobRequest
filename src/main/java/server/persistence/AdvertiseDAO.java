@@ -20,12 +20,10 @@ import java.util.List;
 public class AdvertiseDAO implements DAO<Advertise> {
 
     private final DataSource dataSource;
-    private final JobDAO jobDAO;
     private DateTimeFormatter dateTimeFormatter;
 
-    public AdvertiseDAO(DataSource dataSource, JobDAO jobDAO) {
+    public AdvertiseDAO(DataSource dataSource) {
         this.dataSource = dataSource;
-        this.jobDAO = jobDAO;
         this.dateTimeFormatter = new DateFormatter().getFormatter();
     }
 
@@ -83,10 +81,9 @@ public class AdvertiseDAO implements DAO<Advertise> {
             String name = resultSet.getString("name");
             String date = resultSet.getString("createDate");
             int jobID = resultSet.getInt("jobID");
-
             advertise.setRefNumber(refNumber);
             advertise.setAdsName(name);
-            advertise.setJob(jobID < 0 ? null : jobDAO.load(jobID));
+            advertise.setJobID(jobID);
             advertise.setCreateDate(LocalDate.parse(date, new DateFormatter().getFormatter()));
             advertises.add(advertise);
         }
@@ -100,14 +97,7 @@ public class AdvertiseDAO implements DAO<Advertise> {
             pStmt.setString(1, advertise.getRefNumber());
             pStmt.setString(2, advertise.getAdsName());
             pStmt.setString(3, dateTimeFormatter.format(advertise.getCreateDate()));
-            int jobID;
-            if (advertise.getJob() == null) {
-                jobID = -1;
-            } else {
-                jobID = advertise.getJob().getId();
-                jobDAO.insert(advertise.getJob());
-            }
-            pStmt.setInt(4, jobID);
+            pStmt.setInt(4, advertise.getJobID());
             pStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -133,14 +123,7 @@ public class AdvertiseDAO implements DAO<Advertise> {
              PreparedStatement pStmt = con.prepareStatement(updateSQL)) {
             pStmt.setString(1, advertise.getAdsName());
             pStmt.setString(2, dateTimeFormatter.format(advertise.getCreateDate()));
-            int jobID;
-            if (advertise.getJob() == null) {
-                jobID = -1;
-            } else {
-                jobID = advertise.getJob().getId();
-                jobDAO.update(advertise.getJob());
-            }
-            pStmt.setInt(3, jobID);
+            pStmt.setInt(3, advertise.getJobID());
             pStmt.setString(4, advertise.getRefNumber());
             pStmt.executeUpdate();
         } catch (SQLException e) {

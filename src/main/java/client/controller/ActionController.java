@@ -1,5 +1,6 @@
 package client.controller;
 
+import common.model.Advertise;
 import common.model.Job;
 import common.model.Station;
 import common.service.AdvertiseService;
@@ -17,14 +18,16 @@ import java.util.List;
 
 @Component
 public class ActionController {
-    private AdvertiseManager advertiseManager;
     private AdvertiseService advertiseService;
     private JobService jobService;
     private StationService stationService;
+    private AdvertiseManager advertiseManager;
+    private JobManager jobManager;
     private ViewManager viewManager;
 
-    public ActionController(AdvertiseManager advertiseManager, ViewManager viewManager) {
+    public ActionController(AdvertiseManager advertiseManager, JobManager jobManager, ViewManager viewManager) {
         this.advertiseManager = advertiseManager;
+        this.jobManager = jobManager;
         this.viewManager = viewManager;
     }
 
@@ -34,42 +37,54 @@ public class ActionController {
         viewManager.showStartUpView();
     }
 
-    //---------------------------- Ads Handler -------------------------
-
     public void handleLoad() {
-        advertiseManager.getAdvertiseList().clear();
-        advertiseManager.load(advertiseService.loadAdvertises());
-    }
+        List<Advertise> source = advertiseService.loadAdvertises();
+        for (Advertise advertise : source) {
+            if (advertise.getJobID() >= 0)
+                advertise.setJob(loadJob(advertise.getJobID())); }
+        advertiseManager.load(source);    }
 
-    public void handleAdd(AdvertiseAdapter adapter) {
-        advertiseManager.add(adapter);
-        advertiseService.addAdvertise(adapter.getModel());
+
+    public void handleAdd(AdvertiseAdapter adepter) {
+        advertiseService.addAdvertise(adepter.getModel());
     }
 
     public void handleEdit(AdvertiseAdapter adapter) {
-        advertiseService.updateAdvertise(adapter.getModel());
+        Advertise advertise = adapter.getModel();
+        advertiseService.updateAdvertise(advertise);
+        if(advertise.getJob() != null){
+            handleEdit(advertise.getJob());
+        }
     }
-
     public void handleRemove(AdvertiseAdapter adapter) {
         advertiseManager.remove(adapter);
-        advertiseService.deleteAdvertise(adapter.getModel());
+        Advertise removedAdvertise = adapter.getModel();
+        advertiseService.deleteAdvertise(removedAdvertise);
+        // In case that CASCADE ON DELETE did not work
+//        if(removedAdvertise.getJob() != null){
+//            handleRemove(removedAdvertise.getJob());
+//        }
     }
+
 
 
     //---------------------------- JOB Handler -------------------------
 
     public void handleAdd(Job job) {
         jobService.addJob(job);
+        stationService.addStationInJob(job);
     }
 
     public void handleEdit(Job job) {
         jobService.updateJob(job);
+        stationService.updateStationInJob(job);
     }
 
     public void handleRemove(Job job) {
         jobService.deleteJob(job);
+        // In case that CASCADE ON DELETE did not work
+//        stationService.deleteStationInJob(job);
     }
-
 
     public List<Station> loadStationList() {
         return stationService.loadStations();
@@ -78,13 +93,13 @@ public class ActionController {
     public List<String> loadCandidateTypeOfMedia() {
         final String file_url = "type_of_media.txt";
         List<String> typeOfMedia = new ArrayList<>();
-        try{
+        try {
             BufferedReader reader = new BufferedReader(new FileReader(file_url));
-            for(String media = reader.readLine(); media != null; media = reader.readLine()){
+            for (String media = reader.readLine(); media != null; media = reader.readLine()) {
                 typeOfMedia.add(media);
             }
         } catch (IOException e) {
-            System.err.println("File in "+ file_url + " not found");
+            System.err.println("File in " + file_url + " not found");
             e.printStackTrace();
         }
         return typeOfMedia;
@@ -92,6 +107,20 @@ public class ActionController {
 
     public AdvertiseManager getAdvertiseManager() {
         return advertiseManager;
+    }
+
+
+    // Client - CMO
+    public void handleLoadJobs() {
+        List<Job> source = jobService.loadJobs();
+        source.forEach(job -> stationService.loadStationsInJob(job));
+        jobManager.loadJobs(source);
+    }
+
+    private Job loadJob(int jobID) {
+        Job job = jobService.loadJob(jobID);
+        stationService.loadStationsInJob(job);
+        return job;
     }
 
     public ViewManager getViewManager() {

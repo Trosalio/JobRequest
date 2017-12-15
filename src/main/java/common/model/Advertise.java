@@ -7,6 +7,7 @@ public class Advertise implements Serializable {
     private String adsName;
     private String refNumber;
     private LocalDate createDate;
+    private int jobID = -1;
     private Job job;
 
     public Advertise() {
@@ -39,12 +40,21 @@ public class Advertise implements Serializable {
         this.createDate = createDate;
     }
 
+    public int getJobID() {
+        return jobID;
+    }
+
+    public void setJobID(int jobID) {
+        this.jobID = jobID;
+    }
+
     public Job getJob() {
         return job;
     }
 
     public void setJob(Job job) {
         this.job = job;
+        this.jobID = job.getId();
     }
 
     @Override

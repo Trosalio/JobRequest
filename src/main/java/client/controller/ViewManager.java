@@ -51,6 +51,7 @@ public class ViewManager {
             Parent root = loader.load();
 
             // setup Advertise Master model and UI
+            handler.handleLoad();
             AdsMasterModel model = new AdsMasterModel(handler);
             AdsMasterView advertiseReviewView = loader.getController();
             advertiseReviewView.setViewModel(model);
@@ -152,10 +153,11 @@ public class ViewManager {
             Parent root = jobMasterReviewUILoader.load();
 
             // setup Job Editor model and UI
+            handler.handleLoadJobs();
             JobMasterModel model = new JobMasterModel(this);
-            JobMasterView jobMasterView = jobMasterReviewUILoader.getController();
-            jobMasterView.setModel(model);
-            jobMasterView.setupUI();
+            JobMasterView jobMasterReviewView = jobMasterReviewUILoader.getController();
+            jobMasterReviewView.setModel(model);
+            jobMasterReviewView.setupUI();
 
             // setup the stage
             Stage stage = new Stage();

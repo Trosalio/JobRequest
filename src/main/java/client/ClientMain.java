@@ -11,9 +11,8 @@ public class ClientMain extends Application {
     @Override
     public void start(Stage primaryStage) {
         ApplicationContext context = new ClassPathXmlApplicationContext("/config/Spring-Client-Module.xml");
-        ActionController handler = context.getBean("actionController", ActionController.class);
-        handler.handleLoad();
-        handler.start(primaryStage);
+        ActionController mc = context.getBean("mainController", MainController.class);
+        mc.start(primaryStage);
     }
 
     public static void main(String[] args) {
