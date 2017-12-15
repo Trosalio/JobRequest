@@ -54,12 +54,13 @@ public class Advertise implements Serializable {
 
     public void setJob(Job job) {
         this.job = job;
-        this.jobID = job.getId();
+        if (job != null) jobID = job.getId();
     }
 
     @Override
     public String toString() {
         return String.format(
-                "Ads[adsName='%s'%n refNumber: %s%n createDate: %s%n job: %s%n]", adsName, refNumber, createDate, job);
+                "Ads[adsName='%s'%n refNumber: %s%n createDate: %s%n job id: %d%n]"
+                , adsName, refNumber, createDate, jobID);
     }
 }

@@ -52,7 +52,6 @@ public class AdvertiseDAO implements DAO<Advertise> {
                     "name TEXT NOT NULL," +
                     "createDate TEXT NOT NULL," +
                     "jobID INTEGER NOT NULL," +
-                    "FOREIGN KEY(jobID) REFERENCES Job(ID) ON DELETE CASCADE," +
                     "PRIMARY KEY(refNumber));";
             con.prepareStatement(createTableSQL).execute();
         } catch (SQLException e) {

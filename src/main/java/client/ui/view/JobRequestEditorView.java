@@ -1,6 +1,6 @@
 package client.ui.view;
 
-import client.ui.model.JobEditorModel;
+import client.ui.model.JobRequestEditorModel;
 import common.model.Station;
 import common.utility.AlertBoxSingleton;
 import javafx.collections.FXCollections;
@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.util.List;
 
-public class JobEditorView {
+public class JobRequestEditorView {
 
     @FXML
     private TextField detailTxtF, requesterTxtF, quantityTxtF;
@@ -26,7 +26,7 @@ public class JobEditorView {
     private DatePicker fromDatePicker, toDatePicker;
     @FXML
     private Button cancelBtn;
-    private JobEditorModel model;
+    private JobRequestEditorModel model;
 
     @FXML
     private void onCancel() {
@@ -170,7 +170,7 @@ public class JobEditorView {
         stage.close();
     }
 
-    public void setModel(JobEditorModel model) {
+    public void setModel(JobRequestEditorModel model) {
         this.model = model;
     }
 }

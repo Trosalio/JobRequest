@@ -4,9 +4,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<BorderPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="550.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.121"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ui.view.JobMasterView">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0"
+            xmlns="http://javafx.com/javafx/8.0.121" fx:controller="client.ui.view.ReviewerMasterView">
     <center>
         <TableView fx:id="jobTable">
             <columns>

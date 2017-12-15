@@ -7,7 +7,7 @@ import common.model.Station;
 import java.time.LocalDate;
 import java.util.List;
 
-public class JobEditorModel {
+public class JobRequestEditorModel {
 
     private final ViewManager viewManager;
     private boolean saveBool;
@@ -15,7 +15,7 @@ public class JobEditorModel {
 
     private Job job;
 
-    public JobEditorModel(ViewManager viewManager) {
+    public JobRequestEditorModel(ViewManager viewManager) {
         this.viewManager = viewManager;
     }
 

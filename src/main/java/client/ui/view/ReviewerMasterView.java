@@ -1,7 +1,7 @@
 package client.ui.view;
 
 import client.controller.JobAdapter;
-import client.ui.model.JobMasterModel;
+import client.ui.model.ReviewerMasterModel;
 import common.formatter.DateFormatter;
 import common.model.Station;
 import javafx.fxml.FXML;
@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 
-public class JobMasterView {
+public class ReviewerMasterView {
 
     @FXML
     public BorderPane window;
@@ -39,7 +39,7 @@ public class JobMasterView {
     public Button acceptButton, rejectButton;
 
     private StackPane placeHolder;
-    private JobMasterModel viewModel;
+    private ReviewerMasterModel viewModel;
 
     public void initialize() {
         Label label = new Label("No Job is selected.");
@@ -69,7 +69,7 @@ public class JobMasterView {
     }
 
 
-    public void setModel(JobMasterModel viewModel) {
+    public void setModel(ReviewerMasterModel viewModel) {
         this.viewModel = viewModel;
         setupTable();
     }

@@ -9,6 +9,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -71,16 +72,16 @@ public class AdsMasterView {
 
     @FXML
     private void onMouseClicked(MouseEvent mouseEvent) {
-//        if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-//            if (mouseEvent.getClickCount() == 2) {
-//                if (adsTable.getSelectionModel().getSelectedItem() != null) {
-//                    mouseEvent.consume();
-//                    viewModel.openJobReview(adsTable.getSelectionModel().getSelectedItem());
-//                } else {
-//                    System.out.println("no item was found");
-//                }
-//            }
-//        }
+        if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+            if (mouseEvent.getClickCount() == 2) {
+                if (adsTable.getSelectionModel().getSelectedItem() != null) {
+                    mouseEvent.consume();
+                    viewModel.openJobReview(adsTable.getSelectionModel().getSelectedItem());
+                } else {
+                    System.out.println("no item was found");
+                }
+            }
+        }
     }
 
     public void setViewModel(AdsMasterModel model) {
@@ -88,6 +89,7 @@ public class AdsMasterView {
         setupTable();
     }
 
+    @SuppressWarnings("Duplicates")
     private void setupTable() {
         // set list into table as usual
         adsTable.setItems(viewModel.getAdvertiseList());

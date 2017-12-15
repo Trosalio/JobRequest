@@ -22,12 +22,10 @@ public class ActionController {
     private JobService jobService;
     private StationService stationService;
     private AdvertiseManager advertiseManager;
-    private JobManager jobManager;
     private ViewManager viewManager;
 
-    public ActionController(AdvertiseManager advertiseManager, JobManager jobManager, ViewManager viewManager) {
+    public ActionController(AdvertiseManager advertiseManager, ViewManager viewManager) {
         this.advertiseManager = advertiseManager;
-        this.jobManager = jobManager;
         this.viewManager = viewManager;
     }
 
@@ -37,25 +35,29 @@ public class ActionController {
         viewManager.showStartUpView();
     }
 
-    public void handleLoad() {
+    public void handleLoadAds() {
         List<Advertise> source = advertiseService.loadAdvertises();
         for (Advertise advertise : source) {
             if (advertise.getJobID() >= 0)
-                advertise.setJob(loadJob(advertise.getJobID())); }
-        advertiseManager.load(source);    }
+                advertise.setJob(loadJob(advertise.getJobID()));
+        }
+        advertiseManager.load(source);
+    }
 
 
     public void handleAdd(AdvertiseAdapter adepter) {
+        advertiseManager.add(adepter);
         advertiseService.addAdvertise(adepter.getModel());
     }
 
     public void handleEdit(AdvertiseAdapter adapter) {
         Advertise advertise = adapter.getModel();
         advertiseService.updateAdvertise(advertise);
-        if(advertise.getJob() != null){
+        if (advertise.getJob() != null) {
             handleEdit(advertise.getJob());
         }
     }
+
     public void handleRemove(AdvertiseAdapter adapter) {
         advertiseManager.remove(adapter);
         Advertise removedAdvertise = adapter.getModel();
@@ -65,7 +67,6 @@ public class ActionController {
 //            handleRemove(removedAdvertise.getJob());
 //        }
     }
-
 
 
     //---------------------------- JOB Handler -------------------------
@@ -105,16 +106,11 @@ public class ActionController {
         return typeOfMedia;
     }
 
-    public AdvertiseManager getAdvertiseManager() {
-        return advertiseManager;
-    }
-
-
     // Client - CMO
-    public void handleLoadJobs() {
+    public List<Job> handleLoadJobs() {
         List<Job> source = jobService.loadJobs();
         source.forEach(job -> stationService.loadStationsInJob(job));
-        jobManager.loadJobs(source);
+        return source;
     }
 
     private Job loadJob(int jobID) {
@@ -123,12 +119,17 @@ public class ActionController {
         return job;
     }
 
+    //---------------------------- Accessor Wired -------------------------
+
+    public AdvertiseManager getAdvertiseManager() {
+        return advertiseManager;
+    }
+
+
     public ViewManager getViewManager() {
         return viewManager;
     }
 
-
-    //---------------------------- Service Wired -------------------------
     @Autowired
     public void setAdvertiseService(AdvertiseService advertiseService) {
         this.advertiseService = advertiseService;

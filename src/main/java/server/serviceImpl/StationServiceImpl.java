@@ -4,10 +4,12 @@ import common.model.Job;
 import common.model.Station;
 import common.service.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import server.persistence.StationDAO;
 
 import java.util.List;
 
+@Service
 public class StationServiceImpl implements StationService {
 
     private final StationDAO dao;

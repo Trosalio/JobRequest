@@ -8,7 +8,6 @@
     <context:component-scan base-package="client.controller"/>
 
 
-
     <!-- Wire RMI Beans to Responded Interfaces -->
 
     <bean id="advertiseService"

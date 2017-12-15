@@ -3,10 +3,12 @@ package server.serviceImpl;
 import common.model.Job;
 import common.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import server.persistence.JobDAO;
 
 import java.util.List;
 
+@Service
 public class JobServiceImpl implements JobService {
 
     private final JobDAO dao;

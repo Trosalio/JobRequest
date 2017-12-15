@@ -33,7 +33,7 @@ public class JobReviewModel {
 
     public void publishForm() {
         if (viewManager.showJobEditor(job)) {
-            job.setStatus("พร้อมใช้งาน");
+            job.setStatus("READY");
             advertise.setJob(job);
             viewManager.getHandler().handleAdd(job);
             state = true;
@@ -44,7 +44,7 @@ public class JobReviewModel {
 
     public void editForm() {
         if (viewManager.showJobEditor(job)) {
-            job.setStatus("พร้อมใช้งาน");
+            job.setStatus("READY");
             advertise.setJob(job);
             viewManager.getHandler().handleEdit(job);
             state = true;
@@ -61,7 +61,7 @@ public class JobReviewModel {
     }
 
     public void send(){
-        job.setStatus("กำลังส่งคำขอ");
+        job.setStatus("PENDING");
         advertise.setJob(job);
         viewManager.getHandler().handleEdit(job);
         state = true;

@@ -11,14 +11,14 @@ import javafx.collections.ObservableList;
 /**
  * Project Name: JobRequest
  */
-public class JobMasterModel {
+public class ReviewerMasterModel {
 
     private final ActionController handler;
     private final ObservableList<JobAdapter> jobList = FXCollections.observableArrayList();
     private final ObjectProperty<JobAdapter> currentJobs = new SimpleObjectProperty<>(null);
     private final DateFormatter dateFormatter = new DateFormatter();
 
-    public JobMasterModel(ActionController handler) {
+    public ReviewerMasterModel(ActionController handler) {
         this.handler = handler;
         refreshList();
     }
@@ -49,12 +49,12 @@ public class JobMasterModel {
         return currentJobs.get();
     }
 
-    public ObjectProperty<JobAdapter> currentAdapterProperty() {
-        return currentJobs;
-    }
-
     public void setCurrentAdapter(JobAdapter currentJob) {
         this.currentJobs.set(currentJob);
+    }
+
+    public ObjectProperty<JobAdapter> currentAdapterProperty() {
+        return currentJobs;
     }
 
     public DateFormatter getDateFormatter() {
