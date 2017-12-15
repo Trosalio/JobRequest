@@ -25,7 +25,7 @@ public class JobRequestEditorView {
     @FXML
     private DatePicker fromDatePicker, toDatePicker;
     @FXML
-    private Button cancelBtn;
+    private Button submitBtn, cancelBtn;
     private JobRequestEditorModel model;
 
     @FXML
@@ -73,28 +73,28 @@ public class JobRequestEditorView {
             updateJobInfo();
             closeWindow();
         } else if (isTxtFEmpty(detailTxtF)) {
-            AlertBoxSingleton.getInstance().popAlertBox("Error", "Detail info is not filled", "กรุณาระบุชื่อเรื่อง");
+            AlertBoxSingleton.getInstance().popAlertBox("Error", "Detail name is not filled", "Please fill a detail name");
             detailTxtF.requestFocus();
         } else if (isTxtFEmpty(requesterTxtF)) {
-            AlertBoxSingleton.getInstance().popAlertBox("Error", "Requester info is not filled", "กรุณรนะบุผู้ขอติดตั้งสื่อ");
+            AlertBoxSingleton.getInstance().popAlertBox("Error", "Requester is not filled", "Please fill a requester detail");
             requesterTxtF.requestFocus();
         } else if (model.getJob().getStations().isEmpty()) {
-            AlertBoxSingleton.getInstance().popAlertBox("Error", "No Station is selected", "กรุณาเลือกสถานีที่ต้องการติดตั้ง");
+            AlertBoxSingleton.getInstance().popAlertBox("Error", "No Station is selected", "Please select some station");
         } else if (isTxtFEmpty(quantityTxtF) || !isValidInteger(quantityTxtF)) {
             if (isTxtFEmpty(quantityTxtF)) {
-                AlertBoxSingleton.getInstance().popAlertBox("Error", "Quantity info is not filled", "กรุณาระบุจำนวนที่ต้องการติดตั้ง");
+                AlertBoxSingleton.getInstance().popAlertBox("Error", "Quantity info is not filled", "Please fill a quantity");
             } else {
-                AlertBoxSingleton.getInstance().popAlertBox("Error", "Not an integer value", "กรุณาระบุจำนวนที่ต้องการติดตั้งเป็นที่เป็นตัวเลขและมีค่ามากกว่า 0 เท่านั้น");
+                AlertBoxSingleton.getInstance().popAlertBox("Error", "Not an integer value", "Please fill an natural number");
             }
             quantityTxtF.requestFocus();
         } else if (fromDatePicker.getValue() == null) {
-            AlertBoxSingleton.getInstance().popAlertBox("Error", "From Date is not filled", "กรุณาระบุวันเริ่มต้น");
+            AlertBoxSingleton.getInstance().popAlertBox("Error", "From Date is not filled", "Please select \'From Date\'");
             fromDatePicker.requestFocus();
         } else if ((toDatePicker.getValue() == null) || !isValidDate()) {
             if((toDatePicker.getValue() == null)){
-                AlertBoxSingleton.getInstance().popAlertBox("Error", "To Date is not filled", "กรุณาระบุวันสิ้นสุด");
+                AlertBoxSingleton.getInstance().popAlertBox("Error", "To Date is not filled", "Please select \'End Date\'");
             } else {
-                AlertBoxSingleton.getInstance().popAlertBox("Error", "InvalidDate", "วันสิ้นสุดต้องไม่มาก่อนวันเริ่มต้น");
+                AlertBoxSingleton.getInstance().popAlertBox("Error", "InvalidDate", "\'End date\' must not go before \'From date\'");
             }
             toDatePicker.requestFocus();
         }

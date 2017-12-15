@@ -34,17 +34,17 @@ public class AdsEditorView {
     private void onSave() {
         if (!(isTxtFEmpty(nameField) || isTxtFEmpty(refNoField) || issueDatePicker.getValue() == null)) {
             viewModel.saveAdvertise();
-            AlertBoxSingleton.getInstance().popAlertBox("Information", "Success", "โฆษณาถูกบันทึกแล้ว!");
+            AlertBoxSingleton.getInstance().popAlertBox("Information", "Success", "Advertise is saved!");
             onCancel();
         } else {
             if (isTxtFEmpty(nameField)) {
-                AlertBoxSingleton.getInstance().popAlertBox("Error", "Subject is not filled", "กรุณาใส่หัวข้อเรื่อง");
+                AlertBoxSingleton.getInstance().popAlertBox("Error", "Subject is not filled", "Please fill the subject name");
                 nameField.requestFocus();
             } else if (isTxtFEmpty(refNoField)) {
-                AlertBoxSingleton.getInstance().popAlertBox("Error", "Reference Number is not filled", "กรุณาใส่ Reference Number");
+                AlertBoxSingleton.getInstance().popAlertBox("Error", "Reference Number is not filled", "Please fill the Reference Number");
                 refNoField.requestFocus();
             } else {
-                AlertBoxSingleton.getInstance().popAlertBox("Error", "Create Date is not picked", "กรุณาเลือกวันที่ถูกสร้าง");
+                AlertBoxSingleton.getInstance().popAlertBox("Error", "Create Date is not picked", "Please select a create date");
                 issueDatePicker.setValue(LocalDate.now());
                 issueDatePicker.requestFocus();
             }
