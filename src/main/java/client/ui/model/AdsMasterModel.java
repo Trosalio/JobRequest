@@ -46,6 +46,7 @@ public class AdsMasterModel {
 
     public void openJobReview() {
         handler.getViewManager().showJobReviewer(getCurrentAdapter());
+        currentAds.get().reload();
     }
 
     public ObservableList<AdvertiseAdapter> getAdvertiseList() {

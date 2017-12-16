@@ -153,16 +153,16 @@ public class JobRequestEditorView {
             typeOfMediaCBox.getSelectionModel().selectFirst();
         }
     }
-    private void setupCandidateList() {
-        ObsCandidateList = FXCollections.observableList(model.getStationList());
-        candidateListView.setItems(ObsCandidateList.sorted());
-        ObsCandidateList.removeAll(ObsSelectedList);
-    }
-
 
     private void setupSelectedList() {
         ObsSelectedList = FXCollections.observableList(model.getStationsInJob());
         selectedListView.setItems(ObsSelectedList.sorted());
+    }
+
+    private void setupCandidateList() {
+        ObsCandidateList = FXCollections.observableList(model.getStationList());
+        ObsCandidateList.removeAll(ObsSelectedList);
+        candidateListView.setItems(ObsCandidateList.sorted());
     }
 
     private void closeWindow() {

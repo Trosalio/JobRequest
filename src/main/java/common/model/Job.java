@@ -19,7 +19,7 @@ public class Job implements Serializable {
     private String refNumber;
 
     public Job() {
-        setDefaultValue();
+        this.stations = new ArrayList<>();
     }
 
     public int getId() {
@@ -111,23 +111,4 @@ public class Job implements Serializable {
         }
         return stationList;
     }
-
-    public void setDefaultValue() {
-        id = -1;
-        JobDetail = null;
-        requester = null;
-        typeOfMedia = null;
-        stations = new ArrayList<>();
-        quantity = 0;
-        fromDate = null;
-        toDate = null;
-        status = null;
-    }
-
-    public boolean isDefault() {
-        return ((id == -1) && (JobDetail == null) && (requester == null) && (typeOfMedia == null) && (stations.isEmpty()) &&
-                (quantity == 0) && (fromDate == null) && (toDate == null) && (status == null));
-    }
-
-
 }

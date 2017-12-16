@@ -73,6 +73,7 @@ public class AdsMasterView {
     @FXML
     public void onJob() {
         viewModel.openJobReview();
+        showDetail();
     }
 
     @FXML

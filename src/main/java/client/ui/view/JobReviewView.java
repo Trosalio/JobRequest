@@ -87,8 +87,9 @@ public class JobReviewView {
     }
 
     private void updateJobInfo() {
-        if (model.getJob().isDefault()) {
+        if (model.getJob() == null) {
             setDefaultJobInfo();
+            model.setNewJob();
         } else {
             detailNameLbl.setText(model.getJob().getJobDetail());
             requesterLbl.setText(model.getJob().getRequester());
@@ -98,7 +99,7 @@ public class JobReviewView {
             totalQtyLbl.setText(Integer.toString(model.getJob().getStations().size() * model.getJob().getQuantity()));
             fromDatePicker.setValue(model.getJob().getFromDate());
             toDatePicker.setValue(model.getJob().getToDate());
-            totalDayLbl.setText(Long.toString(ChronoUnit.DAYS.between(model.getJob().getFromDate(), model.getJob().getToDate())));
+            totalDayLbl.setText(Long.toString(1 + ChronoUnit.DAYS.between(model.getJob().getFromDate(), model.getJob().getToDate())));
             statusLbl.setText(model.getJob().getStatus());
             discardBtn.setDisable(false);
             sendBtn.setDisable(false);

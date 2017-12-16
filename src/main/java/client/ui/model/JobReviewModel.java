@@ -18,7 +18,12 @@ public class JobReviewModel {
 
     public void setAdapter(AdvertiseAdapter adapter) {
         this.advertise = adapter.getModel();
-        this.job = (advertise.getJob() == null ? new Job() : advertise.getJob());
+        this.job = advertise.getJob();
+    }
+
+
+    public void setNewJob() {
+        this.job = new Job();
     }
 
     public Job getJob() {
@@ -54,7 +59,6 @@ public class JobReviewModel {
 
     public void discardForm() {
         viewManager.getHandler().handleRemove(job);
-        job.setDefaultValue();
         advertise.setJob(null);
         state = true;
     }

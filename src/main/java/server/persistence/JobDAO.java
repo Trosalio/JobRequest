@@ -84,7 +84,7 @@ public class JobDAO implements DAO<Job> {
     @Override
     public void delete(Job job) {
         try (Connection con = dataSource.getConnection()) {
-            String deleteSQL = String.format("DELETE FROM Job WHERE jobID = %d", job.getId());
+            String deleteSQL = String.format("DELETE FROM Job WHERE ID = %d", job.getId());
             con.prepareStatement(deleteSQL).executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
