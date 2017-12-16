@@ -44,7 +44,9 @@ public class JobDAO implements DAO<Job> {
                     "quantity TEXT NOT NULL," +
                     "fromDate TEXT NOT NULL," +
                     "toDate TEXT NOT NULL," +
-                    "status TEXT NOT NULL);";
+                    "status TEXT NOT NULL," +
+                    "adsRefNumber TEXT," +
+                    "FOREIGN KEY(adsRefNumber) REFERENCES Advertise(refNumber) ON DELETE CASCADE);";
             con.prepareStatement(createTableSQL).execute();
         } catch (SQLException e) {
             e.printStackTrace();

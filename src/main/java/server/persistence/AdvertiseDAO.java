@@ -51,7 +51,6 @@ public class AdvertiseDAO implements DAO<Advertise> {
                     "(refNumber TEXT NOT NULL," +
                     "name TEXT NOT NULL," +
                     "createDate TEXT NOT NULL," +
-                    "jobID INTEGER NOT NULL," +
                     "PRIMARY KEY(refNumber));";
             con.prepareStatement(createTableSQL).execute();
         } catch (SQLException e) {

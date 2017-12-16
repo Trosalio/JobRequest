@@ -46,8 +46,9 @@ public class StationDAO implements DAO<Station> {
                     "(jobID INTEGER NOT NULL," +
                     "stationCode TEXT NOT NULL," +
                     "FOREIGN KEY(jobID) REFERENCES Job(ID) ON DELETE CASCADE," +
-                    "FOREIGN KEY(stationCode) REFERENCES Station(code)," +
-                    "PRIMARY KEY(jobID,stationCode));";
+                    "PRIMARY KEY(jobID,stationCode)," +
+                    "FOREIGN KEY(stationCode) REFERENCES Station(code));";
+
             con.prepareStatement(createTableSQL).execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -120,7 +121,7 @@ public class StationDAO implements DAO<Station> {
         }
     }
 
-    public void delete(Job job) {
+    private void delete(Job job) {
         try (Connection con = dataSource.getConnection()) {
             String deleteSQL = String.format("DELETE FROM Stations_In_Job WHERE jobID = %d", job.getId());
             con.prepareStatement(deleteSQL).executeUpdate();
