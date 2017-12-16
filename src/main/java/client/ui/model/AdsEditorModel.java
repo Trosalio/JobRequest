@@ -1,5 +1,6 @@
 package client.ui.model;
 
+import client.controller.ActionController;
 import client.controller.AdvertiseAdapter;
 import common.formatter.DateFormatter;
 
@@ -8,6 +9,7 @@ public class AdsEditorModel {
     private final DateFormatter dateFormatter = new DateFormatter();
     private boolean confirm = false;
     private AdvertiseAdapter adapter;
+    private ActionController handler;
 
     public AdsEditorModel(AdvertiseAdapter adapter) {
         this.adapter = adapter;
@@ -28,5 +30,13 @@ public class AdsEditorModel {
 
     public DateFormatter getDateFormatter() {
         return dateFormatter;
+    }
+
+    public void setHandler(ActionController handler) {
+        this.handler = handler;
+    }
+
+    public ActionController getHandler() {
+        return handler;
     }
 }

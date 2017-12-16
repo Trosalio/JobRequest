@@ -75,6 +75,7 @@ public class ViewManager {
 
             // setup Advertise Editor model and UI
             AdsEditorModel model = new AdsEditorModel(adapter);
+            model.setHandler(handler);
             AdsEditorView adsEditorView = adsViewerUILoader.getController();
             adsEditorView.setViewModel(model);
 

@@ -33,4 +33,13 @@ public class AdvertiseManager {
         return advertiseList;
     }
 
+    public boolean isReferenceNumberDuplicated(AdvertiseAdapter adapter){
+        for(AdvertiseAdapter other : advertiseList){
+            if(other.refNoProperty().get().equals(adapter.refNoProperty().get())){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

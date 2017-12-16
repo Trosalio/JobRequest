@@ -2,6 +2,7 @@ package client.ui.view;
 
 import client.controller.JobAdapter;
 import client.ui.model.ReviewerMasterModel;
+import client.utility.AlertBoxSingleton;
 import common.formatter.DateFormatter;
 import common.model.Station;
 import javafx.fxml.FXML;
@@ -58,14 +59,24 @@ public class ReviewerMasterView {
 
     @FXML
     public void onAccept() {
-        viewModel.reviewAndSend("ACCEPT");
-        showDetail();
+        if (AlertBoxSingleton.getInstance().popAlertBox(
+                "Confirmation",
+                "Accepting...",
+                "Are you sure you want to accept this job?")) {
+            viewModel.reviewAndSend("ACCEPT");
+            showDetail();
+        }
     }
 
     @FXML
     public void onReject() {
-        viewModel.reviewAndSend("REJECT");
-        showDetail();
+        if (AlertBoxSingleton.getInstance().popAlertBox(
+                "Confirmation",
+                "Rejecting...",
+                "Are you sure you want to reject this job?")) {
+            viewModel.reviewAndSend("REJECT");
+            showDetail();
+        }
     }
 
 

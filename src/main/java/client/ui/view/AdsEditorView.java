@@ -29,9 +29,14 @@ public class AdsEditorView {
     @FXML
     private void onSave() {
         if (!(isTxtFEmpty(nameField) || isTxtFEmpty(refNoField) || issueDatePicker.getValue() == null)) {
-            viewModel.saveAdvertise();
-            AlertBoxSingleton.getInstance().popAlertBox("Information", "Success", "Advertise is saved!");
-            onCancel();
+            if(!viewModel.getHandler().getAdvertiseManager().isReferenceNumberDuplicated(viewModel.getAdapter())) {
+                viewModel.saveAdvertise();
+                AlertBoxSingleton.getInstance().popAlertBox("Information", "Success", "Advertise is saved!");
+                onCancel();
+            } else {
+                AlertBoxSingleton.getInstance().popAlertBox("Error", "Duplicate Reference Number", "This Reference Number has already been registered!");
+                refNoField.requestFocus();
+            }
         } else {
             if (isTxtFEmpty(nameField)) {
                 AlertBoxSingleton.getInstance().popAlertBox("Error", "Subject is not filled", "Please fill the subject name");
