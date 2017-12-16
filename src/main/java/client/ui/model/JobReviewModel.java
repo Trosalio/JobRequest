@@ -31,7 +31,7 @@ public class JobReviewModel {
     }
 
     public void publishForm() {
-        if (handler.getViewManager().showJobRequestEditor(job)) {
+        if (handler.getViewManager().showJobRequestEditor(job, advertise.getCreateDate())) {
             job.setStatus("READY");
             advertise.setJob(job);
             job.setRefNumber(advertise.getRefNumber());
@@ -43,7 +43,7 @@ public class JobReviewModel {
     }
 
     public void editForm() {
-        if (handler.getViewManager().showJobRequestEditor(job)) {
+        if (handler.getViewManager().showJobRequestEditor(job, advertise.getCreateDate())) {
             job.setStatus("READY");
             advertise.setJob(job);
             handler.handleEdit(job);

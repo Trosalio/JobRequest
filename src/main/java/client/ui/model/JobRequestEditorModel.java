@@ -1,6 +1,7 @@
 package client.ui.model;
 
 import client.controller.ActionController;
+import common.formatter.DateFormatter;
 import common.model.Job;
 import common.model.Station;
 
@@ -16,10 +17,12 @@ import java.util.List;
 public class JobRequestEditorModel {
 
     private final ActionController handler;
+    private final DateFormatter dateFormatter = new DateFormatter();
     private boolean saveBool;
     private List<String> typeOfMedia;
 
     private Job job;
+    private LocalDate issueDate;
 
     public JobRequestEditorModel(ActionController handler) {
         this.handler = handler;
@@ -74,5 +77,17 @@ public class JobRequestEditorModel {
             e.printStackTrace();
         }
         return typeOfMedia;
+    }
+
+    public DateFormatter getDateFormatter() {
+        return dateFormatter;
+    }
+
+    public LocalDate getIssueDate() {
+        return  this.issueDate;
+    }
+
+    public void setIssueDate(LocalDate issueDate) {
+        this.issueDate = issueDate;
     }
 }

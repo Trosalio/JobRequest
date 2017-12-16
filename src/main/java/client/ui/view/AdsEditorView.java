@@ -16,7 +16,6 @@ public class AdsEditorView {
     private DatePicker issueDatePicker;
     @FXML
     private TextField nameField, refNoField;
-
     private AdsEditorModel viewModel;
 
 
@@ -58,7 +57,8 @@ public class AdsEditorView {
 
     public void setViewModel(AdsEditorModel viewModel) {
         this.viewModel = viewModel;
-        viewModel.getDateFormatter().formatDatePicker(issueDatePicker);
+        viewModel.getDateFormatter().formatDatePickers(issueDatePicker);
+        viewModel.getDateFormatter().preventDatePickedBefore(issueDatePicker, LocalDate.now());
         bindModel();
     }
 

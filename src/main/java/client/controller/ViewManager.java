@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 @Component
 public class ViewManager {
@@ -119,7 +120,7 @@ public class ViewManager {
         }
     }
 
-    public boolean showJobRequestEditor(Job job) {
+    public boolean showJobRequestEditor(Job job, LocalDate issueDate) {
         try {
             FXMLLoader jobEditUILoader = new FXMLLoader(getClass().getResource("/fxml/JobRequestEditor.fxml"));
             Parent root = jobEditUILoader.load();
@@ -127,6 +128,7 @@ public class ViewManager {
             // setup Job Editor model and UI
             JobRequestEditorModel model = new JobRequestEditorModel(handler);
             model.setJob(job);
+            model.setIssueDate(issueDate);
             JobRequestEditorView jobRequestEditorView = jobEditUILoader.getController();
             jobRequestEditorView.setModel(model);
             jobRequestEditorView.setupUI();
