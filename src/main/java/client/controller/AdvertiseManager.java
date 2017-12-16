@@ -19,7 +19,8 @@ public class AdvertiseManager {
     }
 
     public void add(AdvertiseAdapter adapter) {
-        advertiseList.add(adapter);
+        if (!advertiseList.contains(adapter))
+            advertiseList.add(adapter);
     }
 
     public void remove(AdvertiseAdapter adapter) {

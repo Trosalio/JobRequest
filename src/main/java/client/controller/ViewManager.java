@@ -78,6 +78,7 @@ public class ViewManager {
             AdsEditorView adsEditorView = adsViewerUILoader.getController();
             adsEditorView.setViewModel(model);
 
+
             // setup the stage
             Stage stage = new Stage();
             Scene scene = new Scene(root);

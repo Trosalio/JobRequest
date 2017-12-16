@@ -53,4 +53,19 @@ public class Advertise implements Serializable {
                 "Ads[adsName='%s'%n refNumber: %s%n createDate: %s%n job id: %s%n]"
                 , adsName, refNumber, createDate, job);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Advertise advertise = (Advertise) o;
+
+        return refNumber.equals(advertise.refNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return refNumber.hashCode();
+    }
 }

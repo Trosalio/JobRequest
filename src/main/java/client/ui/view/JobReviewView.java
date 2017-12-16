@@ -109,6 +109,11 @@ public class JobReviewView {
             if (publishBox.getChildren().contains(publishBtn)) {
                 publishBox.getChildren().remove(publishBtn);
             }
+            if(!model.getJob().getStatus().equals("READY")){
+                sendBtn.setDisable(true);
+                editBtn.setDisable(true);
+                discardBtn.setDisable(true);
+            }
         }
     }
 

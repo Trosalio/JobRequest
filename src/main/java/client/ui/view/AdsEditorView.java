@@ -64,6 +64,7 @@ public class AdsEditorView {
             refNoField.textProperty().bindBidirectional(model.refNoProperty());
             issueDatePicker.valueProperty().bindBidirectional(model.createDateProperty());
             viewModel.getAdapter().reload();
+            refNoField.setDisable(!isTxtFEmpty(refNoField));
         }
     }
 }

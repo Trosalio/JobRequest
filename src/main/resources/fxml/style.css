@@ -37,3 +37,7 @@
 .gray_button:hover {
     -fx-background-color: derive(#505050, 20%);
 }
+
+.clear_disable:disabled {
+    -fx-opacity: 1;
+}
