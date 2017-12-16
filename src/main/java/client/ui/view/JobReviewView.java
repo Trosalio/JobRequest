@@ -80,7 +80,7 @@ public class JobReviewView {
     public void setupUI() {
         // format all date components
         DateFormatter dateFormatter = new DateFormatter();
-        dateFormatter.formatDatePicker(fromDatePicker, toDatePicker);
+        dateFormatter.formatDatePickers(fromDatePicker, toDatePicker);
         publishBox.getChildren().remove(editBtn);
         publishBox.getChildren().remove(publishBtn);
         updateJobInfo();

@@ -1,5 +1,6 @@
 package common.formatter;
 
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -40,7 +41,7 @@ public class DateFormatter {
      *
      * @param datePickers A list of DatePicker to be formatted.
      */
-    public void formatDatePicker(DatePicker... datePickers) {
+    public void formatDatePickers(DatePicker... datePickers) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(datePattern);
         for (DatePicker datePicker : datePickers) {
             datePicker.setConverter(new StringConverter<LocalDate>() {
@@ -64,8 +65,25 @@ public class DateFormatter {
                 datePicker.setValue(LocalDate.now());
             }
         }
+    }
 
-
+    /**
+     * Set date picker to prevent it from being able to pick a date before an allowed date
+     * @param datePicker a date picker to be prevented from picking a certain date
+     * @param allowedDate the first date that date picker will allow to pick
+     */
+    public void preventDatePickedBefore(DatePicker datePicker, LocalDate allowedDate) {
+            datePicker.setDayCellFactory( picker -> new DateCell() {
+                @Override
+                public void updateItem(LocalDate date, boolean empty) {
+                    super.updateItem(date, empty);
+                    boolean isDateBefore = false;
+                    if(allowedDate != null) {
+                        isDateBefore = date.isBefore(allowedDate);
+                    }
+                    setDisable(empty || isDateBefore);
+                }
+            });
     }
 
     /**
@@ -92,6 +110,4 @@ public class DateFormatter {
             });
         }
     }
-
-
 }

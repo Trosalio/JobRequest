@@ -3,6 +3,8 @@ package client.ui.view;
 import client.ui.model.JobRequestEditorModel;
 import client.utility.AlertBoxSingleton;
 import common.model.Station;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -84,7 +86,7 @@ public class JobRequestEditorView {
             if (isTxtFEmpty(quantityTxtF)) {
                 AlertBoxSingleton.getInstance().popAlertBox("Error", "Quantity info is not filled", "Please fill a quantity");
             } else {
-                AlertBoxSingleton.getInstance().popAlertBox("Error", "Not an integer value", "Please fill an natural number");
+                AlertBoxSingleton.getInstance().popAlertBox("Error", "Invalid value", "Please fill a natural number within a range 1 - 30");
             }
             quantityTxtF.requestFocus();
         } else if (fromDatePicker.getValue() == null) {
@@ -123,7 +125,7 @@ public class JobRequestEditorView {
     }
 
     private boolean isValidInteger(TextField txtF) {
-        return txtF.getText().matches("[0-9]+") && Integer.parseInt(txtF.getText()) > 0;
+        return txtF.getText().matches("[0-9]+") && 0 < Integer.parseInt(txtF.getText()) && (Integer.parseInt(txtF.getText())) <= 30;
     }
 
     private boolean isValidDate() {
@@ -131,16 +133,23 @@ public class JobRequestEditorView {
     }
 
     public void setupUI() {
-        detailTxtF.setText(model.getJob().getJobDetail());
-        requesterTxtF.setText(model.getJob().getRequester());
+        setupTextField();
+        setupDatePickers();
         setupTypeOfMediaComboBox();
         setupSelectedList();
         setupCandidateList();
-        if(model.getJob().getQuantity() > 0){
-            quantityTxtF.setText(Integer.toString(model.getJob().getQuantity()));
-        } else {
-            quantityTxtF.setText(null);
-        }
+    }
+
+    private void setupTextField() {
+        detailTxtF.setText(model.getJob().getJobDetail());
+        requesterTxtF.setText(model.getJob().getRequester());
+        quantityTxtF.setText(Integer.toString(model.getJob().getQuantity()));
+    }
+
+    private void setupDatePickers() {
+        model.getDateFormatter().formatDatePickers(fromDatePicker, toDatePicker);
+        model.getDateFormatter().preventDatePickedBefore(fromDatePicker, model.getIssueDate().plusWeeks(1));
+        fromDatePicker.valueProperty().addListener((observable, oldValue, newValue) -> model.getDateFormatter().preventDatePickedBefore(toDatePicker, newValue));
         fromDatePicker.setValue(model.getJob().getFromDate());
         toDatePicker.setValue(model.getJob().getToDate());
     }
