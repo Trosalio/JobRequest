@@ -12,10 +12,10 @@ public class StartupModel {
     }
 
     public void openAdvertiseReviewer() {
-        viewManager.showAdvertiseReviewer();
+        viewManager.showAdvertiseMaster();
     }
 
     public void openJobMasterReviewer() {
-        viewManager.showJobMasterReviewer();
+        viewManager.showReviewerMaster();
     }
 }

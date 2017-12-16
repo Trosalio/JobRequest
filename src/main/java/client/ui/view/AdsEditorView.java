@@ -19,10 +19,6 @@ public class AdsEditorView {
 
     private AdsEditorModel viewModel;
 
-    @FXML
-    private void initialize() {
-
-    }
 
     @FXML
     private void onCancel() {

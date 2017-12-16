@@ -1,7 +1,7 @@
 package client.ui.view;
 
 import client.ui.model.StartupModel;
-import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 
 /**
  * Project Name: JobRequest
@@ -13,11 +13,13 @@ public class StartupView {
         this.model = model;
     }
 
-    public void onMOClicked(ActionEvent actionEvent) {
+    @FXML
+    public void onMOClicked() {
         model.openAdvertiseReviewer();
     }
 
-    public void onCMOClicked(ActionEvent actionEvent) {
+    @FXML
+    public void onCMOClicked() {
         model.openJobMasterReviewer();
     }
 }

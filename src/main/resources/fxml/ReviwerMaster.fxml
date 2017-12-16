@@ -5,9 +5,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0"
-            xmlns="http://javafx.com/javafx/8.0.121" fx:controller="client.ui.view.ReviewerMasterView">
+            minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="client.ui.view.ReviewerMasterView">
     <center>
         <TableView fx:id="jobTable">
             <columns>
@@ -39,7 +38,7 @@
             </Label>
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS"/>
             <Button mnemonicParsing="false" onAction="#onRefresh" prefHeight="34.0" prefWidth="124.0"
-                    style="-fx-background-color: #33c1ff;" text="  Refresh" textFill="WHITE">
+                    styleClass="gray_button" text="  Refresh" textFill="WHITE">
                 <font>
                     <Font name="System Bold" size="14.0"/>
                 </font>
@@ -159,13 +158,13 @@
                     <Insets top="20.0"/>
                 </VBox.margin>
                 <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#onAccept" prefHeight="40.0"
-                        prefWidth="90.0" style="-fx-background-color: #3bd822;" text="✔Accept" textFill="WHITE">
+                        prefWidth="90.0" styleClass="green_button" text="✔Accept" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="16.0"/>
                     </font>
                 </Button>
                 <Button fx:id="rejectButton" mnemonicParsing="false" onAction="#onReject" prefHeight="40.0"
-                        prefWidth="90.0" style="-fx-background-color: #f14949;" text="✖ Reject" textFill="WHITE">
+                        prefWidth="90.0" styleClass="red_button" text="✖ Reject" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="16.0"/>
                     </font>

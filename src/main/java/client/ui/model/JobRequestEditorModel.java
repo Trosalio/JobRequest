@@ -1,6 +1,6 @@
 package client.ui.model;
 
-import client.controller.ViewManager;
+import client.controller.ActionController;
 import common.model.Job;
 import common.model.Station;
 
@@ -15,14 +15,14 @@ import java.util.List;
 
 public class JobRequestEditorModel {
 
-    private final ViewManager viewManager;
+    private final ActionController handler;
     private boolean saveBool;
     private List<String> typeOfMedia;
 
     private Job job;
 
-    public JobRequestEditorModel(ViewManager viewManager) {
-        this.viewManager = viewManager;
+    public JobRequestEditorModel(ActionController handler) {
+        this.handler = handler;
     }
 
     public void updateJobInfo(String detail, String requester, String typeOfMedia, int quantity, LocalDate fromDate, LocalDate toDate) {
@@ -48,7 +48,7 @@ public class JobRequestEditorModel {
     }
 
     public List<Station> getStationList() {
-        return viewManager.getHandler().loadStationList();
+        return handler.loadStationList();
     }
 
     public List<Station> getStationsInJob() {

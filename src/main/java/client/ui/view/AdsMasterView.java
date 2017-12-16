@@ -17,6 +17,7 @@ import java.time.LocalDate;
 
 public class AdsMasterView {
 
+
     @FXML
     private BorderPane window;
     @FXML
@@ -45,6 +46,11 @@ public class AdsMasterView {
         placeHolder.setPrefSize(detailPane.getPrefWidth(), detailPane.getPrefHeight());
         placeHolder.getChildren().add(label);
         showPlaceHolder();
+    }
+
+    @FXML
+    public void onRefresh() {
+        viewModel.refresh();
     }
 
     @FXML

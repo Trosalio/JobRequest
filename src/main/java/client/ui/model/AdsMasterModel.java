@@ -16,6 +16,12 @@ public class AdsMasterModel {
 
     public AdsMasterModel(ActionController handler) {
         this.handler = handler;
+        refresh();
+    }
+
+    public void refresh() {
+        getAdvertiseList().clear();
+        handler.handleLoadAds();
     }
 
     public void addAdvertise() {
@@ -68,4 +74,6 @@ public class AdsMasterModel {
     public DateFormatter getDateFormatter() {
         return dateFormatter;
     }
+
+
 }

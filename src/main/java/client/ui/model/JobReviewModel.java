@@ -1,19 +1,19 @@
 package client.ui.model;
 
+import client.controller.ActionController;
 import client.controller.AdvertiseAdapter;
-import client.controller.ViewManager;
 import common.model.Advertise;
 import common.model.Job;
 
 public class JobReviewModel {
 
-    private final ViewManager viewManager;
+    private final ActionController handler;
     private Advertise advertise;
     private Job job;
     private boolean state;
 
-    public JobReviewModel(ViewManager viewManager) {
-        this.viewManager = viewManager;
+    public JobReviewModel(ActionController handler) {
+        this.handler = handler;
     }
 
     public void setAdapter(AdvertiseAdapter adapter) {
@@ -30,16 +30,12 @@ public class JobReviewModel {
         return job;
     }
 
-    public Advertise getAdvertise() {
-        return advertise;
-    }
-
     public void publishForm() {
-        if (viewManager.showJobEditor(job)) {
-            advertise.setJob(job);
+        if (handler.getViewManager().showJobRequestEditor(job)) {
             job.setStatus("READY");
+            advertise.setJob(job);
             job.setRefNumber(advertise.getRefNumber());
-            viewManager.getHandler().handleAdd(job);
+            handler.handleAdd(job);
             state = true;
         } else {
             state = false;
@@ -47,10 +43,10 @@ public class JobReviewModel {
     }
 
     public void editForm() {
-        if (viewManager.showJobEditor(job)) {
-            advertise.setJob(job);
+        if (handler.getViewManager().showJobRequestEditor(job)) {
             job.setStatus("READY");
-            viewManager.getHandler().handleEdit(job);
+            advertise.setJob(job);
+            handler.handleEdit(job);
             state = true;
         } else {
             state = false;
@@ -58,16 +54,16 @@ public class JobReviewModel {
     }
 
     public void discardForm() {
-        viewManager.getHandler().handleRemove(job);
+        handler.handleRemove(job);
         advertise.setJob(job);
         job = null;
         state = true;
     }
 
     public void send() {
-        advertise.setJob(job);
         job.setStatus("PENDING");
-        viewManager.getHandler().handleEdit(job);
+        advertise.setJob(job);
+        handler.handleEdit(job);
         state = true;
     }
 

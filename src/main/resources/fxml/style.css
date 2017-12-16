@@ -1,0 +1,39 @@
+.blue_button {
+    -fx-background-color: #33c1ff;
+}
+
+.blue_button:hover {
+    -fx-background-color: derive(#33c1ff, 20%);
+}
+
+.orange_button {
+    -fx-background-color: #f58245;
+}
+
+.orange_button:hover {
+    -fx-background-color: derive(#f58245, 20%);
+}
+
+.red_button {
+    -fx-background-color: #f14949;
+}
+
+.red_button:hover {
+    -fx-background-color: derive(#f14949, 20%);
+}
+
+.green_button {
+    -fx-background-color: #31bb2f;
+}
+
+.green_button:hover {
+    -fx-background-color: derive(#31bb2f, 20%);
+}
+
+.gray_button {
+    -fx-background-color: #505050;
+}
+
+.gray_button:hover {
+    -fx-background-color: derive(#505050, 20%);
+}

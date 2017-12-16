@@ -44,14 +44,13 @@ public class ViewManager {
 
     // Client - MO
 
-    public void showAdvertiseReviewer() {
+    public void showAdvertiseMaster() {
         try {
             primaryStage.hide();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AdvertiseMaster.fxml"));
             Parent root = loader.load();
 
             // setup Advertise Master model and UI
-            handler.handleLoadAds();
             AdsMasterModel model = new AdsMasterModel(handler);
             AdsMasterView advertiseReviewView = loader.getController();
             advertiseReviewView.setViewModel(model);
@@ -100,7 +99,7 @@ public class ViewManager {
             Parent root = jobReviewUILoader.load();
 
             // setup Job Reviewer model and UI
-            JobReviewModel model = new JobReviewModel(this);
+            JobReviewModel model = new JobReviewModel(handler);
             model.setAdapter(adapter);
             JobReviewView jobReviewView = jobReviewUILoader.getController();
             jobReviewView.setModel(model);
@@ -118,13 +117,13 @@ public class ViewManager {
         }
     }
 
-    public boolean showJobEditor(Job job) {
+    public boolean showJobRequestEditor(Job job) {
         try {
             FXMLLoader jobEditUILoader = new FXMLLoader(getClass().getResource("/fxml/JobRequestEditor.fxml"));
             Parent root = jobEditUILoader.load();
 
             // setup Job Editor model and UI
-            JobRequestEditorModel model = new JobRequestEditorModel(this);
+            JobRequestEditorModel model = new JobRequestEditorModel(handler);
             model.setJob(job);
             JobRequestEditorView jobRequestEditorView = jobEditUILoader.getController();
             jobRequestEditorView.setModel(model);
@@ -147,13 +146,13 @@ public class ViewManager {
     }
 
     // Client - CMO
-    public void showJobMasterReviewer() {
+    public void showReviewerMaster() {
         try {
             FXMLLoader jobMasterReviewUILoader = new FXMLLoader(getClass().getResource("/fxml/ReviwerMaster.fxml"));
             Parent root = jobMasterReviewUILoader.load();
 
             // setup Job Editor model and UI
-            ReviewerMasterModel model = new ReviewerMasterModel(getHandler());
+            ReviewerMasterModel model = new ReviewerMasterModel(handler);
             ReviewerMasterView jobMasterReviewView = jobMasterReviewUILoader.getController();
             jobMasterReviewView.setModel(model);
 
@@ -173,10 +172,6 @@ public class ViewManager {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
-    }
-
-    public ActionController getHandler() {
-        return handler;
     }
 
     public void setHandler(ActionController handler) {
