@@ -36,8 +36,8 @@ public class JobReviewModel {
 
     public void publishForm() {
         if (viewManager.showJobEditor(job)) {
-            job.setStatus("READY");
             advertise.setJob(job);
+            job.setStatus("READY");
             job.setRefNumber(advertise.getRefNumber());
             viewManager.getHandler().handleAdd(job);
             state = true;
@@ -48,8 +48,8 @@ public class JobReviewModel {
 
     public void editForm() {
         if (viewManager.showJobEditor(job)) {
-            job.setStatus("READY");
             advertise.setJob(job);
+            job.setStatus("READY");
             viewManager.getHandler().handleEdit(job);
             state = true;
         } else {
@@ -59,13 +59,14 @@ public class JobReviewModel {
 
     public void discardForm() {
         viewManager.getHandler().handleRemove(job);
-        advertise.setJob(null);
+        advertise.setJob(job);
+        job = null;
         state = true;
     }
 
     public void send() {
-        job.setStatus("PENDING");
         advertise.setJob(job);
+        job.setStatus("PENDING");
         viewManager.getHandler().handleEdit(job);
         state = true;
     }
