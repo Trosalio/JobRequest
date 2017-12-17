@@ -73,7 +73,6 @@ public class ViewManager {
         try {
             FXMLLoader adsViewerUILoader = new FXMLLoader(getClass().getResource("/fxml/AdvertiseEditor.fxml"));
             Parent root = adsViewerUILoader.load();
-
             // setup Advertise Editor model and UI
             AdsEditorModel model = new AdsEditorModel(adapter);
             model.setHandler(handler);
