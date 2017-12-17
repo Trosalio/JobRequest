@@ -2,6 +2,10 @@ package server.persistence;
 
 import common.formatter.DateFormatter;
 import common.model.Job;
+import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
+import net.sf.dynamicreports.report.builder.style.StyleBuilder;
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
+import net.sf.dynamicreports.report.exception.DRException;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -15,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static net.sf.dynamicreports.report.builder.DynamicReports.*;
+
 @Repository
 public class JobDAO implements DAO<Job> {
 
@@ -26,6 +32,7 @@ public class JobDAO implements DAO<Job> {
     public JobDAO(DataSource dataSource) {
         this.dataSource = dataSource;
         this.dateTimeFormatter = new DateFormatter().getFormatter();
+        createReport();
     }
 
     // Setup
@@ -184,6 +191,34 @@ public class JobDAO implements DAO<Job> {
             ResultSet resultSet = con.prepareStatement(pkSQL).executeQuery();
             if (resultSet.next()) {
                 primaryKey.set(resultSet.getInt("seq"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createReport() {
+        try (Connection con = dataSource.getConnection()) {
+            String sql = "SELECT status, ID, createDate, detailName  " +
+                    "FROM Job " +
+                    "INNER JOIN Advertise ON Job.adsRefNumber = Advertise.refNumber";
+            TextColumnBuilder<Integer> idColumn = col.column("ID", "ID", type.integerType());
+            TextColumnBuilder<String> issueDateColumn = col.column("Issue Date", "createDate", type.stringType());
+            TextColumnBuilder<String> nameColumn = col.column("Name", "detailName", type.stringType());
+            TextColumnBuilder<String> statusColumn = col.column("Status", "status", type.stringType());
+            StyleBuilder columnTitleStyle = stl.style(stl.style().bold()).setHorizontalTextAlignment(HorizontalTextAlignment.CENTER);
+
+            try {
+                report().setColumnTitleStyle(columnTitleStyle)
+                        .highlightDetailEvenRows()
+                        .columns(statusColumn, idColumn, issueDateColumn, nameColumn)
+                        .subtotalsAtFirstGroupFooter(sbt.count(statusColumn).setLabel("count"))
+                        .title(cmp.text("Simple Report"))
+                        .pageFooter(cmp.pageXofY())
+                        .setDataSource(con.prepareStatement(sql).executeQuery())
+                        .show();
+            } catch (DRException e) {
+                e.printStackTrace();
             }
         } catch (SQLException e) {
             e.printStackTrace();
