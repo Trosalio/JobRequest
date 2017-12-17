@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="344.0" prefWidth="419.0" spacing="20.0"
-      xmlns="http://javafx.com/javafx/9.0.1" fx:controller="client.ui.view.AdsEditorView">
+      xmlns="http://javafx.com/javafx/9" fx:controller="client.ui.view.AdsEditorView">
     <padding>
         <Insets bottom="10.0"/>
     </padding>

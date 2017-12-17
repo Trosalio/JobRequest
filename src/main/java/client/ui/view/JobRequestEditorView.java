@@ -3,8 +3,6 @@ package client.ui.view;
 import client.ui.model.JobRequestEditorModel;
 import client.utility.AlertBoxSingleton;
 import common.model.Station;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -55,15 +53,15 @@ public class JobRequestEditorView {
         onChooseAll(selectedListView, ObsSelectedList, ObsCandidateList);
     }
 
-    private void onChoose(ListView<Station> srcView, ObservableList<Station> srcObs, ObservableList<Station> destObs){
+    private void onChoose(ListView<Station> srcView, ObservableList<Station> srcObs, ObservableList<Station> destObs) {
         Station station = srcView.getSelectionModel().getSelectedItem();
-        if(station != null){
+        if (station != null) {
             destObs.add(station);
             srcObs.remove(station);
         }
     }
 
-    private void onChooseAll(ListView<Station> srcView, ObservableList<Station> srcObs, ObservableList<Station> destObs){
+    private void onChooseAll(ListView<Station> srcView, ObservableList<Station> srcObs, ObservableList<Station> destObs) {
         List<Station> stations = srcView.getItems();
         destObs.addAll(stations);
         srcObs.removeAll(stations);
@@ -93,7 +91,7 @@ public class JobRequestEditorView {
             AlertBoxSingleton.getInstance().popAlertBox("Error", "From Date is not filled", "Please select \'From Date\'");
             fromDatePicker.requestFocus();
         } else if ((toDatePicker.getValue() == null) || !isValidDate()) {
-            if((toDatePicker.getValue() == null)){
+            if ((toDatePicker.getValue() == null)) {
                 AlertBoxSingleton.getInstance().popAlertBox("Error", "To Date is not filled", "Please select \'End Date\'");
             } else {
                 AlertBoxSingleton.getInstance().popAlertBox("Error", "InvalidDate", "\'End date\' must not go before \'From date\'");
@@ -120,7 +118,7 @@ public class JobRequestEditorView {
                 fromDatePicker.getValue() == null || toDatePicker.getValue() == null || !isValidDate());
     }
 
-    private boolean isTxtFEmpty(TextField txtF){
+    private boolean isTxtFEmpty(TextField txtF) {
         return txtF.getText() == null || txtF.getText().isEmpty();
     }
 
@@ -154,9 +152,9 @@ public class JobRequestEditorView {
         toDatePicker.setValue(model.getJob().getToDate());
     }
 
-    private void setupTypeOfMediaComboBox(){
+    private void setupTypeOfMediaComboBox() {
         typeOfMediaCBox.getItems().addAll(model.getCandidateTypeOfMedia());
-        if(model.getJob().getTypeOfMedia() != null){
+        if (model.getJob().getTypeOfMedia() != null) {
             typeOfMediaCBox.setValue(model.getJob().getTypeOfMedia());
         } else {
             typeOfMediaCBox.getSelectionModel().selectFirst();

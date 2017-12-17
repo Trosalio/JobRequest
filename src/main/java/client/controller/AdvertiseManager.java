@@ -19,27 +19,22 @@ public class AdvertiseManager {
     }
 
     public void add(AdvertiseAdapter adapter) {
-        if (!advertiseList.contains(adapter))
-            advertiseList.add(adapter);
+        advertiseList.add(adapter);
     }
 
     public void remove(AdvertiseAdapter adapter) {
         advertiseList.remove(adapter);
     }
 
-    //--------------------------- Accessor ----------------------------------
+    //--------------------------- OTHER ----------------------------------
 
     public ObservableList<AdvertiseAdapter> getAdvertiseList() {
         return advertiseList;
     }
 
-    public boolean isReferenceNumberDuplicated(AdvertiseAdapter adapter){
-        for(AdvertiseAdapter other : advertiseList){
-            if(other.refNoProperty().get().equals(adapter.refNoProperty().get())){
-                return true;
-            }
-        }
-        return false;
+    public boolean isAlreadyExist(AdvertiseAdapter adapter) {
+        return advertiseList.stream()
+                .map(a -> a.refNoProperty().get())
+                .anyMatch(ref -> ref.equals(adapter.refNoProperty().get()));
     }
-
 }

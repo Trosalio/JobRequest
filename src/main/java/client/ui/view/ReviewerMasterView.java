@@ -6,36 +6,34 @@ import client.utility.AlertBoxSingleton;
 import common.formatter.DateFormatter;
 import common.model.Station;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
 
 public class ReviewerMasterView {
 
     @FXML
-    public BorderPane window;
+    private BorderPane window;
     @FXML
-    public TableView<JobAdapter> jobTable;
+    private TableView<JobAdapter> jobTable;
     @FXML
-    public TableColumn<JobAdapter, LocalDate> fromDateCol;
+    private TableColumn<JobAdapter, LocalDate> fromDateCol;
     @FXML
-    public TableColumn<JobAdapter, String> statusCol;
+    private TableColumn<JobAdapter, String> statusCol;
     @FXML
-    public TableColumn<JobAdapter, String> detailNameCol;
+    private TableColumn<JobAdapter, String> detailNameCol;
     @FXML
-    public VBox detailPane;
+    private VBox detailPane;
     @FXML
-    public Label detailNameLabel, requesterLabel, typeOfMediaLabel,
-            stationsLabel, quantityLabel, fromDateLabel, toDateLabel, statusLabel;
+    private Label detailNameLabel, requesterLabel, typeOfMediaLabel,
+            stationsLabel, quantityLabel, fromDateLabel, statusLabel;
     @FXML
     public Button acceptButton, rejectButton;
 
@@ -43,12 +41,22 @@ public class ReviewerMasterView {
     private ReviewerMasterModel viewModel;
 
     public void initialize() {
+        Tooltip nameTooltip = new Tooltip();
+        Tooltip stationTooltip = new Tooltip();
+        nameTooltip.setWrapText(true);
+        stationTooltip.setWrapText(true);
+        detailNameLabel.setTooltip(nameTooltip);
+        stationsLabel.setTooltip(stationTooltip);
+        nameTooltip.setPrefWidth(300);
+        stationTooltip.setPrefWidth(300);
+
         Label label = new Label("No Job is selected.");
         label.setFont(Font.font(18));
         placeHolder = new StackPane();
         placeHolder.setPrefSize(detailPane.getPrefWidth(), detailPane.getPrefHeight());
         placeHolder.getChildren().add(label);
         showPlaceHolder();
+
     }
 
     @FXML
@@ -124,22 +132,37 @@ public class ReviewerMasterView {
         rejectButton.setDisable(false);
         JobAdapter current = viewModel.getCurrentAdapter();
         if (current != null) {
-            detailNameLabel.setText(current.jobDetailProperty().get());
+            String detailName = current.jobDetailProperty().get();
+            detailNameLabel.setText(detailName);
+            detailNameLabel.getTooltip().setText(detailName);
             requesterLabel.setText(current.requesterProperty().get());
             typeOfMediaLabel.setText(current.typeOfMediaProperty().get());
-            stationsLabel.setText(current.stationsProperty().get()
+
+            // set station text
+            String station = current.stationsProperty().get()
                     .stream()
                     .map(Station::getCode)
-                    .collect(Collectors.joining(",")));
-            quantityLabel.setText(String.valueOf(current.quantityProperty().get()));
-            fromDateLabel.setText(current.fromDateProperty().get().format(viewModel.getDateFormatter().getFormatter()));
-            toDateLabel.setText(current.toDateProperty().get().format(viewModel.getDateFormatter().getFormatter()));
+                    .collect(Collectors.joining(", "));
+            stationsLabel.setText(station);
+            stationsLabel.getTooltip().setText(station);
+
+
+            // set quantity text
+            int quantity = current.quantityProperty().get();
+            int total = current.stationsProperty().size() * quantity;
+            quantityLabel.setText(String.format("%d (TOTAL: %d spots)", quantity, total));
+
+            // set date text
+            String fromDate = current.fromDateProperty().get().format(viewModel.getDateFormatter().getFormatter());
+            String toDate = current.toDateProperty().get().format(viewModel.getDateFormatter().getFormatter());
+            long period = ChronoUnit.DAYS.between(current.fromDateProperty().get(), current.toDateProperty().get().plusDays(1));
+            fromDateLabel.setText(String.format("%s - %s (%d days)", fromDate, toDate, period));
+
+            // set status text
             String status = current.statusProperty().get();
             statusLabel.setText(status);
-            if (status.equals("ACCEPT") || status.equals("REJECT")) {
-                acceptButton.setDisable(true);
-                rejectButton.setDisable(true);
-            }
+            acceptButton.setDisable(status.equals("ACCEPT") || status.equals("REJECT"));
+            rejectButton.setDisable(status.equals("ACCEPT") || status.equals("REJECT"));
         }
     }
 

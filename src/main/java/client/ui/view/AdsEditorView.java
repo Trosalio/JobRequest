@@ -27,32 +27,35 @@ public class AdsEditorView {
 
     @FXML
     private void onSave() {
-        if (!(isTxtFEmpty(nameField) || isTxtFEmpty(refNoField) || issueDatePicker.getValue() == null)) {
-            if(!viewModel.getHandler().getAdvertiseManager().isReferenceNumberDuplicated(viewModel.getAdapter())) {
-                viewModel.saveAdvertise();
-                AlertBoxSingleton.getInstance().popAlertBox("Information", "Success", "Advertise is saved!");
-                onCancel();
-            } else {
-                AlertBoxSingleton.getInstance().popAlertBox("Error", "Duplicate Reference Number", "This Reference Number has already been registered!");
+        boolean exist = viewModel.checkExistence();
+        boolean allFill = !(nameField.getText().isEmpty() || refNoField.getText().isEmpty());
+        if (allFill) {
+            if (exist && !refNoField.isDisable()) {
+                AlertBoxSingleton.getInstance().popAlertBox("Error",
+                        "Reference Number existed.",
+                        "This Reference Number has already been registered, please change.");
                 refNoField.requestFocus();
+            } else {
+                viewModel.saveAdvertise();
+                AlertBoxSingleton.getInstance().popAlertBox("Information",
+                        "Success",
+                        "Advertise is saved!");
+                onCancel();
             }
         } else {
-            if (isTxtFEmpty(nameField)) {
-                AlertBoxSingleton.getInstance().popAlertBox("Error", "Subject is not filled", "Please fill the subject name");
+            if (nameField.getText().isEmpty()) {
+                AlertBoxSingleton.getInstance().popAlertBox("Error",
+                        "Subject is not filled.",
+                        "Please fill the subject name.");
                 nameField.requestFocus();
-            } else if (isTxtFEmpty(refNoField)) {
-                AlertBoxSingleton.getInstance().popAlertBox("Error", "Reference Number is not filled", "Please fill the Reference Number");
+            } else if (refNoField.getText().isEmpty()) {
+                AlertBoxSingleton.getInstance().popAlertBox("Error",
+                        "Reference Number is not filled.",
+                        "Please fill the Reference Number.");
                 refNoField.requestFocus();
-            } else {
-                AlertBoxSingleton.getInstance().popAlertBox("Error", "Create Date is not picked", "Please select a create date");
-                issueDatePicker.setValue(LocalDate.now());
-                issueDatePicker.requestFocus();
             }
         }
-    }
 
-    private boolean isTxtFEmpty(TextField txtF){
-        return txtF.getText() == null || txtF.getText().isEmpty();
     }
 
     public void setViewModel(AdsEditorModel viewModel) {
@@ -68,8 +71,7 @@ public class AdsEditorView {
             nameField.textProperty().bindBidirectional(model.nameProperty());
             refNoField.textProperty().bindBidirectional(model.refNoProperty());
             issueDatePicker.valueProperty().bindBidirectional(model.createDateProperty());
-            viewModel.getAdapter().reload();
-            refNoField.setDisable(!isTxtFEmpty(refNoField));
+            refNoField.setDisable(!refNoField.getText().isEmpty());
         }
     }
 }

@@ -138,7 +138,7 @@ public class ViewManager {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Job Editor");
+            stage.setTitle("Job Request Editor");
             stage.setResizable(false);
             stage.showAndWait();
 
@@ -164,7 +164,7 @@ public class ViewManager {
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
-            primaryStage.setTitle("Job Master");
+            primaryStage.setTitle("Job Reviewer Master");
             primaryStage.setOnHidden(e -> Platform.exit());
             primaryStage.centerOnScreen();
             primaryStage.show();

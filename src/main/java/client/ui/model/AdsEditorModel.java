@@ -24,6 +24,10 @@ public class AdsEditorModel {
         confirm = true;
     }
 
+    public boolean checkExistence() {
+        return handler.getAdvertiseManager().isAlreadyExist(adapter);
+    }
+
     public AdvertiseAdapter getAdapter() {
         return this.adapter;
     }
@@ -36,7 +40,4 @@ public class AdsEditorModel {
         this.handler = handler;
     }
 
-    public ActionController getHandler() {
-        return handler;
-    }
 }

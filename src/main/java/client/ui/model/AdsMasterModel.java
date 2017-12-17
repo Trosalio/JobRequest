@@ -27,7 +27,6 @@ public class AdsMasterModel {
     public void addAdvertise() {
         AdvertiseAdapter temp = new AdvertiseAdapter(new Advertise());
         if (handler.getViewManager().showAdvertiseEditor(temp)) {
-
             handler.handleAdd(temp);
             setCurrentAdapter(temp);
         }

@@ -44,7 +44,7 @@ public class DateFormatter {
     public void formatDatePickers(DatePicker... datePickers) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(datePattern);
         for (DatePicker datePicker : datePickers) {
-            datePicker.setConverter(new StringConverter<LocalDate>() {
+            datePicker.setConverter(new StringConverter<>() {
                 @Override
                 public String toString(LocalDate date) {
                     return (date != null ? formatter.format(date) : "");
@@ -69,21 +69,26 @@ public class DateFormatter {
 
     /**
      * Set date picker to prevent it from being able to pick a date before an allowed date
-     * @param datePicker a date picker to be prevented from picking a certain date
+     *
+     * @param datePicker  a date picker to be prevented from picking a certain date
      * @param allowedDate the first date that date picker will allow to pick
      */
     public void preventDatePickedBefore(DatePicker datePicker, LocalDate allowedDate) {
-            datePicker.setDayCellFactory( picker -> new DateCell() {
-                @Override
-                public void updateItem(LocalDate date, boolean empty) {
-                    super.updateItem(date, empty);
-                    boolean isDateBefore = false;
-                    if(allowedDate != null) {
-                        isDateBefore = date.isBefore(allowedDate);
-                    }
-                    setDisable(empty || isDateBefore);
+        datePicker.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                boolean isDateBefore = false;
+                if (allowedDate != null) {
+                    isDateBefore = date.isBefore(allowedDate);
                 }
-            });
+                if (empty || isDateBefore) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ff696e;");
+                }
+
+            }
+        });
     }
 
     /**
@@ -95,7 +100,7 @@ public class DateFormatter {
     @SafeVarargs
     public final <T> void formatDateColumn(TableColumn<T, LocalDate>... columns) {
         for (TableColumn<T, LocalDate> column : columns) {
-            column.setCellFactory(cell -> new TableCell<T, LocalDate>() {
+            column.setCellFactory(cell -> new TableCell<>() {
                 @Override
                 protected void updateItem(LocalDate item, boolean empty) {
                     super.updateItem(item, empty);

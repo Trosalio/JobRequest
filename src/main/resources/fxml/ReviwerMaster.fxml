@@ -6,15 +6,15 @@
 <?import javafx.scene.text.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity"
             minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" stylesheets="@style.css"
-            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="client.ui.view.ReviewerMasterView">
+            xmlns="http://javafx.com/javafx/8.0.121" fx:controller="client.ui.view.ReviewerMasterView">
     <center>
         <TableView fx:id="jobTable">
             <columns>
                 <TableColumn fx:id="fromDateCol" editable="false" maxWidth="1.7976931348623157E308" prefWidth="104.0"
                              text="From Date"/>
-                <TableColumn fx:id="statusCol" editable="false" maxWidth="1.7976931348623157E308" prefWidth="129.0"
-                             text="Status"/>
-                <TableColumn fx:id="detailNameCol" prefWidth="313.0" text="Detail Name"/>
+                <TableColumn fx:id="statusCol" editable="false" maxWidth="1.7976931348623157E308"
+                             prefWidth="102.00001525878906" text="Status"/>
+                <TableColumn fx:id="detailNameCol" prefWidth="340.0" text="Detail Name"/>
             </columns>
         </TableView>
     </center>
@@ -61,7 +61,7 @@
                 </Label>
             </HBox>
             <HBox spacing="40.0">
-                <Label prefHeight="20.0" prefWidth="100.0" text="Requester">
+                <Label prefHeight="20.0" prefWidth="95.0" text="Requester">
                     <font>
                         <Font size="14.0"/>
                     </font>
@@ -75,7 +75,7 @@
             </HBox>
             <Separator prefWidth="200.0"/>
             <HBox spacing="40.0">
-                <Label prefWidth="100.0" text="Type of Media">
+                <Label prefWidth="95.0" text="Type of Media">
                     <font>
                         <Font size="14.0"/>
                     </font>
@@ -89,12 +89,12 @@
             </HBox>
             <Separator layoutX="25.0" layoutY="114.0" prefWidth="200.0"/>
             <HBox spacing="40.0">
-                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="100.0" text="Stations">
+                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="95.0" text="Stations">
                     <font>
                         <Font size="14.0"/>
                     </font>
                 </Label>
-                <Label fx:id="stationsLabel" prefWidth="220.0" text="S1,S2,S3,S4" textFill="#505050" wrapText="true">
+                <Label fx:id="stationsLabel" prefWidth="220.0" text="S1,S2,S3,S4" textFill="#505050">
                     <font>
                         <Font size="14.0"/>
                     </font>
@@ -102,12 +102,13 @@
             </HBox>
             <Separator prefWidth="200.0"/>
             <HBox layoutX="40.0" layoutY="160.0" spacing="40.0">
-                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="100.0" text="Quantity">
+                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="95.0" text="Quantity">
                     <font>
                         <Font size="14.0"/>
                     </font>
                 </Label>
-                <Label fx:id="quantityLabel" prefWidth="220.0" text="10" textFill="#505050" wrapText="true">
+                <Label fx:id="quantityLabel" prefHeight="20.0" prefWidth="193.0" text="30 (total: 120 spots)"
+                       textFill="#505050" wrapText="true">
                     <font>
                         <Font size="14.0"/>
                     </font>
@@ -115,33 +116,21 @@
             </HBox>
             <Separator layoutX="40.0" layoutY="187.0" prefWidth="200.0"/>
             <HBox layoutX="40.0" layoutY="211.0" spacing="40.0">
-                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="100.0" text="From Date">
+                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="95.0" text="Date">
                     <font>
                         <Font size="14.0"/>
                     </font>
                 </Label>
-                <Label fx:id="fromDateLabel" prefWidth="220.0" text="1/1/2018" textFill="#505050" wrapText="true">
+                <Label fx:id="fromDateLabel" prefHeight="20.0" prefWidth="240.0"
+                       text="20/12/2018 - 31/12/2018  (3175 days)" textFill="#505050" wrapText="true">
                     <font>
                         <Font size="14.0"/>
                     </font>
                 </Label>
             </HBox>
             <Separator layoutX="40.0" layoutY="241.0" prefWidth="200.0"/>
-            <HBox layoutX="40.0" layoutY="289.0" spacing="40.0">
-                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="100.0" text="To Date">
-                    <font>
-                        <Font size="14.0"/>
-                    </font>
-                </Label>
-                <Label fx:id="toDateLabel" prefWidth="220.0" text="1/31/2018" textFill="#505050" wrapText="true">
-                    <font>
-                        <Font size="14.0"/>
-                    </font>
-                </Label>
-            </HBox>
-            <Separator layoutX="40.0" layoutY="319.0" prefWidth="200.0"/>
             <HBox layoutX="40.0" layoutY="302.0" spacing="40.0">
-                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="100.0" text="Status">
+                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="95.0" text="Status">
                     <font>
                         <Font size="14.0"/>
                     </font>
